@@ -23,6 +23,7 @@
             --cinza-escuro: #333333;
             --verde: #28a745;
             --azul: #2196F3;
+            --laranja: #ff9800;
         }
 
         html {
@@ -101,6 +102,15 @@
             margin-left: 5px;
         }
 
+        .dev-badge {
+            background: var(--laranja);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            margin-left: 5px;
+        }
+
         /* ========== NAVEGAÇÃO ========== */
         .nav-container {
             background-color: var(--preto);
@@ -162,16 +172,17 @@
             display: none;
         }
 
-        .github-status {
+        .dev-indicator {
             position: fixed;
-            top: 10px;
-            right: 10px;
-            background: #333;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: var(--laranja);
             color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
+            padding: 5px;
+            text-align: center;
             font-size: 12px;
-            z-index: 1001;
+            z-index: 999;
             display: none;
         }
 
@@ -916,7 +927,67 @@
             margin-top: 15px;
         }
 
-        /* ========== PAINEL GITHUB ========== */
+        /* ========== UPLOAD DE FOTOS ========== */
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin: 10px 0;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--vermelho);
+            background: #f0f0f0;
+        }
+
+        .upload-area.highlight {
+            border-color: var(--verde);
+            background: #e8f5e8;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .preview-item {
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 100px;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-item .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255,0,0,0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* ========== PAINEL ADMIN ========== */
         .publish-panel {
             background: #1a1a1a;
             border: 1px solid #333;
@@ -1028,18 +1099,17 @@
                 width: 100%;
                 margin: 5px 0;
             }
+
+            .preview-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Indicador de Modo Admin -->
-    <div class="admin-indicator" id="adminIndicator">
-        🔧 MODO ADMINISTRADOR ATIVO - Você pode editar o conteúdo do site
-    </div>
-
-    <!-- Status GitHub -->
-    <div class="github-status" id="githubStatus" style="display: none;">
-        🔄 Conectando...
+    <!-- Indicador de Modo Dev -->
+    <div class="dev-indicator" id="devIndicator">
+        🛠️ MODO DESENVOLVEDOR ATIVO - Alterações são salvas online
     </div>
 
     <!-- Header -->
@@ -1052,7 +1122,7 @@
             <div class="user-menu">
                 <div class="user-info" id="userInfo">
                     <span id="userName">Visitante</span>
-                    <span id="userRole" class="admin-badge" style="display: none;">ADMIN</span>
+                    <span id="userRole" class="dev-badge" style="display: none;">DEV</span>
                 </div>
                 <button class="login-btn" onclick="mostrarLogin()" id="loginButton">
                     <i class="fas fa-user"></i> Entrar
@@ -1250,68 +1320,51 @@
         <div class="login-content">
             <div class="login-tabs">
                 <button class="login-tab active" onclick="mostrarTab('login')">Entrar</button>
-                <button class="login-tab" onclick="mostrarTab('register')">Registrar</button>
             </div>
 
             <div id="login-form">
-                <h3>🔐 Fazer Login</h3>
-                <input type="text" id="login-username" class="login-input" placeholder="Nome de usuário">
+                <h3>🔐 Acesso Desenvolvedor</h3>
+                <input type="text" id="login-username" class="login-input" placeholder="Usuário desenvolvedor">
                 <input type="password" id="login-password" class="login-input" placeholder="Senha">
                 <div id="login-error" class="login-error"></div>
-                <button class="login-btn" onclick="fazerLogin()">Entrar</button>
+                <button class="login-btn" onclick="fazerLogin()">Entrar como Desenvolvedor</button>
                 
                 <div class="user-type-info">
-                    <strong>Conta de administrador:</strong><br>
-                    👑 Usuário: "admin" | Senha: "admin123"
+                    <strong>Credenciais de desenvolvedor:</strong><br>
+                    🛠️ Usuário: "dev" | Senha: "dev123"
                 </div>
-            </div>
-
-            <div id="register-form" style="display: none;">
-                <h3>📝 Criar Conta</h3>
-                <input type="text" id="register-username" class="login-input" placeholder="Escolha um nome de usuário">
-                <input type="password" id="register-password" class="login-input" placeholder="Crie uma senha">
-                <input type="password" id="register-confirm" class="login-input" placeholder="Confirme a senha">
-                <select id="register-role" class="login-input">
-                    <option value="visitor">Visitante</option>
-                    <option value="admin" disabled>Administrador</option>
-                </select>
-                <div id="register-error" class="login-error"></div>
-                <button class="login-btn" onclick="fazerRegistro()">Criar Conta</button>
             </div>
         </div>
     </div>
 
-    <!-- Painel Administrativo -->
-    <div id="admin-panel" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; color: white; padding: 20px; overflow-y: auto;">
-        <div style="max-width: 800px; margin: 0 auto; background: #333; padding: 20px; border-radius: 10px;">
+    <!-- Painel Desenvolvedor JSONBin -->
+    <div id="dev-panel" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; color: white; padding: 20px; overflow-y: auto;">
+        <div style="max-width: 900px; margin: 0 auto; background: #333; padding: 20px; border-radius: 10px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="color: #FF0000;">👑 Painel Administrativo - GitHub</h2>
-                <button onclick="fecharAdmin()" style="background: #FF0000; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Fechar</button>
+                <h2 style="color: var(--laranja);">🛠️ Painel Desenvolvedor - JSONBin</h2>
+                <button onclick="fecharDev()" style="background: var(--laranja); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Fechar</button>
             </div>
 
-            <!-- Seção GitHub -->
+            <!-- Status JSONBin -->
             <div class="publish-panel">
-                <h3 style="color: #28a745;">🚀 Publicar no GitHub</h3>
-                <p>As alterações serão salvas diretamente no GitHub Pages e todos os visitantes verão as mudanças.</p>
+                <h3 style="color: var(--laranja);">📡 Sistema JSONBin.io</h3>
+                <p>As alterações são salvas online e aparecem para todos os visitantes!</p>
                 
                 <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
-                    <button class="publish-btn" onclick="publicarAlteracoes()" id="publishBtn">
-                        📤 Publicar Alterações
+                    <button class="publish-btn" onclick="salvarNoJSONBin()" id="saveBtn">
+                        💾 Salvar Tudo Online
                     </button>
-                    <button class="publish-btn secondary" onclick="carregarDoGitHub()">
-                        🔄 Carregar do GitHub
-                    </button>
-                    <button class="publish-btn secondary" onclick="verificarStatusGitHub()">
-                        📊 Ver Status
+                    <button class="publish-btn secondary" onclick="carregarDoJSONBin()">
+                        🔄 Carregar Dados
                     </button>
                 </div>
                 
-                <div id="publishStatus" class="status-message"></div>
+                <div id="jsonbinStatus" class="status-message"></div>
             </div>
 
             <!-- Formulário de Gerenciamento de Motos -->
             <div style="border: 1px solid #555; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
-                <h3 style="color: #FF0000; margin-bottom: 15px;">🏍️ Gerenciar Motos</h3>
+                <h3 style="color: var(--laranja); margin-bottom: 15px;">🏍️ Gerenciar Motos</h3>
                 
                 <form id="form-moto" style="display: grid; gap: 15px;">
                     <input type="hidden" id="moto-id">
@@ -1332,6 +1385,8 @@
                             <option value="110">Até 110cc</option>
                             <option value="150">150cc</option>
                             <option value="160">160cc</option>
+                            <option value="250">250cc</option>
+                            <option value="500">500cc+</option>
                         </select>
                     </div>
 
@@ -1340,9 +1395,26 @@
                         <textarea id="moto-descricao" placeholder="Descreva a moto..." style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #555; background: #222; color: white; height: 80px;"></textarea>
                     </div>
 
+                    <!-- Upload de Fotos -->
+                    <div style="border: 1px solid #555; padding: 15px; border-radius: 5px;">
+                        <h4 style="color: var(--laranja); margin-bottom: 15px;">📸 Fotos da Moto (Máx. 6)</h4>
+                        
+                        <div class="upload-area" id="uploadArea" onclick="document.getElementById('foto-input').click()">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
+                            <p>Clique para adicionar fotos ou arraste aqui</p>
+                            <small>Formatos: JPG, PNG, GIF • Máx. 6 fotos</small>
+                        </div>
+                        
+                        <input type="file" id="foto-input" class="file-input" multiple accept="image/*" onchange="processarFotos(this.files)">
+                        
+                        <div class="preview-grid" id="previewContainer">
+                            <!-- Preview das fotos será mostrado aqui -->
+                        </div>
+                    </div>
+
                     <!-- Especificações -->
                     <div style="border: 1px solid #555; padding: 15px; border-radius: 5px;">
-                        <h4 style="color: #FF0000; margin-bottom: 15px;">Especificações Técnicas</h4>
+                        <h4 style="color: var(--laranja); margin-bottom: 15px;">Especificações Técnicas</h4>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                             <div>
                                 <label style="display: block; margin-bottom: 5px;">Potência:</label>
@@ -1372,11 +1444,15 @@
                                 <label style="display: block; margin-bottom: 5px;">Freio Traseiro:</label>
                                 <input type="text" id="moto-freio-traseiro" placeholder="Ex: Tambor" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #555; background: #222; color: white;">
                             </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px;">Ano/Modelo:</label>
+                                <input type="text" id="moto-ano" placeholder="Ex: 2024" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #555; background: #222; color: white;">
+                            </div>
                         </div>
                     </div>
 
                     <div style="display: flex; gap: 10px;">
-                        <button type="submit" style="background: #FF0000; color: white; border: none; padding: 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; flex: 1;">
+                        <button type="submit" style="background: var(--laranja); color: white; border: none; padding: 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; flex: 1;">
                             💾 Salvar Moto
                         </button>
                         <button type="button" onclick="limparFormulario()" style="background: #666; color: white; border: none; padding: 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px;">
@@ -1388,8 +1464,8 @@
 
             <!-- Lista de Motos -->
             <div style="border: 1px solid #555; padding: 20px; border-radius: 5px;">
-                <h3 style="color: #FF0000; margin-bottom: 15px;">📋 Motos Cadastradas</h3>
-                <div id="lista-motos" style="background: #222; padding: 15px; border-radius: 5px; margin-top: 10px; max-height: 300px; overflow-y: auto;">
+                <h3 style="color: var(--laranja); margin-bottom: 15px;">📋 Motos no Sistema</h3>
+                <div id="lista-motos" style="background: #222; padding: 15px; border-radius: 5px; margin-top: 10px; max-height: 400px; overflow-y: auto;">
                     <!-- As motos serão listadas aqui -->
                 </div>
             </div>
@@ -1398,49 +1474,328 @@
 
     <script>
         // ============================================
-        // SISTEMA DE AUTENTICAÇÃO CORRIGIDO
+        // CONFIGURAÇÃO JSONBIN.IO (COM SUAS CHAVES)
         // ============================================
-        const SENHA_ADMIN = "admin123";
-        let currentUser = null;
-        let motosData = {
-            1: {
-                nome: "Honda Pop 110i 2023",
-                preco: "R$ 9.490",
-                cilindrada: "110cc",
-                descricao: "A Honda Pop 110i é a escolha perfeita para quem busca economia e praticidade no dia a dia.",
-                imagens: ["moto1f1.png", "moto1f2.png", "moto1f3.png", "moto1f4.png", "moto1f5.png"],
-                especificacoes: {
-                    "Cilindrada": "110cc",
-                    "Potência": "8,2 hp",
-                    "Peso": "96 kg",
-                    "Tanque": "4,2 litros",
-                    "Transmissão": "4 marchas",
-                    "Partida": "Elétrica",
-                    "Freio dianteiro": "Tambor",
-                    "Freio traseiro": "Tambor"
-                }
-            },
-            2: {
-                nome: "Yamaha Factor 150 2023",
-                preco: "R$ 12.990",
-                cilindrada: "150cc",
-                descricao: "A Yamaha Factor 150 combina robustez e economia, sendo uma das motos mais vendidas do Brasil.",
-                imagens: ["moto2f1.png", "moto2f2.png", "moto2f3.png", "moto2f4.png", "moto2f5.png"],
-                especificacoes: {
-                    "Cilindrada": "150cc",
-                    "Potência": "13,8 hp",
-                    "Peso": "118 kg",
-                    "Tanque": "13 litros",
-                    "Transmissão": "5 marchas",
-                    "Partida": "Elétrica e pedal",
-                    "Freio dianteiro": "Disco",
-                    "Freio traseiro": "Tambor"
-                }
-            }
+        const JSONBIN_CONFIG = {
+            binId: localStorage.getItem('jsonbin_id') || '',
+            apiKey: '$2a$10$BJmj3YGcd1XfNk7xZAJ.tubaCoF1fMkY9ADh25B0AJGNj.3lWY3iK',
+            baseURL: 'https://api.jsonbin.io/v3/b'
         };
 
         // ============================================
-        // SISTEMA DE AUTENTICAÇÃO (CORRIGIDO)
+        // CONFIGURAÇÃO IMGBB (COM SUA CHAVE)
+        // ============================================
+        const IMGBB_CONFIG = {
+            apiKey: '278fd1063d941d72decaedb073eea80e',
+            uploadURL: 'https://api.imgbb.com/1/upload'
+        };
+
+        // ============================================
+        // SISTEMA DE AUTENTICAÇÃO
+        // ============================================
+        const SENHA_DEV = "dev123";
+        let currentUser = null;
+        let motosData = {};
+        let fotosSelecionadas = [];
+
+        // ============================================
+        // SISTEMA JSONBIN.IO
+        // ============================================
+
+        // Inicializar JSONBin
+        async function inicializarJSONBin() {
+            const statusDiv = document.getElementById('jsonbinStatus');
+            
+            try {
+                if (JSONBIN_CONFIG.binId) {
+                    statusDiv.className = 'status-message status-success';
+                    statusDiv.innerHTML = '✅ Conectado ao JSONBin!';
+                    statusDiv.style.display = 'block';
+                    return;
+                }
+
+                statusDiv.className = 'status-message status-warning';
+                statusDiv.innerHTML = '🌐 Criando armazenamento online...';
+                statusDiv.style.display = 'block';
+
+                const response = await fetch('https://api.jsonbin.io/v3/b', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_CONFIG.apiKey,
+                        'X-Bin-Name': 'Maiso Veiculos - Dados'
+                    },
+                    body: JSON.stringify({ motos: {} })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    JSONBIN_CONFIG.binId = data.metadata.id;
+                    localStorage.setItem('jsonbin_id', JSONBIN_CONFIG.binId);
+                    
+                    statusDiv.className = 'status-message status-success';
+                    statusDiv.innerHTML = '✅ Armazenamento online criado!';
+                    
+                    mostrarMensagem('✅ Sistema online configurado!', 'success');
+                } else {
+                    throw new Error('Erro ao criar bin');
+                }
+            } catch (error) {
+                statusDiv.className = 'status-message status-warning';
+                statusDiv.innerHTML = '📱 Modo offline ativado - dados salvos localmente';
+                console.log('Modo offline ativado');
+            }
+        }
+
+        // Salvar dados no JSONBin
+        async function salvarNoJSONBin() {
+            const saveBtn = document.getElementById('saveBtn');
+            const statusDiv = document.getElementById('jsonbinStatus');
+            
+            saveBtn.innerHTML = '💾 Salvando...';
+            saveBtn.disabled = true;
+            statusDiv.className = 'status-message status-warning';
+            statusDiv.innerHTML = 'Enviando dados para nuvem...';
+            statusDiv.style.display = 'block';
+
+            try {
+                if (!JSONBIN_CONFIG.binId) {
+                    await inicializarJSONBin();
+                }
+
+                const response = await fetch(`${JSONBIN_CONFIG.baseURL}/${JSONBIN_CONFIG.binId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_CONFIG.apiKey
+                    },
+                    body: JSON.stringify({ motos: motosData })
+                });
+
+                if (response.ok) {
+                    statusDiv.className = 'status-message status-success';
+                    statusDiv.innerHTML = '✅ Dados salvos online! Todos os visitantes verão as mudanças.';
+                    mostrarMensagem('✅ Dados salvos na nuvem!', 'success');
+                } else {
+                    throw new Error('Erro ao salvar');
+                }
+            } catch (error) {
+                statusDiv.className = 'status-message status-warning';
+                statusDiv.innerHTML = '📱 Dados salvos localmente (modo offline)';
+                
+                // Salvar localmente como fallback
+                localStorage.setItem('motosData', JSON.stringify(motosData));
+                mostrarMensagem('💾 Dados salvos localmente', 'info');
+            } finally {
+                saveBtn.innerHTML = '💾 Salvar Tudo Online';
+                saveBtn.disabled = false;
+            }
+        }
+
+        // Carregar dados do JSONBin
+        async function carregarDoJSONBin() {
+            const statusDiv = document.getElementById('jsonbinStatus');
+            
+            try {
+                if (!JSONBIN_CONFIG.binId) {
+                    await inicializarJSONBin();
+                }
+
+                const response = await fetch(`${JSONBIN_CONFIG.baseURL}/${JSONBIN_CONFIG.binId}/latest`, {
+                    headers: {
+                        'X-Master-Key': JSONBIN_CONFIG.apiKey
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    motosData = data.record.motos || {};
+                    
+                    carregarMotosNaPagina();
+                    if (currentUser && currentUser.role === 'dev') {
+                        carregarListaMotos();
+                    }
+                    
+                    statusDiv.className = 'status-message status-success';
+                    statusDiv.innerHTML = '✅ Dados carregados da nuvem!';
+                    statusDiv.style.display = 'block';
+                    
+                    mostrarMensagem('✅ Dados atualizados!', 'success');
+                } else {
+                    throw new Error('Erro ao carregar');
+                }
+            } catch (error) {
+                // Tentar carregar do localStorage
+                const dadosLocais = localStorage.getItem('motosData');
+                if (dadosLocais) {
+                    motosData = JSON.parse(dadosLocais);
+                    carregarMotosNaPagina();
+                    if (currentUser && currentUser.role === 'dev') {
+                        carregarListaMotos();
+                    }
+                    
+                    statusDiv.className = 'status-message status-warning';
+                    statusDiv.innerHTML = '📱 Dados carregados localmente';
+                    statusDiv.style.display = 'block';
+                } else {
+                    statusDiv.className = 'status-message status-info';
+                    statusDiv.innerHTML = 'ℹ️ Nenhum dado encontrado. Adicione a primeira moto!';
+                    statusDiv.style.display = 'block';
+                }
+            }
+        }
+
+        // ============================================
+        // SISTEMA DE UPLOAD DE FOTOS (ImgBB)
+        // ============================================
+
+        async function uploadFoto(file) {
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                const response = await fetch(`${IMGBB_CONFIG.uploadURL}?key=${IMGBB_CONFIG.apiKey}`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.data.url;
+                }
+            } catch (error) {
+                console.error('Erro no upload:', error);
+            }
+
+            // Fallback: URL local
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function processarFotos(arquivos) {
+            const previewContainer = document.getElementById('previewContainer');
+            const uploadArea = document.getElementById('uploadArea');
+            
+            if (fotosSelecionadas.length + arquivos.length > 6) {
+                mostrarMensagem('❌ Máximo de 6 fotos permitidas!', 'error');
+                return;
+            }
+
+            for (let i = 0; i < arquivos.length; i++) {
+                const arquivo = arquivos[i];
+                
+                if (!arquivo.type.startsWith('image/')) {
+                    mostrarMensagem('❌ Apenas arquivos de imagem são permitidos!', 'error');
+                    continue;
+                }
+
+                fotosSelecionadas.push(arquivo);
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button type="button" class="remove-btn" onclick="removerFoto(${fotosSelecionadas.length - 1})">×</button>
+                    `;
+                    previewContainer.appendChild(previewItem);
+                };
+                reader.readAsDataURL(arquivo);
+            }
+
+            uploadArea.innerHTML = `
+                <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
+                <p>${fotosSelecionadas.length}/6 fotos selecionadas</p>
+                <small>Clique para adicionar mais fotos</small>
+            `;
+
+            document.getElementById('foto-input').value = '';
+        }
+
+        function removerFoto(index) {
+            fotosSelecionadas.splice(index, 1);
+            atualizarPreviews();
+        }
+
+        function atualizarPreviews() {
+            const previewContainer = document.getElementById('previewContainer');
+            const uploadArea = document.getElementById('uploadArea');
+            
+            previewContainer.innerHTML = '';
+            
+            fotosSelecionadas.forEach((foto, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button type="button" class="remove-btn" onclick="removerFoto(${index})">×</button>
+                    `;
+                    previewContainer.appendChild(previewItem);
+                };
+                reader.readAsDataURL(foto);
+            });
+
+            if (fotosSelecionadas.length === 0) {
+                uploadArea.innerHTML = `
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
+                    <p>Clique para adicionar fotos ou arraste aqui</p>
+                    <small>Formatos: JPG, PNG, GIF • Máx. 6 fotos</small>
+                `;
+            } else {
+                uploadArea.innerHTML = `
+                    <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
+                    <p>${fotosSelecionadas.length}/6 fotos selecionadas</p>
+                    <small>Clique para adicionar mais fotos</small>
+                `;
+            }
+        }
+
+        // Drag and drop para fotos
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadArea = document.getElementById('uploadArea');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                uploadArea.classList.add('highlight');
+            }
+
+            function unhighlight() {
+                uploadArea.classList.remove('highlight');
+            }
+
+            uploadArea.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                processarFotos(files);
+            }
+        });
+
+        // ============================================
+        // SISTEMA DE AUTENTICAÇÃO
         // ============================================
 
         function mostrarLogin() {
@@ -1456,12 +1811,7 @@
         }
 
         function mostrarTab(tabName) {
-            document.getElementById('login-form').style.display = tabName === 'login' ? 'block' : 'none';
-            document.getElementById('register-form').style.display = tabName === 'register' ? 'block' : 'none';
-            
-            document.querySelectorAll('.login-tab').forEach(tab => {
-                tab.classList.toggle('active', tab.textContent === (tabName === 'login' ? 'Entrar' : 'Registrar'));
-            });
+            // Apenas login para desenvolvedor
         }
 
         function fazerLogin() {
@@ -1469,37 +1819,18 @@
             const password = document.getElementById('login-password').value;
             const errorDiv = document.getElementById('login-error');
 
-            if (username === 'admin' && password === SENHA_ADMIN) {
-                currentUser = { username: 'admin', role: 'admin' };
+            if (username === 'dev' && password === SENHA_DEV) {
+                currentUser = { username: 'dev', role: 'dev' };
                 atualizarInterfaceUsuario();
                 fecharLogin();
-                mostrarMensagem('✅ Login realizado como Administrador', 'success');
+                mostrarMensagem('✅ Login realizado como Desenvolvedor', 'success');
                 
-                // Mostrar botão flutuante do admin
-                const adminBtn = document.getElementById('adminFloatBtn');
-                if (adminBtn) adminBtn.style.display = 'block';
+                const devBtn = document.getElementById('devFloatBtn');
+                if (devBtn) devBtn.style.display = 'block';
             } else {
-                errorDiv.textContent = 'Credenciais inválidas!';
+                errorDiv.textContent = 'Credenciais de desenvolvedor inválidas!';
                 errorDiv.style.display = 'block';
             }
-        }
-
-        function fazerRegistro() {
-            const username = document.getElementById('register-username').value;
-            const password = document.getElementById('register-password').value;
-            const confirmPassword = document.getElementById('register-confirm').value;
-            const errorDiv = document.getElementById('register-error');
-
-            if (password !== confirmPassword) {
-                errorDiv.textContent = 'As senhas não coincidem!';
-                errorDiv.style.display = 'block';
-                return;
-            }
-
-            currentUser = { username: username, role: 'visitor' };
-            atualizarInterfaceUsuario();
-            fecharLogin();
-            mostrarMensagem('✅ Conta criada com sucesso!', 'success');
         }
 
         function fazerLogout() {
@@ -1507,71 +1838,38 @@
             atualizarInterfaceUsuario();
             mostrarMensagem('👋 Logout realizado com sucesso', 'success');
             
-            // Esconder botão flutuante do admin
-            const adminBtn = document.getElementById('adminFloatBtn');
-            if (adminBtn) adminBtn.style.display = 'none';
+            const devBtn = document.getElementById('devFloatBtn');
+            if (devBtn) devBtn.style.display = 'none';
         }
 
         function atualizarInterfaceUsuario() {
             const userName = document.getElementById('userName');
             const userRole = document.getElementById('userRole');
             const loginButton = document.getElementById('loginButton');
-            const adminIndicator = document.getElementById('adminIndicator');
+            const devIndicator = document.getElementById('devIndicator');
 
             if (currentUser) {
                 userName.textContent = currentUser.username;
                 loginButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair';
                 loginButton.onclick = fazerLogout;
 
-                if (currentUser.role === 'admin') {
+                if (currentUser.role === 'dev') {
                     userRole.style.display = 'inline';
-                    adminIndicator.style.display = 'block';
-                } else {
-                    userRole.style.display = 'none';
-                    adminIndicator.style.display = 'none';
+                    userRole.className = 'dev-badge';
+                    userRole.textContent = 'DEV';
+                    devIndicator.style.display = 'block';
                 }
             } else {
                 userName.textContent = 'Visitante';
                 userRole.style.display = 'none';
                 loginButton.innerHTML = '<i class="fas fa-user"></i> Entrar';
                 loginButton.onclick = mostrarLogin;
-                adminIndicator.style.display = 'none';
+                devIndicator.style.display = 'none';
             }
-        }
-
-        function mostrarMensagem(texto, tipo) {
-            // Sistema simples de mensagens
-            const mensagemDiv = document.createElement('div');
-            mensagemDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 20px;
-                border-radius: 5px;
-                color: white;
-                z-index: 10000;
-                font-weight: bold;
-                max-width: 300px;
-            `;
-            
-            if (tipo === 'success') {
-                mensagemDiv.style.background = '#28a745';
-            } else if (tipo === 'error') {
-                mensagemDiv.style.background = '#dc3545';
-            } else {
-                mensagemDiv.style.background = '#17a2b8';
-            }
-            
-            mensagemDiv.textContent = texto;
-            document.body.appendChild(mensagemDiv);
-            
-            setTimeout(() => {
-                document.body.removeChild(mensagemDiv);
-            }, 3000);
         }
 
         // ============================================
-        // SISTEMA DE GERENCIAMENTO DE MOTOS (CORRIGIDO)
+        // SISTEMA DE GERENCIAMENTO DE MOTOS
         // ============================================
 
         function carregarMotosNaPagina() {
@@ -1580,31 +1878,45 @@
 
             vehiclesGrid.innerHTML = '';
             
+            if (Object.keys(motosData).length === 0) {
+                vehiclesGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+                        <i class="fas fa-motorcycle" style="font-size: 50px; margin-bottom: 20px;"></i>
+                        <h3>Nenhuma moto cadastrada</h3>
+                        <p>As motos aparecerão aqui quando forem adicionadas</p>
+                    </div>
+                `;
+                return;
+            }
+            
             Object.keys(motosData).forEach(id => {
                 const moto = motosData[id];
                 const card = document.createElement('div');
                 card.className = 'vehicle-card';
-                card.setAttribute('data-category', moto.especificacoes.Cilindrada.replace('cc', ''));
+                card.setAttribute('data-category', moto.cilindrada || '110');
                 card.setAttribute('data-id', id);
                 
-                let botoesAdmin = '';
-                if (currentUser && currentUser.role === 'admin') {
-                    botoesAdmin = `
-                        <button class="btn-excluir" onclick="excluirMoto(${id})" title="Excluir moto">×</button>
-                        <button class="btn-editar" onclick="editarMoto(${id})" title="Editar moto">✏️</button>
+                let botoesDev = '';
+                if (currentUser && currentUser.role === 'dev') {
+                    botoesDev = `
+                        <button class="btn-excluir" onclick="excluirMoto('${id}')" title="Excluir moto">×</button>
+                        <button class="btn-editar" onclick="editarMoto('${id}')" title="Editar moto">✏️</button>
                     `;
                 }
                 
+                const imagemPrincipal = moto.imagens && moto.imagens.length > 0 ? 
+                    moto.imagens[0] : 'https://via.placeholder.com/400x300/FF0000/FFFFFF?text=Sem+Imagem';
+                
                 card.innerHTML = `
-                    ${botoesAdmin}
-                    <img src="${moto.imagens[0]}" alt="${moto.nome}" class="vehicle-img" onerror="this.src='https://via.placeholder.com/400x300/FF0000/FFFFFF?text=Imagem+Não+Encontrada'">
+                    ${botoesDev}
+                    <img src="${imagemPrincipal}" alt="${moto.nome}" class="vehicle-img">
                     <div class="vehicle-info">
                         <h3 class="vehicle-title">${moto.nome}</h3>
                         <div class="vehicle-price">${moto.preco}</div>
                         <div class="vehicle-details">
-                            <span><i class="fas fa-gas-pump"></i> ${moto.especificacoes.Cilindrada}</span>
-                            <span><i class="fas fa-tachometer-alt"></i> ${moto.especificacoes.Potência}</span>
-                            <span><i class="fas fa-weight"></i> ${moto.especificacoes.Peso}</span>
+                            <span><i class="fas fa-gas-pump"></i> ${moto.especificacoes?.Cilindrada || 'Não informado'}</span>
+                            <span><i class="fas fa-tachometer-alt"></i> ${moto.especificacoes?.Potência || 'Não informado'}</span>
+                            <span><i class="fas fa-weight"></i> ${moto.especificacoes?.Peso || 'Não informado'}</span>
                         </div>
                         <a href="#" class="vehicle-btn ver-detalhes" data-id="${id}">Ver Detalhes</a>
                     </div>
@@ -1612,6 +1924,9 @@
                 
                 vehiclesGrid.appendChild(card);
             });
+
+            // Re-aplicar filtros
+            aplicarFiltroAtual();
         }
 
         function carregarListaMotos() {
@@ -1620,6 +1935,11 @@
 
             lista.innerHTML = '';
             
+            if (Object.keys(motosData).length === 0) {
+                lista.innerHTML = '<div style="text-align: center; color: #888; padding: 20px;">Nenhuma moto cadastrada</div>';
+                return;
+            }
+            
             Object.keys(motosData).forEach(id => {
                 const moto = motosData[id];
                 const item = document.createElement('div');
@@ -1627,13 +1947,13 @@
                 item.innerHTML = `
                     <div style="flex: 1;">
                         <strong>${moto.nome}</strong> - ${moto.preco}<br>
-                        <small>Cilindrada: ${moto.especificacoes.Cilindrada} | ID: ${id}</small>
+                        <small>Cilindrada: ${moto.especificacoes?.Cilindrada || 'Não informado'} | ID: ${id}</small>
                     </div>
                     <div style="display: flex; gap: 5px;">
-                        <button onclick="editarMoto(${id})" style="background: #4CAF50; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">
+                        <button onclick="editarMoto('${id}')" style="background: #4CAF50; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">
                             ✏️ Editar
                         </button>
-                        <button onclick="excluirMoto(${id})" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">
+                        <button onclick="excluirMoto('${id}')" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">
                             🗑️ Excluir
                         </button>
                     </div>
@@ -1642,9 +1962,9 @@
             });
         }
 
-        function excluirMoto(id) {
-            if (!currentUser || currentUser.role !== 'admin') {
-                mostrarMensagem('❌ Acesso negado! Apenas administradores podem excluir motos.', 'error');
+        async function excluirMoto(id) {
+            if (!currentUser || currentUser.role !== 'dev') {
+                mostrarMensagem('❌ Acesso negado! Apenas desenvolvedores podem excluir motos.', 'error');
                 return;
             }
 
@@ -1652,40 +1972,45 @@
                 delete motosData[id];
                 carregarMotosNaPagina();
                 carregarListaMotos();
+                await salvarNoJSONBin();
                 mostrarMensagem('✅ Moto excluída com sucesso!', 'success');
             }
         }
 
         function editarMoto(id) {
-            if (!currentUser || currentUser.role !== 'admin') {
-                mostrarMensagem('❌ Acesso negado! Apenas administradores podem editar motos.', 'error');
+            if (!currentUser || currentUser.role !== 'dev') {
+                mostrarMensagem('❌ Acesso negado! Apenas desenvolvedores podem editar motos.', 'error');
                 return;
             }
 
             const moto = motosData[id];
             document.getElementById('moto-id').value = id;
-            document.getElementById('moto-nome').value = moto.nome;
-            document.getElementById('moto-preco').value = moto.preco;
-            document.getElementById('moto-cilindrada').value = moto.especificacoes.Cilindrada.replace('cc', '');
-            document.getElementById('moto-descricao').value = moto.descricao;
-            document.getElementById('moto-potencia').value = moto.especificacoes.Potência || '';
-            document.getElementById('moto-peso').value = moto.especificacoes.Peso || '';
-            document.getElementById('moto-tanque').value = moto.especificacoes.Tanque || '';
-            document.getElementById('moto-transmissao').value = moto.especificacoes.Transmissão || '';
-            document.getElementById('moto-partida').value = moto.especificacoes.Partida || '';
-            document.getElementById('moto-freio-dianteiro').value = moto.especificacoes["Freio dianteiro"] || '';
-            document.getElementById('moto-freio-traseiro').value = moto.especificacoes["Freio traseiro"] || '';
+            document.getElementById('moto-nome').value = moto.nome || '';
+            document.getElementById('moto-preco').value = moto.preco || '';
+            document.getElementById('moto-cilindrada').value = moto.cilindrada || '110';
+            document.getElementById('moto-descricao').value = moto.descricao || '';
+            document.getElementById('moto-potencia').value = moto.especificacoes?.Potência || '';
+            document.getElementById('moto-peso').value = moto.especificacoes?.Peso || '';
+            document.getElementById('moto-tanque').value = moto.especificacoes?.Tanque || '';
+            document.getElementById('moto-transmissao').value = moto.especificacoes?.Transmissão || '';
+            document.getElementById('moto-partida').value = moto.especificacoes?.Partida || '';
+            document.getElementById('moto-freio-dianteiro').value = moto.especificacoes?.["Freio dianteiro"] || '';
+            document.getElementById('moto-freio-traseiro').value = moto.especificacoes?.["Freio traseiro"] || '';
+            document.getElementById('moto-ano').value = moto.especificacoes?.Ano || '';
+
+            fotosSelecionadas = [];
+            atualizarPreviews();
         }
 
         // Configurar formulário de motos
         document.addEventListener('DOMContentLoaded', function() {
             const formMoto = document.getElementById('form-moto');
             if (formMoto) {
-                formMoto.addEventListener('submit', function(e) {
+                formMoto.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
-                    if (!currentUser || currentUser.role !== 'admin') {
-                        mostrarMensagem('❌ Acesso negado! Apenas administradores podem gerenciar motos.', 'error');
+                    if (!currentUser || currentUser.role !== 'dev') {
+                        mostrarMensagem('❌ Acesso negado! Apenas desenvolvedores podem gerenciar motos.', 'error');
                         return;
                     }
                     
@@ -1700,17 +2025,25 @@
                         return;
                     }
                     
-                    const motoId = id || (Object.keys(motosData).length > 0 ? Math.max(...Object.keys(motosData).map(Number)) + 1 : 1);
-                    
-                    if (!motosData[motoId]) {
+                    try {
+                        // Upload das fotos
+                        let imagens = [];
+                        if (fotosSelecionadas.length > 0) {
+                            for (const foto of fotosSelecionadas) {
+                                const url = await uploadFoto(foto);
+                                imagens.push(url);
+                            }
+                        }
+
+                        // Preparar dados da moto
+                        const motoId = id || 'moto_' + Date.now();
                         motosData[motoId] = {
-                            imagens: [
-                                `moto${motoId}f1.png`,
-                                `moto${motoId}f2.png`,
-                                `moto${motoId}f3.png`,
-                                `moto${motoId}f4.png`,
-                                `moto${motoId}f5.png`
-                            ],
+                            id: motoId,
+                            nome: nome,
+                            preco: preco,
+                            cilindrada: cilindrada,
+                            descricao: descricao,
+                            imagens: imagens,
                             especificacoes: {
                                 "Cilindrada": cilindrada + "cc",
                                 "Potência": document.getElementById('moto-potencia').value || "Não informado",
@@ -1719,22 +2052,29 @@
                                 "Transmissão": document.getElementById('moto-transmissao').value || "Não informado",
                                 "Partida": document.getElementById('moto-partida').value || "Não informado",
                                 "Freio dianteiro": document.getElementById('moto-freio-dianteiro').value || "Não informado",
-                                "Freio traseiro": document.getElementById('moto-freio-traseiro').value || "Não informado"
+                                "Freio traseiro": document.getElementById('moto-freio-traseiro').value || "Não informado",
+                                "Ano": document.getElementById('moto-ano').value || "Não informado"
                             },
-                            descricao: descricao
+                            dataCriacao: new Date().toISOString()
                         };
+
+                        // Atualizar interface
+                        carregarMotosNaPagina();
+                        carregarListaMotos();
+                        
+                        // Salvar online
+                        await salvarNoJSONBin();
+                        
+                        // Limpar formulário
+                        this.reset();
+                        document.getElementById('moto-id').value = '';
+                        fotosSelecionadas = [];
+                        atualizarPreviews();
+                        
+                        mostrarMensagem(`✅ Moto "${nome}" ${id ? 'atualizada' : 'adicionada'} com sucesso!`, 'success');
+                    } catch (error) {
+                        mostrarMensagem('❌ Erro ao salvar moto: ' + error.message, 'error');
                     }
-                    
-                    motosData[motoId].nome = nome;
-                    motosData[motoId].preco = preco;
-                    motosData[motoId].descricao = descricao;
-                    motosData[motoId].especificacoes.Cilindrada = cilindrada + "cc";
-                    
-                    carregarMotosNaPagina();
-                    carregarListaMotos();
-                    mostrarMensagem(`✅ Moto "${nome}" ${id ? 'atualizada' : 'adicionada'} com sucesso!`, 'success');
-                    this.reset();
-                    document.getElementById('moto-id').value = '';
                 });
             }
         });
@@ -1742,102 +2082,77 @@
         function limparFormulario() {
             document.getElementById('form-moto').reset();
             document.getElementById('moto-id').value = '';
+            fotosSelecionadas = [];
+            atualizarPreviews();
         }
 
         // ============================================
-        // SISTEMA ADMINISTRATIVO (CORRIGIDO)
+        // SISTEMA DESENVOLVEDOR
         // ============================================
 
-        function abrirAdmin() {
-            if (!currentUser || currentUser.role !== 'admin') {
-                mostrarMensagem('❌ Acesso restrito para administradores!', 'error');
+        function abrirDev() {
+            if (!currentUser || currentUser.role !== 'dev') {
+                mostrarMensagem('❌ Acesso restrito para desenvolvedores!', 'error');
                 return;
             }
-            document.getElementById('admin-panel').style.display = 'block';
+            document.getElementById('dev-panel').style.display = 'block';
             document.body.style.overflow = 'hidden';
             carregarListaMotos();
         }
 
-        function fecharAdmin() {
-            document.getElementById('admin-panel').style.display = 'none';
+        function fecharDev() {
+            document.getElementById('dev-panel').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
         // ============================================
-        // INICIALIZAÇÃO CORRIGIDA
+        // SISTEMA DE MENSAGENS
         // ============================================
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Adicionar botão admin flutuante
-            const botaoAdmin = document.createElement('button');
-            botaoAdmin.innerHTML = '👑';
-            botaoAdmin.style.cssText = `
+        function mostrarMensagem(texto, tipo) {
+            const mensagemDiv = document.createElement('div');
+            mensagemDiv.style.cssText = `
                 position: fixed;
-                bottom: 80px;
+                top: 20px;
                 right: 20px;
-                background: #FF0000;
+                padding: 15px 20px;
+                border-radius: 5px;
                 color: white;
-                border: none;
-                border-radius: 50%;
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
-                cursor: pointer;
-                z-index: 1000;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-                display: none;
-                transition: all 0.3s;
+                z-index: 10000;
+                font-weight: bold;
+                max-width: 300px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             `;
-            botaoAdmin.title = "Painel Administrativo (Ctrl+Alt+M)";
-            botaoAdmin.addEventListener('click', abrirAdmin);
-            botaoAdmin.id = 'adminFloatBtn';
-            document.body.appendChild(botaoAdmin);
-
-            // Carregar motos na página
-            carregarMotosNaPagina();
-
-            // Configurar eventos de tecla Enter nos formulários
-            document.getElementById('login-password')?.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') fazerLogin();
-            });
-
-            document.getElementById('register-confirm')?.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') fazerRegistro();
-            });
-
-            // Configurar atalho de teclado para admin
-            document.addEventListener('keydown', function(e) {
-                if (e.ctrlKey && e.altKey && e.key === 'm') {
-                    if (currentUser && currentUser.role === 'admin') {
-                        abrirAdmin();
-                    } else {
-                        mostrarLogin();
-                    }
+            
+            if (tipo === 'success') {
+                mensagemDiv.style.background = '#28a745';
+            } else if (tipo === 'error') {
+                mensagemDiv.style.background = '#dc3545';
+            } else if (tipo === 'warning') {
+                mensagemDiv.style.background = '#ffc107';
+                mensagemDiv.style.color = '#000';
+            } else {
+                mensagemDiv.style.background = '#17a2b8';
+            }
+            
+            mensagemDiv.textContent = texto;
+            document.body.appendChild(mensagemDiv);
+            
+            setTimeout(() => {
+                if (mensagemDiv.parentNode) {
+                    document.body.removeChild(mensagemDiv);
                 }
-            });
-
-            // Fechar modais ao clicar fora
-            document.addEventListener('click', function(e) {
-                if (e.target.id === 'login-modal') {
-                    fecharLogin();
-                }
-                if (e.target.id === 'vehicleModal') {
-                    fecharModal();
-                }
-            });
-        });
+            }, 4000);
+        }
 
         // ============================================
-        // FUNÇÕES DO SITE ORIGINAL (MANTIDAS E CORRIGIDAS)
+        // SISTEMA DE FILTROS
         // ============================================
 
-        // Sistema de filtros
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                
-                const filter = this.getAttribute('data-filter');
+        function aplicarFiltroAtual() {
+            const filtroAtivo = document.querySelector('.filter-btn.active');
+            if (filtroAtivo) {
+                const filter = filtroAtivo.getAttribute('data-filter');
                 document.querySelectorAll('.vehicle-card').forEach(card => {
                     if (filter === 'all' || card.getAttribute('data-category') === filter) {
                         card.style.display = 'block';
@@ -1845,29 +2160,45 @@
                         card.style.display = 'none';
                     }
                 });
+            }
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                aplicarFiltroAtual();
             });
         });
 
-        // Sistema do modal de detalhes
+        // ============================================
+        // SISTEMA DO MODAL DE DETALHES
+        // ============================================
+
+        let slideAtual = 0;
+
         function abrirModal(id) {
             const moto = motosData[id];
             if (!moto) return;
 
             const modalBody = document.getElementById('modalBody');
+            const imagens = moto.imagens && moto.imagens.length > 0 ? 
+                moto.imagens : ['https://via.placeholder.com/800x400/FF0000/FFFFFF?text=Sem+Imagem+Disponível'];
+            
             modalBody.innerHTML = `
                 <div style="width: 100%;">
                     <div class="carousel">
                         <div class="carousel-inner" id="carouselInner">
-                            ${moto.imagens.map((img, index) => `
+                            ${imagens.map((img, index) => `
                                 <div class="carousel-item ${index === 0 ? 'active' : ''}">
-                                    <img src="${img}" alt="${moto.nome} - Imagem ${index + 1}" onerror="this.src='https://via.placeholder.com/800x400/FF0000/FFFFFF?text=Imagem+Não+Encontrada'">
+                                    <img src="${img}" alt="${moto.nome} - Imagem ${index + 1}">
                                 </div>
                             `).join('')}
                         </div>
                         <button class="carousel-control prev" onclick="moverCarrossel(-1)">❮</button>
                         <button class="carousel-control next" onclick="moverCarrossel(1)">❯</button>
                         <div class="carousel-indicators" id="carouselIndicators">
-                            ${moto.imagens.map((_, index) => `
+                            ${imagens.map((_, index) => `
                                 <button class="carousel-indicator ${index === 0 ? 'active' : ''}" onclick="pularParaSlide(${index})"></button>
                             `).join('')}
                         </div>
@@ -1879,7 +2210,7 @@
                         
                         <div class="modal-specs">
                             <h3>Especificações Técnicas</h3>
-                            ${Object.entries(moto.especificacoes).map(([key, value]) => `
+                            ${Object.entries(moto.especificacoes || {}).map(([key, value]) => `
                                 <div class="spec-item">
                                     <span class="spec-name">${key}:</span>
                                     <span class="spec-value">${value}</span>
@@ -1915,6 +2246,7 @@
             
             document.getElementById('vehicleModal').style.display = 'block';
             document.body.style.overflow = 'hidden';
+            slideAtual = 0;
         }
 
         function fecharModal() {
@@ -1922,27 +2254,26 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Sistema do carrossel
-        let slideAtual = 0;
-
         function moverCarrossel(direcao) {
+            const carouselInner = document.getElementById('carouselInner');
             const slides = document.querySelectorAll('.carousel-item');
             const totalSlides = slides.length;
             
-            slideAtual = (slideAtual + direcao + totalSlides) % totalSlides;
+            if (!carouselInner || totalSlides === 0) return;
             
-            const carouselInner = document.getElementById('carouselInner');
+            slideAtual = (slideAtual + direcao + totalSlides) % totalSlides;
             carouselInner.style.transform = `translateX(-${slideAtual * 100}%)`;
             
-            // Atualizar indicadores
             document.querySelectorAll('.carousel-indicator').forEach((indicator, index) => {
                 indicator.classList.toggle('active', index === slideAtual);
             });
         }
 
         function pularParaSlide(index) {
-            slideAtual = index;
             const carouselInner = document.getElementById('carouselInner');
+            if (!carouselInner) return;
+            
+            slideAtual = index;
             carouselInner.style.transform = `translateX(-${slideAtual * 100}%)`;
             
             document.querySelectorAll('.carousel-indicator').forEach((indicator, i) => {
@@ -1950,76 +2281,83 @@
             });
         }
 
-        // Event listeners para os modais
-        document.querySelector('.close-modal')?.addEventListener('click', fecharModal);
+        // ============================================
+        // INICIALIZAÇÃO
+        // ============================================
 
-        // Delegation para os botões "Ver Detalhes"
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('ver-detalhes')) {
-                e.preventDefault();
-                const id = e.target.getAttribute('data-id');
-                abrirModal(id);
-            }
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Adicionar botão dev flutuante
+            const botaoDev = document.createElement('button');
+            botaoDev.innerHTML = '🛠️';
+            botaoDev.style.cssText = `
+                position: fixed;
+                bottom: 80px;
+                right: 20px;
+                background: var(--laranja);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+                cursor: pointer;
+                z-index: 1000;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+                display: none;
+                transition: all 0.3s;
+            `;
+            botaoDev.title = "Painel Desenvolvedor (Ctrl+Alt+D)";
+            botaoDev.addEventListener('click', abrirDev);
+            botaoDev.id = 'devFloatBtn';
+            document.body.appendChild(botaoDev);
+
+            // Inicializar JSONBin e carregar dados
+            await inicializarJSONBin();
+            await carregarDoJSONBin();
+
+            // Configurar eventos de tecla Enter
+            document.getElementById('login-password')?.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') fazerLogin();
+            });
+
+            // Configurar atalho de teclado para dev
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.altKey && e.key === 'd') {
+                    if (currentUser && currentUser.role === 'dev') {
+                        abrirDev();
+                    } else {
+                        mostrarLogin();
+                    }
+                }
+            });
+
+            // Fechar modais ao clicar fora
+            document.addEventListener('click', function(e) {
+                if (e.target.id === 'login-modal') fecharLogin();
+                if (e.target.id === 'vehicleModal') fecharModal();
+                if (e.target.id === 'dev-panel') fecharDev();
+            });
+
+            // Event listener para botões "Ver Detalhes"
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('ver-detalhes')) {
+                    e.preventDefault();
+                    const id = e.target.getAttribute('data-id');
+                    abrirModal(id);
+                }
+            });
+
+            // Fechar modal com ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    fecharModal();
+                    fecharDev();
+                    fecharLogin();
+                }
+            });
+
+            mostrarMensagem('🚀 Sistema carregado com sucesso!', 'success');
         });
-
-        // ============================================
-        // SISTEMA GITHUB (SIMPLIFICADO)
-        // ============================================
-
-        async function verificarStatusGitHub() {
-            const statusDiv = document.getElementById('publishStatus');
-            statusDiv.className = 'status-message status-warning';
-            statusDiv.innerHTML = '🔗 Verificando conexão com GitHub...';
-            statusDiv.style.display = 'block';
-            
-            // Simulação de verificação
-            setTimeout(() => {
-                statusDiv.className = 'status-message status-success';
-                statusDiv.innerHTML = '✅ Conectado ao GitHub! Pronto para publicar.';
-            }, 1500);
-        }
-
-        async function publicarAlteracoes() {
-            const publishBtn = document.getElementById('publishBtn');
-            const statusDiv = document.getElementById('publishStatus');
-            
-            publishBtn.classList.add('loading');
-            publishBtn.innerHTML = '⏳ Publicando...';
-            statusDiv.className = 'status-message status-warning';
-            statusDiv.innerHTML = 'Iniciando publicação...';
-            statusDiv.style.display = 'block';
-
-            try {
-                // Simulação de publicação
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                
-                statusDiv.className = 'status-message status-success';
-                statusDiv.innerHTML = `
-                    ✅ Site publicado com sucesso!<br>
-                    <small>As alterações foram salvas localmente.</small>
-                `;
-
-            } catch (error) {
-                statusDiv.className = 'status-message status-error';
-                statusDiv.innerHTML = `❌ Erro na publicação: ${error.message}`;
-            } finally {
-                publishBtn.classList.remove('loading');
-                publishBtn.innerHTML = '📤 Publicar Alterações';
-            }
-        }
-
-        function carregarDoGitHub() {
-            const statusDiv = document.getElementById('publishStatus');
-            statusDiv.className = 'status-message status-warning';
-            statusDiv.innerHTML = 'Carregando dados...';
-            statusDiv.style.display = 'block';
-            
-            // Simulação de carregamento
-            setTimeout(() => {
-                statusDiv.className = 'status-message status-success';
-                statusDiv.innerHTML = '✅ Dados carregados com sucesso!';
-            }, 1500);
-        }
     </script>
 </body>
 </html>
