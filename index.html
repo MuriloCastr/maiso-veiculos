@@ -932,106 +932,198 @@
             margin-top: 15px;
         }
 
-        /* ========== UPLOAD DE FOTOS ========== */
-        .upload-area {
-            border: 2px dashed #ccc;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            margin: 10px 0;
-            background: #f9f9f9;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .upload-area:hover {
-            border-color: var(--vermelho);
-            background: #f0f0f0;
-        }
-
-        .upload-area.highlight {
-            border-color: var(--verde);
-            background: #e8f5e8;
-        }
-
-        .preview-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .preview-item {
-            position: relative;
-            border-radius: 5px;
-            overflow: hidden;
-            height: 100px;
-        }
-
-        .preview-item img {
+        /* ========== PAINEL ADMIN ========== */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-        }
-
-        .preview-item .remove-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(255,0,0,0.7);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        /* ========== PAINEL ADMIN ========== */
-        .publish-panel {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 10px;
+            background: rgba(0,0,0,0.9);
+            z-index: 5000;
+            overflow-y: auto;
             padding: 20px;
-            margin-top: 20px;
         }
 
-        .publish-btn {
-            background: var(--verde);
+        .admin-content {
+            background: #333;
+            max-width: 900px;
+            margin: 50px auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .admin-header {
+            background: var(--laranja);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-header h2 {
             color: white;
+            margin: 0;
+        }
+
+        .admin-body {
+            padding: 30px;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background: #222;
+            color: white;
+            font-size: 16px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .btn {
+            padding: 12px 25px;
             border: none;
-            padding: 12px 20px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            margin: 5px;
             transition: all 0.3s;
         }
 
-        .publish-btn:hover {
+        .btn-primary {
+            background: var(--laranja);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e68900;
+        }
+
+        .btn-secondary {
+            background: #666;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #777;
+        }
+
+        .btn-success {
+            background: var(--verde);
+            color: white;
+        }
+
+        .btn-success:hover {
             background: #218838;
-            transform: translateY(-2px);
         }
 
-        .publish-btn.loading {
-            background: #6c757d;
-            cursor: not-allowed;
-            transform: none;
+        .btn-danger {
+            background: #dc3545;
+            color: white;
         }
 
-        .publish-btn.secondary {
-            background: var(--azul);
+        .btn-danger:hover {
+            background: #c82333;
         }
 
-        .publish-btn.secondary:hover {
-            background: #1976d2;
+        .btn-close {
+            background: transparent;
+            color: white;
+            font-size: 24px;
+            border: none;
+            cursor: pointer;
         }
 
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .admin-actions .btn {
+            flex: 1;
+        }
+
+        .moto-list {
+            margin-top: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .moto-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #555;
+        }
+
+        .moto-info {
+            flex: 1;
+        }
+
+        .moto-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .moto-details {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .moto-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* ========== BOTÃO FLUTUANTE ========== */
+        .float-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--laranja);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .float-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        /* ========== STATUS MENSAGENS ========== */
         .status-message {
             margin-top: 15px;
             padding: 10px;
@@ -1100,13 +1192,24 @@
                 justify-content: center;
             }
 
-            .publish-btn {
-                width: 100%;
-                margin: 5px 0;
+            .form-row {
+                flex-direction: column;
+                gap: 0;
             }
 
-            .preview-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .admin-actions {
+                flex-direction: column;
+            }
+
+            .moto-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .moto-actions {
+                width: 100%;
+                justify-content: space-between;
             }
         }
     </style>
@@ -1325,29 +1428,15 @@
     <div class="login-modal" id="loginModal">
         <div class="login-content">
             <div class="login-tabs">
-                <button class="login-tab active" onclick="mudarAba('login')">Login</button>
-                <button class="login-tab" onclick="mudarAba('admin')">Administrador</button>
-                <button class="login-tab" onclick="mudarAba('dev')">Desenvolvedor</button>
+                <button class="login-tab active" onclick="mudarAba('dev')">Desenvolvedor</button>
             </div>
             
-            <div id="loginForm">
-                <h3>Login de Visitante</h3>
-                <input type="text" class="login-input" placeholder="Nome" id="userNameInput">
-                <button class="login-btn" onclick="fazerLogin('visitante')">Entrar como Visitante</button>
-            </div>
-            
-            <div id="adminForm" style="display: none;">
-                <h3>Login de Administrador</h3>
-                <input type="password" class="login-input" placeholder="Senha de Administrador" id="adminPassword">
-                <button class="login-btn" onclick="fazerLogin('admin')">Entrar como Administrador</button>
-                <p class="user-type-info">Permite adicionar, editar e excluir veículos</p>
-            </div>
-            
-            <div id="devForm" style="display: none;">
+            <div id="devForm">
                 <h3>Login de Desenvolvedor</h3>
                 <input type="password" class="login-input" placeholder="Senha de Desenvolvedor" id="devPassword">
                 <button class="login-btn" onclick="fazerLogin('dev')">Entrar como Desenvolvedor</button>
                 <p class="user-type-info">Acesso total ao sistema e configurações</p>
+                <p class="user-type-info">Senha: dev123</p>
             </div>
             
             <div class="login-error" id="loginError">
@@ -1356,22 +1445,106 @@
         </div>
     </div>
 
-    <!-- Painel de Publicação (Visível apenas para Dev) -->
-    <div class="publish-panel" id="publishPanel" style="display: none;">
-        <h3 style="color: white; text-align: center;">Painel de Desenvolvedor</h3>
-        <div style="text-align: center; margin: 15px 0;">
-            <button class="publish-btn" onclick="sincronizarComFirebase()">
-                <i class="fas fa-sync-alt"></i> Sincronizar com Firebase
-            </button>
-            <button class="publish-btn secondary" onclick="carregarDoFirebase()">
-                <i class="fas fa-download"></i> Carregar do Firebase
-            </button>
-            <button class="publish-btn secondary" onclick="limparDadosLocais()">
-                <i class="fas fa-trash"></i> Limpar Dados Locais
-            </button>
+    <!-- Painel Administrativo -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-content">
+            <div class="admin-header">
+                <h2>Painel Administrativo - Gerenciar Motos</h2>
+                <button class="btn-close" onclick="fecharAdmin()">&times;</button>
+            </div>
+            <div class="admin-body">
+                <form id="motoForm">
+                    <input type="hidden" id="motoId">
+                    
+                    <div class="form-group">
+                        <label for="motoNome">Nome da Moto</label>
+                        <input type="text" id="motoNome" class="form-control" placeholder="Ex: Honda CG 160 2024" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="motoPreco">Preço</label>
+                            <input type="text" id="motoPreco" class="form-control" placeholder="Ex: R$ 15.290" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="motoCategoria">Categoria</label>
+                            <select id="motoCategoria" class="form-control" required>
+                                <option value="110">Até 110cc</option>
+                                <option value="150">150cc</option>
+                                <option value="160">160cc</option>
+                                <option value="250">250cc</option>
+                                <option value="500">500cc+</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="motoImagem">URL da Imagem</label>
+                        <input type="text" id="motoImagem" class="form-control" placeholder="https://exemplo.com/imagem.jpg" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="motoDescricao">Descrição</label>
+                        <textarea id="motoDescricao" class="form-control" rows="3" placeholder="Descreva a moto..." required></textarea>
+                    </div>
+                    
+                    <h3>Especificações Técnicas</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="motoCilindrada">Cilindrada</label>
+                            <input type="text" id="motoCilindrada" class="form-control" placeholder="Ex: 160cc">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="motoPotencia">Potência</label>
+                            <input type="text" id="motoPotencia" class="form-control" placeholder="Ex: 14,9 cv">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="motoTanque">Tanque</label>
+                            <input type="text" id="motoTanque" class="form-control" placeholder="Ex: 15,1 litros">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="motoConsumo">Consumo</label>
+                            <input type="text" id="motoConsumo" class="form-control" placeholder="Ex: 40 km/l">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="motoCor">Cor</label>
+                        <input type="text" id="motoCor" class="form-control" placeholder="Ex: Vermelha">
+                    </div>
+                    
+                    <div class="admin-actions">
+                        <button type="submit" class="btn btn-success">Salvar Moto</button>
+                        <button type="button" class="btn btn-secondary" onclick="limparFormulario()">Nova Moto</button>
+                    </div>
+                </form>
+                
+                <div class="moto-list" id="motoList">
+                    <h3>Motos Cadastradas</h3>
+                    <!-- Lista de motos será preenchida aqui -->
+                </div>
+                
+                <div class="admin-actions">
+                    <button class="btn btn-primary" onclick="sincronizarComFirebase()">Sincronizar com Firebase</button>
+                    <button class="btn btn-secondary" onclick="carregarDoFirebase()">Carregar do Firebase</button>
+                </div>
+                
+                <div class="status-message" id="statusMessage"></div>
+            </div>
         </div>
-        <div class="status-message" id="statusMessage"></div>
     </div>
+
+    <!-- Botão Flutuante para Admin -->
+    <button class="float-btn" id="floatBtn" style="display: none;" onclick="abrirAdmin()">
+        <i class="fas fa-tools"></i>
+    </button>
 
     <script>
         // ========== CONFIGURAÇÃO DO FIREBASE ==========
@@ -1396,7 +1569,7 @@
         };
 
         let motos = [];
-        let motosEditando = null;
+        let motoEditando = null;
         let imagensCarrossel = [];
         let indiceImagemAtual = 0;
 
@@ -1418,6 +1591,9 @@
             // Configurar modal
             configurarModal();
 
+            // Configurar formulário
+            configurarFormulario();
+
             // Configurar eventos de login
             document.getElementById('loginModal').addEventListener('click', function(e) {
                 if (e.target === this) {
@@ -1430,6 +1606,7 @@
                 if (e.key === 'Escape') {
                     fecharModal();
                     fecharLogin();
+                    fecharAdmin();
                 }
             });
         });
@@ -1453,6 +1630,7 @@
                     }
                     
                     renderizarMotos();
+                    atualizarListaMotos();
                 })
                 .catch((error) => {
                     console.error('Erro ao carregar do Firebase:', error);
@@ -1484,6 +1662,24 @@
                 });
         }
 
+        function carregarDoFirebase() {
+            if (usuarioAtual.tipo !== 'dev') {
+                mostrarStatus('Apenas desenvolvedores podem carregar do Firebase.', 'error');
+                return;
+            }
+            
+            carregarMotosDoFirebase();
+        }
+
+        function sincronizarComFirebase() {
+            if (usuarioAtual.tipo !== 'dev') {
+                mostrarStatus('Apenas desenvolvedores podem sincronizar com o Firebase.', 'error');
+                return;
+            }
+            
+            salvarMotosNoFirebase();
+        }
+
         // ========== FUNÇÕES DE LOCAL STORAGE ==========
         function carregarMotosDoLocalStorage() {
             const motosSalvas = localStorage.getItem('motosMaiso');
@@ -1497,7 +1693,7 @@
                         nome: "Honda CG 160 Start",
                         preco: "R$ 12.990",
                         categoria: "160",
-                        imagem: "moto1.png",
+                        imagem: "https://via.placeholder.com/400x300/FF0000/FFFFFF?text=Honda+CG+160",
                         descricao: "A Honda CG 160 Start é uma motocicleta versátil e econômica, perfeita para o dia a dia.",
                         especificacoes: {
                             "Cilindrada": "160cc",
@@ -1512,7 +1708,7 @@
                         nome: "Yamaha Factor 150",
                         preco: "R$ 10.490",
                         categoria: "150",
-                        imagem: "moto2.png",
+                        imagem: "https://via.placeholder.com/400x300/0000FF/FFFFFF?text=Yamaha+Factor+150",
                         descricao: "A Yamaha Factor 150 é conhecida pela sua confiabilidade e baixo custo de manutenção.",
                         especificacoes: {
                             "Cilindrada": "150cc",
@@ -1527,7 +1723,7 @@
                         nome: "Honda Biz 110",
                         preco: "R$ 8.990",
                         categoria: "110",
-                        imagem: "moto3.png",
+                        imagem: "https://via.placeholder.com/400x300/CCCCCC/000000?text=Honda+Biz+110",
                         descricao: "A Honda Biz 110 é a escolha perfeita para quem busca economia e praticidade na cidade.",
                         especificacoes: {
                             "Cilindrada": "110cc",
@@ -1545,23 +1741,6 @@
             localStorage.setItem('motosMaiso', JSON.stringify(motos));
         }
 
-        function limparDadosLocais() {
-            localStorage.removeItem('motosMaiso');
-            localStorage.removeItem('usuarioMaiso');
-            mostrarStatus('Dados locais limpos com sucesso!', 'success');
-            location.reload();
-        }
-
-        // ========== FUNÇÕES DE SINCRONIZAÇÃO ==========
-        function sincronizarComFirebase() {
-            if (usuarioAtual.tipo !== 'dev') {
-                mostrarStatus('Apenas desenvolvedores podem sincronizar com o Firebase.', 'error');
-                return;
-            }
-            
-            salvarMotosNoFirebase();
-        }
-
         // ========== FUNÇÕES DE USUÁRIO ==========
         function mostrarLogin() {
             document.getElementById('loginModal').style.display = 'flex';
@@ -1570,6 +1749,7 @@
         function fecharLogin() {
             document.getElementById('loginModal').style.display = 'none';
             document.getElementById('loginError').style.display = 'none';
+            document.getElementById('devPassword').value = '';
         }
 
         function mudarAba(aba) {
@@ -1578,21 +1758,9 @@
                 tab.classList.remove('active');
             });
             
-            // Esconder todos os formulários
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('adminForm').style.display = 'none';
-            document.getElementById('devForm').style.display = 'none';
-            
             // Ativar aba selecionada
-            if (aba === 'login') {
+            if (aba === 'dev') {
                 document.querySelector('.login-tab:nth-child(1)').classList.add('active');
-                document.getElementById('loginForm').style.display = 'block';
-            } else if (aba === 'admin') {
-                document.querySelector('.login-tab:nth-child(2)').classList.add('active');
-                document.getElementById('adminForm').style.display = 'block';
-            } else if (aba === 'dev') {
-                document.querySelector('.login-tab:nth-child(3)').classList.add('active');
-                document.getElementById('devForm').style.display = 'block';
             }
             
             document.getElementById('loginError').style.display = 'none';
@@ -1601,30 +1769,17 @@
         function fazerLogin(tipo) {
             const loginError = document.getElementById('loginError');
             let senha;
-            let nome = '';
 
-            if (tipo === 'visitante') {
-                nome = document.getElementById('userNameInput').value.trim() || 'Visitante';
-            } else if (tipo === 'admin') {
-                senha = document.getElementById('adminPassword').value;
-                if (senha !== 'admin123') {
-                    loginError.style.display = 'block';
-                    return;
-                }
-                nome = 'Administrador';
-            } else if (tipo === 'dev') {
+            if (tipo === 'dev') {
                 senha = document.getElementById('devPassword').value;
                 if (senha !== 'dev123') {
                     loginError.style.display = 'block';
                     return;
                 }
-                nome = 'Desenvolvedor';
+                usuarioAtual.nome = 'Desenvolvedor';
             }
 
-            usuarioAtual = {
-                nome: nome,
-                tipo: tipo
-            };
+            usuarioAtual.tipo = tipo;
 
             // Salvar no localStorage
             localStorage.setItem('usuarioMaiso', JSON.stringify(usuarioAtual));
@@ -1636,7 +1791,7 @@
             fecharLogin();
             
             // Mostrar mensagem de boas-vindas
-            mostrarStatus(`Bem-vindo, ${nome}!`, 'success');
+            mostrarStatus(`Bem-vindo, ${usuarioAtual.nome}!`, 'success');
         }
 
         function atualizarInterfaceUsuario() {
@@ -1645,20 +1800,18 @@
             
             // Mostrar/ocultar badges
             const userRole = document.getElementById('userRole');
-            if (usuarioAtual.tipo === 'admin') {
-                userRole.textContent = 'ADMIN';
-                userRole.className = 'admin-badge';
-                userRole.style.display = 'inline';
-            } else if (usuarioAtual.tipo === 'dev') {
+            if (usuarioAtual.tipo === 'dev') {
                 userRole.textContent = 'DEV';
                 userRole.className = 'dev-badge';
                 userRole.style.display = 'inline';
                 
-                // Mostrar indicador e painel de desenvolvedor
+                // Mostrar indicador e botão flutuante
                 document.getElementById('devIndicator').style.display = 'block';
-                document.getElementById('publishPanel').style.display = 'block';
+                document.getElementById('floatBtn').style.display = 'block';
             } else {
                 userRole.style.display = 'none';
+                document.getElementById('devIndicator').style.display = 'none';
+                document.getElementById('floatBtn').style.display = 'none';
             }
             
             // Atualizar botão de login
@@ -1680,10 +1833,172 @@
             renderizarMotos();
         }
 
+        // ========== FUNÇÕES DO PAINEL ADMIN ==========
+        function abrirAdmin() {
+            if (usuarioAtual.tipo !== 'dev') {
+                mostrarStatus('Acesso restrito para desenvolvedores!', 'error');
+                return;
+            }
+            
+            document.getElementById('adminPanel').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharAdmin() {
+            document.getElementById('adminPanel').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            limparFormulario();
+        }
+
+        function configurarFormulario() {
+            const form = document.getElementById('motoForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                salvarMoto();
+            });
+        }
+
+        function salvarMoto() {
+            const id = document.getElementById('motoId').value;
+            const nome = document.getElementById('motoNome').value;
+            const preco = document.getElementById('motoPreco').value;
+            const categoria = document.getElementById('motoCategoria').value;
+            const imagem = document.getElementById('motoImagem').value;
+            const descricao = document.getElementById('motoDescricao').value;
+            
+            const especificacoes = {
+                "Cilindrada": document.getElementById('motoCilindrada').value,
+                "Potência": document.getElementById('motoPotencia').value,
+                "Tanque": document.getElementById('motoTanque').value,
+                "Consumo": document.getElementById('motoConsumo').value,
+                "Cor": document.getElementById('motoCor').value
+            };
+            
+            if (!nome || !preco || !categoria || !imagem || !descricao) {
+                mostrarStatus('Preencha todos os campos obrigatórios!', 'error');
+                return;
+            }
+            
+            const moto = {
+                id: id ? parseInt(id) : Math.max(0, ...motos.map(m => m.id)) + 1,
+                nome,
+                preco,
+                categoria,
+                imagem,
+                descricao,
+                especificacoes
+            };
+            
+            if (id) {
+                // Editar moto existente
+                const index = motos.findIndex(m => m.id === parseInt(id));
+                if (index !== -1) {
+                    motos[index] = moto;
+                    mostrarStatus('Moto atualizada com sucesso!', 'success');
+                }
+            } else {
+                // Adicionar nova moto
+                motos.push(moto);
+                mostrarStatus('Moto adicionada com sucesso!', 'success');
+            }
+            
+            // Atualizar interface
+            renderizarMotos();
+            atualizarListaMotos();
+            
+            // Salvar no Firebase
+            salvarMotosNoFirebase();
+            
+            // Limpar formulário
+            limparFormulario();
+        }
+
+        function editarMoto(id) {
+            const moto = motos.find(m => m.id === id);
+            if (!moto) return;
+            
+            document.getElementById('motoId').value = moto.id;
+            document.getElementById('motoNome').value = moto.nome;
+            document.getElementById('motoPreco').value = moto.preco;
+            document.getElementById('motoCategoria').value = moto.categoria;
+            document.getElementById('motoImagem').value = moto.imagem;
+            document.getElementById('motoDescricao').value = moto.descricao;
+            
+            if (moto.especificacoes) {
+                document.getElementById('motoCilindrada').value = moto.especificacoes.Cilindrada || '';
+                document.getElementById('motoPotencia').value = moto.especificacoes.Potência || '';
+                document.getElementById('motoTanque').value = moto.especificacoes.Tanque || '';
+                document.getElementById('motoConsumo').value = moto.especificacoes.Consumo || '';
+                document.getElementById('motoCor').value = moto.especificacoes.Cor || '';
+            }
+            
+            motoEditando = moto;
+        }
+
+        function excluirMoto(id) {
+            if (!confirm('Tem certeza que deseja excluir esta moto?')) {
+                return;
+            }
+            
+            motos = motos.filter(m => m.id !== id);
+            
+            // Atualizar interface
+            renderizarMotos();
+            atualizarListaMotos();
+            
+            // Salvar no Firebase
+            salvarMotosNoFirebase();
+            
+            mostrarStatus('Moto excluída com sucesso!', 'success');
+        }
+
+        function limparFormulario() {
+            document.getElementById('motoForm').reset();
+            document.getElementById('motoId').value = '';
+            motoEditando = null;
+        }
+
+        function atualizarListaMotos() {
+            const lista = document.getElementById('motoList');
+            lista.innerHTML = '<h3>Motos Cadastradas</h3>';
+            
+            if (motos.length === 0) {
+                lista.innerHTML += '<p>Nenhuma moto cadastrada</p>';
+                return;
+            }
+            
+            motos.forEach(moto => {
+                const item = document.createElement('div');
+                item.className = 'moto-item';
+                item.innerHTML = `
+                    <div class="moto-info">
+                        <div class="moto-name">${moto.nome}</div>
+                        <div class="moto-details">${moto.preco} | ${moto.categoria}cc</div>
+                    </div>
+                    <div class="moto-actions">
+                        <button class="btn btn-primary" onclick="editarMoto(${moto.id})">Editar</button>
+                        <button class="btn btn-danger" onclick="excluirMoto(${moto.id})">Excluir</button>
+                    </div>
+                `;
+                lista.appendChild(item);
+            });
+        }
+
         // ========== FUNÇÕES DE RENDERIZAÇÃO ==========
         function renderizarMotos() {
             const grid = document.getElementById('vehicles-grid');
             grid.innerHTML = '';
+            
+            if (motos.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+                        <i class="fas fa-motorcycle" style="font-size: 50px; margin-bottom: 20px;"></i>
+                        <h3>Nenhuma moto cadastrada</h3>
+                        <p>As motos aparecerão aqui quando forem adicionadas</p>
+                    </div>
+                `;
+                return;
+            }
             
             motos.forEach(moto => {
                 const card = document.createElement('div');
@@ -1701,7 +2016,7 @@
                         </div>
                         <a href="#" class="vehicle-btn" onclick="abrirModal(${moto.id}); return false;">Ver Detalhes</a>
                     </div>
-                    ${usuarioAtual.tipo === 'admin' || usuarioAtual.tipo === 'dev' ? `
+                    ${usuarioAtual.tipo === 'dev' ? `
                         <button class="btn-editar" onclick="editarMoto(${moto.id}); event.stopPropagation();">
                             <i class="fas fa-edit"></i>
                         </button>
@@ -1767,9 +2082,6 @@
             
             // Preparar imagens para o carrossel
             imagensCarrossel = [moto.imagem];
-            if (moto.imagensAdicionais) {
-                imagensCarrossel = imagensCarrossel.concat(moto.imagensAdicionais);
-            }
             indiceImagemAtual = 0;
             
             modalBody.innerHTML = `
@@ -1865,41 +2177,6 @@
                     indicator.classList.remove('active');
                 }
             });
-        }
-
-        // ========== FUNÇÕES DE ADMINISTRAÇÃO ==========
-        function adicionarMoto() {
-            if (usuarioAtual.tipo !== 'admin' && usuarioAtual.tipo !== 'dev') {
-                alert('Apenas administradores podem adicionar motos.');
-                return;
-            }
-            
-            // Implementar lógica para adicionar nova moto
-            alert('Funcionalidade de adicionar moto será implementada aqui.');
-        }
-
-        function editarMoto(id) {
-            if (usuarioAtual.tipo !== 'admin' && usuarioAtual.tipo !== 'dev') {
-                alert('Apenas administradores podem editar motos.');
-                return;
-            }
-            
-            // Implementar lógica para editar moto
-            alert(`Funcionalidade de editar moto ${id} será implementada aqui.`);
-        }
-
-        function excluirMoto(id) {
-            if (usuarioAtual.tipo !== 'admin' && usuarioAtual.tipo !== 'dev') {
-                alert('Apenas administradores podem excluir motos.');
-                return;
-            }
-            
-            if (confirm('Tem certeza que deseja excluir esta moto?')) {
-                motos = motos.filter(m => m.id !== id);
-                renderizarMotos();
-                salvarMotosNoFirebase();
-                mostrarStatus('Moto excluída com sucesso!', 'success');
-            }
         }
 
         // ========== FUNÇÕES UTILITÁRIAS ==========
