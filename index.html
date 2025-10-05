@@ -30,6 +30,7 @@
             --verde: #28a745;
             --azul: #2196F3;
             --laranja: #ff9800;
+            --roxo: #9c27b0;
         }
 
         html {
@@ -366,7 +367,7 @@
             background-color: var(--vermelho);
         }
 
-        /* ========== BOTÕES ADMIN ========== */
+        /* ========== BOTÕES ADMIN/DEV ========== */
         .btn-excluir {
             position: absolute;
             top: 10px;
@@ -399,9 +400,68 @@
             z-index: 10;
         }
 
+        .btn-editar-conteudo {
+            position: absolute;
+            top: 10px;
+            right: 80px;
+            background: var(--roxo);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 12px;
+            display: none;
+            z-index: 10;
+        }
+
         .vehicle-card:hover .btn-excluir,
-        .vehicle-card:hover .btn-editar {
+        .vehicle-card:hover .btn-editar,
+        .vehicle-card:hover .btn-editar-conteudo {
             display: block;
+        }
+
+        /* ========== ELEMENTOS EDITÁVEIS ========== */
+        .editable {
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .editable:hover {
+            background-color: rgba(255, 255, 0, 0.1);
+            outline: 2px dashed var(--laranja);
+        }
+
+        .editable-dev {
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .editable-dev:hover {
+            background-color: rgba(255, 165, 0, 0.1);
+            outline: 2px dashed var(--roxo);
+        }
+
+        .edit-indicator {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--laranja);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .editable:hover .edit-indicator {
+            opacity: 1;
         }
 
         /* ========== MODAL DETALHES ========== */
@@ -1107,6 +1167,136 @@
             gap: 10px;
         }
 
+        /* ========== PAINEL DESENVOLVEDOR ========== */
+        .dev-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 5000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .dev-content {
+            background: #222;
+            max-width: 1000px;
+            margin: 50px auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        }
+
+        .dev-header {
+            background: var(--roxo);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dev-header h2 {
+            color: white;
+            margin: 0;
+        }
+
+        .dev-body {
+            padding: 30px;
+            color: white;
+        }
+
+        .dev-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #444;
+        }
+
+        .dev-tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .dev-tab.active {
+            color: var(--roxo);
+            border-bottom-color: var(--roxo);
+        }
+
+        .dev-section {
+            display: none;
+        }
+
+        .dev-section.active {
+            display: block;
+        }
+
+        .content-list {
+            margin-top: 20px;
+        }
+
+        .content-item {
+            background: #333;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .content-item:hover {
+            background: #444;
+        }
+
+        .content-item h4 {
+            margin-bottom: 5px;
+            color: var(--roxo);
+        }
+
+        .content-item p {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .edit-content-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 6000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .edit-content-form {
+            background: #333;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .edit-content-form h3 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .textarea-large {
+            min-height: 150px;
+            resize: vertical;
+        }
+
         /* ========== UPLOAD DE MÍDIAS ========== */
         .upload-section {
             border: 1px solid #555;
@@ -1217,6 +1407,11 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.4);
         }
 
+        .float-btn.dev {
+            background: var(--roxo);
+            bottom: 100px;
+        }
+
         /* ========== STATUS MENSAGENS ========== */
         .status-message {
             margin-top: 15px;
@@ -1312,6 +1507,11 @@
 
             .carousel {
                 height: 300px;
+            }
+
+            .float-btn.dev {
+                bottom: 80px;
+                right: 30px;
             }
         }
     
@@ -1473,15 +1673,15 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>Encontre a Moto dos Seus Sonhos</h1>
-        <p>As melhores motos seminovas com garantia e procedência. Financiamento facilitado e entrega em todo o Brasil.</p>
+        <h1 class="editable-dev" data-id="hero-title">Encontre a Moto dos Seus Sonhos</h1>
+        <p class="editable-dev" data-id="hero-subtitle">As melhores motos seminovas com garantia e procedência. Financiamento facilitado e entrega em todo o Brasil.</p>
         <a href="#vehicles" class="cta-button">Ver Veículos</a>
     </section>
 
     <!-- Vehicles Section -->
     <section class="section vehicles" id="vehicles">
         <div class="section-title">
-            <h2>Nossos Veículos</h2>
+            <h2 class="editable-dev" data-id="vehicles-title">Nossos Veículos</h2>
         </div>
         <div class="filter-container">
             <button class="filter-btn active" data-filter="all">Todos</button>
@@ -1497,17 +1697,17 @@
     <!-- About Section -->
     <section class="section about" id="about">
         <div class="section-title">
-            <h2>Sobre a Loja</h2>
+            <h2 class="editable-dev" data-id="about-title">Sobre a Loja</h2>
         </div>
         <div class="about-content">
             <div class="about-text">
-                <h3>Mais de 10 anos no mercado</h3>
-                <p>A Maiso Veículos é referência no mercado de motos seminovas, oferecendo produtos de qualidade com procedência garantida.</p>
-                <p>Nossa missão é proporcionar a melhor experiência de compra, com transparência, segurança e atendimento personalizado.</p>
-                <p>Trabalhamos com as melhores marcas do mercado e oferecemos garantia em todos os nossos veículos.</p>
+                <h3 class="editable-dev" data-id="about-subtitle">Mais de 10 anos no mercado</h3>
+                <p class="editable-dev" data-id="about-text1">A Maiso Veículos é referência no mercado de motos seminovas, oferecendo produtos de qualidade com procedência garantida.</p>
+                <p class="editable-dev" data-id="about-text2">Nossa missão é proporcionar a melhor experiência de compra, com transparência, segurança e atendimento personalizado.</p>
+                <p class="editable-dev" data-id="about-text3">Trabalhamos com as melhores marcas do mercado e oferecemos garantia em todos os nossos veículos.</p>
             </div>
             <div class="about-image">
-                <img src="loja.jpg" alt="Loja Maiso Veículos">
+                <img src="loja.jpg" alt="Loja Maiso Veículos" class="editable-dev" data-id="about-image">
             </div>
         </div>
     </section>
@@ -1515,31 +1715,31 @@
     <!-- Team Section -->
     <section class="section team" id="team">
         <div class="section-title">
-            <h2>Nossa Equipe</h2>
+            <h2 class="editable-dev" data-id="team-title">Nossa Equipe</h2>
         </div>
         <div class="team-grid">
             <div class="team-member">
-                <img src="vendedor1.jpg" alt="Vendedor" class="member-img">
+                <img src="vendedor1.jpg" alt="Vendedor" class="member-img editable-dev" data-id="team-member1-img">
                 <div class="member-info">
-                    <h3 class="member-name">João Silva</h3>
-                    <p class="member-role">Vendedor</p>
-                    <p class="member-desc">Especialista em motos esportivas e custom, com mais de 8 anos de experiência.</p>
+                    <h3 class="member-name editable-dev" data-id="team-member1-name">João Silva</h3>
+                    <p class="member-role editable-dev" data-id="team-member1-role">Vendedor</p>
+                    <p class="member-desc editable-dev" data-id="team-member1-desc">Especialista em motos esportivas e custom, com mais de 8 anos de experiência.</p>
                 </div>
             </div>
             <div class="team-member">
-                <img src="vendedor2.jpg" alt="Vendedor" class="member-img">
+                <img src="vendedor2.jpg" alt="Vendedor" class="member-img editable-dev" data-id="team-member2-img">
                 <div class="member-info">
-                    <h3 class="member-name">Maria Santos</h3>
-                    <p class="member-role">Vendedora</p>
-                    <p class="member-desc">Especialista em scooters e motos urbanas, sempre pronta para ajudar.</p>
+                    <h3 class="member-name editable-dev" data-id="team-member2-name">Maria Santos</h3>
+                    <p class="member-role editable-dev" data-id="team-member2-role">Vendedora</p>
+                    <p class="member-desc editable-dev" data-id="team-member2-desc">Especialista em scooters e motos urbanas, sempre pronta para ajudar.</p>
                 </div>
             </div>
             <div class="team-member">
-                <img src="gerente.jpg" alt="Gerente" class="member-img">
+                <img src="gerente.jpg" alt="Gerente" class="member-img editable-dev" data-id="team-member3-img">
                 <div class="member-info">
-                    <h3 class="member-name">Carlos Oliveira</h3>
-                    <p class="member-role">Gerente</p>
-                    <p class="member-desc">Com mais de 15 anos no mercado, garante a melhor experiência para nossos clientes.</p>
+                    <h3 class="member-name editable-dev" data-id="team-member3-name">Carlos Oliveira</h3>
+                    <p class="member-role editable-dev" data-id="team-member3-role">Gerente</p>
+                    <p class="member-desc editable-dev" data-id="team-member3-desc">Com mais de 15 anos no mercado, garante a melhor experiência para nossos clientes.</p>
                 </div>
             </div>
         </div>
@@ -1548,16 +1748,16 @@
     <!-- Location Section -->
     <section class="section location" id="location">
         <div class="section-title">
-            <h2>Localização</h2>
+            <h2 class="editable-dev" data-id="location-title">Localização</h2>
         </div>
         <div class="location-container">
             <div class="location-info">
-                <h3>Venha nos Visitar</h3>
-                <p><i class="fas fa-map-marker-alt"></i> Rua das Motos, 123 - Centro, São Paulo - SP</p>
-                <p><i class="fas fa-phone"></i> (11) 9999-9999</p>
-                <p><i class="fas fa-envelope"></i> contato@maisoveiculos.com.br</p>
-                <p><i class="fas fa-clock"></i> Segunda a Sexta: 9h às 18h | Sábado: 9h às 13h</p>
-                <p><i class="fas fa-whatsapp"></i> WhatsApp: (11) 99999-9999</p>
+                <h3 class="editable-dev" data-id="location-subtitle">Venha nos Visitar</h3>
+                <p class="editable-dev" data-id="location-address"><i class="fas fa-map-marker-alt"></i> Rua das Motos, 123 - Centro, São Paulo - SP</p>
+                <p class="editable-dev" data-id="location-phone"><i class="fas fa-phone"></i> (11) 9999-9999</p>
+                <p class="editable-dev" data-id="location-email"><i class="fas fa-envelope"></i> contato@maisoveiculos.com.br</p>
+                <p class="editable-dev" data-id="location-hours"><i class="fas fa-clock"></i> Segunda a Sexta: 9h às 18h | Sábado: 9h às 13h</p>
+                <p class="editable-dev" data-id="location-whatsapp"><i class="fas fa-whatsapp"></i> WhatsApp: (11) 99999-9999</p>
             </div>
             <div class="map-container">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.098114020905!2d-46.65412658440709!3d-23.565267467476655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1647543862866!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
@@ -1569,13 +1769,13 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-column">
-                <h3>Maiso Veículos</h3>
-                <p>Há mais de 10 anos no mercado, oferecendo as melhores motos seminovas com garantia e procedência.</p>
+                <h3 class="editable-dev" data-id="footer-title">Maiso Veículos</h3>
+                <p class="editable-dev" data-id="footer-desc">Há mais de 10 anos no mercado, oferecendo as melhores motos seminovas com garantia e procedência.</p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="editable-dev" data-id="facebook-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="editable-dev" data-id="instagram-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="editable-dev" data-id="whatsapp-link"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="editable-dev" data-id="youtube-link"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
             <div class="footer-column">
@@ -1598,7 +1798,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2023 Maiso Veículos. Todos os direitos reservados.</p>
+            <p class="editable-dev" data-id="footer-copyright">&copy; 2023 Maiso Veículos. Todos os direitos reservados.</p>
         </div>
     </footer>
 
@@ -1742,9 +1942,104 @@
         </div>
     </div>
 
-    <!-- Floating Button -->
+    <!-- Developer Panel -->
+    <div class="dev-panel" id="devPanel">
+        <div class="dev-content">
+            <div class="dev-header">
+                <h2>Painel do Desenvolvedor</h2>
+                <button class="btn-close" id="closeDevPanel">&times;</button>
+            </div>
+            <div class="dev-body">
+                <div class="dev-tabs">
+                    <button class="dev-tab active" data-tab="textos">Textos do Site</button>
+                    <button class="dev-tab" data-tab="imagens">Imagens</button>
+                    <button class="dev-tab" data-tab="links">Links</button>
+                    <button class="dev-tab" data-tab="conteudo">Conteúdo Dinâmico</button>
+                </div>
+                
+                <div class="dev-section active" id="textos-section">
+                    <h3>Editar Textos do Site</h3>
+                    <p>Clique em qualquer elemento de texto no site para editá-lo. As alterações serão salvas automaticamente no Firebase.</p>
+                    
+                    <div class="content-list" id="textosList">
+                        <!-- Lista de textos será gerada dinamicamente -->
+                    </div>
+                </div>
+                
+                <div class="dev-section" id="imagens-section">
+                    <h3>Gerenciar Imagens</h3>
+                    <p>Faça upload de novas imagens ou substitua as existentes.</p>
+                    
+                    <div class="upload-section">
+                        <h4>Upload de Nova Imagem</h4>
+                        <div class="upload-area" id="imageUploadArea">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
+                            <p>Arraste imagens aqui ou clique para selecionar</p>
+                        </div>
+                        <input type="file" class="file-input" id="imageFileInput" accept="image/*">
+                        <div class="form-group">
+                            <label for="imageId">ID da Imagem (onde será usada):</label>
+                            <input type="text" class="form-control" id="imageId" placeholder="Ex: hero-background, about-image">
+                        </div>
+                        <button class="btn btn-primary" id="uploadImageBtn">Upload da Imagem</button>
+                    </div>
+                    
+                    <div class="content-list" id="imagensList">
+                        <h4>Imagens do Site</h4>
+                        <!-- Lista de imagens será gerada dinamicamente -->
+                    </div>
+                </div>
+                
+                <div class="dev-section" id="links-section">
+                    <h3>Gerenciar Links</h3>
+                    <p>Configure os links das redes sociais e outros links do site.</p>
+                    
+                    <div class="content-list" id="linksList">
+                        <!-- Lista de links será gerada dinamicamente -->
+                    </div>
+                </div>
+                
+                <div class="dev-section" id="conteudo-section">
+                    <h3>Conteúdo Dinâmico</h3>
+                    <p>Gerencie seções dinâmicas do site.</p>
+                    
+                    <div class="content-list">
+                        <div class="content-item" onclick="manageTeamMembers()">
+                            <h4>Membros da Equipe</h4>
+                            <p>Gerencie os membros da equipe exibidos no site</p>
+                        </div>
+                        <div class="content-item" onclick="manageSocialLinks()">
+                            <h4>Links Sociais</h4>
+                            <p>Configure os links para redes sociais</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Content Modal -->
+    <div class="edit-content-modal" id="editContentModal">
+        <div class="edit-content-form">
+            <h3 id="editModalTitle">Editar Conteúdo</h3>
+            <div class="form-group">
+                <label for="editContent">Conteúdo:</label>
+                <textarea class="form-control textarea-large" id="editContent"></textarea>
+            </div>
+            <div class="admin-actions">
+                <button class="btn btn-success" id="saveContentBtn">Salvar</button>
+                <button class="btn btn-secondary" id="cancelEditBtn">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Buttons -->
     <button class="float-btn" id="floatBtn" style="display: none;">
         <i class="fas fa-tools"></i>
+    </button>
+    
+    <button class="float-btn dev" id="devFloatBtn" style="display: none;">
+        <i class="fas fa-code"></i>
     </button>
 
     <!-- Firebase Configuration -->
@@ -1775,9 +2070,11 @@
         };
         
         let vehicles = [];
+        let siteContent = {};
         let currentVehicleIndex = 0;
         let currentMediaIndex = 0;
         let selectedFiles = [];
+        let currentEditingElement = null;
 
         // ========== ELEMENTOS DOM ==========
         const userInfo = document.getElementById('userInfo');
@@ -1789,7 +2086,9 @@
         const devIndicator = document.getElementById('devIndicator');
         const loginModal = document.getElementById('loginModal');
         const adminPanel = document.getElementById('adminPanel');
+        const devPanel = document.getElementById('devPanel');
         const floatBtn = document.getElementById('floatBtn');
+        const devFloatBtn = document.getElementById('devFloatBtn');
         const vehiclesGrid = document.getElementById('vehiclesGrid');
         const vehicleModal = document.getElementById('vehicleModal');
         const closeModal = document.getElementById('closeModal');
@@ -1805,6 +2104,7 @@
         const addVehicleForm = document.getElementById('addVehicleForm');
         const motoList = document.getElementById('motoList');
         const closeAdminPanel = document.getElementById('closeAdminPanel');
+        const closeDevPanel = document.getElementById('closeDevPanel');
         const formStatus = document.getElementById('formStatus');
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
@@ -1819,11 +2119,19 @@
         const drawerUserName = document.getElementById('drawerUserName');
         const drawerUserType = document.getElementById('drawerUserType');
         const drawerDevType = document.getElementById('drawerDevType');
+        const editContentModal = document.getElementById('editContentModal');
+        const editContent = document.getElementById('editContent');
+        const saveContentBtn = document.getElementById('saveContentBtn');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const editModalTitle = document.getElementById('editModalTitle');
 
         // ========== INICIALIZAÇÃO ==========
         document.addEventListener('DOMContentLoaded', function() {
             // Carregar veículos do Firebase
             loadVehicles();
+            
+            // Carregar conteúdo do site
+            loadSiteContent();
             
             // Configurar eventos
             setupEventListeners();
@@ -1859,15 +2167,26 @@
                 if (e.target === adminPanel) closeAdminPanelFunc();
             });
             
+            devPanel.addEventListener('click', function(e) {
+                if (e.target === devPanel) closeDevPanelFunc();
+            });
+            
             vehicleModal.addEventListener('click', function(e) {
                 if (e.target === vehicleModal) closeVehicleModal();
             });
             
+            editContentModal.addEventListener('click', function(e) {
+                if (e.target === editContentModal) closeEditModal();
+            });
+            
             closeModal.addEventListener('click', closeVehicleModal);
             closeAdminPanel.addEventListener('click', closeAdminPanelFunc);
+            closeDevPanel.addEventListener('click', closeDevPanelFunc);
+            cancelEditBtn.addEventListener('click', closeEditModal);
             
-            // Botão flutuante
+            // Botões flutuantes
             floatBtn.addEventListener('click', openAdminPanel);
+            devFloatBtn.addEventListener('click', openDevPanel);
             
             // Filtros de veículos
             filterBtns.forEach(btn => {
@@ -1895,6 +2214,22 @@
             // Menu hamburguer
             menuToggle.addEventListener('click', toggleDrawer);
             overlay.addEventListener('click', closeDrawer);
+            
+            // Painel desenvolvedor
+            document.querySelectorAll('.dev-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    switchDevTab(this.dataset.tab);
+                });
+            });
+            
+            // Edição de conteúdo
+            saveContentBtn.addEventListener('click', saveContent);
+            
+            // Upload de imagens
+            document.getElementById('uploadImageBtn').addEventListener('click', uploadSiteImage);
+            
+            // Elementos editáveis (apenas para desenvolvedor)
+            setupEditableElements();
         }
 
         // ========== SISTEMA DE USUÁRIOS ==========
@@ -1981,8 +2316,9 @@
             adminIndicator.style.display = currentUser.type === 'admin' ? 'block' : 'none';
             devIndicator.style.display = currentUser.type === 'dev' ? 'block' : 'none';
             
-            // Mostrar botão flutuante para admin/dev
+            // Mostrar botões flutuantes
             floatBtn.style.display = (currentUser.type === 'admin' || currentUser.type === 'dev') ? 'block' : 'none';
+            devFloatBtn.style.display = currentUser.type === 'dev' ? 'block' : 'none';
             
             // Atualizar texto do botão de login
             loginBtn.textContent = currentUser.type === 'guest' ? 'Entrar' : 'Sair';
@@ -1991,6 +2327,9 @@
             // Atualizar drawer
             drawerLoginBtn.style.display = currentUser.type === 'guest' ? 'block' : 'none';
             drawerLogoutBtn.style.display = currentUser.type === 'guest' ? 'none' : 'block';
+            
+            // Atualizar elementos editáveis
+            updateEditableElements();
         }
 
         function logout() {
@@ -2035,7 +2374,7 @@
                 vehicleCard.className = `vehicle-card ${vehicle.type}`;
                 vehicleCard.dataset.index = index;
                 
-                // Botões de admin (apenas para admin/dev)
+                // Botões de admin/dev
                 const adminButtons = (currentUser.type === 'admin' || currentUser.type === 'dev') ? `
                     <button class="btn-excluir" onclick="deleteVehicle('${vehicle.id}', event)"><i class="fas fa-trash"></i></button>
                     <button class="btn-editar" onclick="editVehicle('${vehicle.id}', event)"><i class="fas fa-edit"></i></button>
@@ -2516,6 +2855,213 @@
             mediaCounter.textContent = `${selectedFiles.length} mídia(s) selecionada(s)`;
         }
 
+        // ========== SISTEMA DE CONTEÚDO DO SITE ==========
+        function loadSiteContent() {
+            const contentRef = database.ref('siteContent');
+            
+            contentRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                siteContent = data || {};
+                
+                // Aplicar conteúdo carregado
+                applySiteContent();
+                
+                // Atualizar lista de textos no painel dev
+                updateTextosList();
+            });
+        }
+
+        function applySiteContent() {
+            // Aplicar textos aos elementos com data-id
+            document.querySelectorAll('[data-id]').forEach(element => {
+                const id = element.getAttribute('data-id');
+                if (siteContent[id]) {
+                    if (element.tagName === 'IMG') {
+                        element.src = siteContent[id];
+                    } else if (element.tagName === 'A') {
+                        element.href = siteContent[id];
+                    } else {
+                        element.textContent = siteContent[id];
+                    }
+                }
+            });
+        }
+
+        function saveSiteContent(key, value) {
+            const updates = {};
+            updates[key] = value;
+            
+            database.ref('siteContent').update(updates)
+                .then(() => {
+                    console.log('Conteúdo salvo com sucesso:', key);
+                })
+                .catch(error => {
+                    console.error('Erro ao salvar conteúdo:', error);
+                    alert('Erro ao salvar conteúdo: ' + error.message);
+                });
+        }
+
+        // ========== PAINEL DESENVOLVEDOR ==========
+        function openDevPanel() {
+            devPanel.style.display = 'block';
+            updateTextosList();
+        }
+
+        function closeDevPanelFunc() {
+            devPanel.style.display = 'none';
+        }
+
+        function switchDevTab(tab) {
+            // Ativar aba selecionada
+            document.querySelectorAll('.dev-tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.tab === tab);
+            });
+            
+            // Mostrar seção correta
+            document.querySelectorAll('.dev-section').forEach(section => {
+                section.classList.toggle('active', section.id === `${tab}-section`);
+            });
+        }
+
+        function setupEditableElements() {
+            document.querySelectorAll('.editable-dev').forEach(element => {
+                element.addEventListener('click', function(e) {
+                    if (currentUser.type === 'dev') {
+                        e.stopPropagation();
+                        editElement(this);
+                    }
+                });
+            });
+        }
+
+        function updateEditableElements() {
+            document.querySelectorAll('.editable-dev').forEach(element => {
+                if (currentUser.type === 'dev') {
+                    element.style.cursor = 'pointer';
+                    // Adicionar indicador visual
+                    if (!element.querySelector('.edit-indicator')) {
+                        const indicator = document.createElement('span');
+                        indicator.className = 'edit-indicator';
+                        indicator.innerHTML = '<i class="fas fa-edit"></i>';
+                        element.style.position = 'relative';
+                        element.appendChild(indicator);
+                    }
+                } else {
+                    element.style.cursor = 'default';
+                    const indicator = element.querySelector('.edit-indicator');
+                    if (indicator) {
+                        indicator.remove();
+                    }
+                }
+            });
+        }
+
+        function editElement(element) {
+            currentEditingElement = element;
+            const id = element.getAttribute('data-id');
+            let content = '';
+            
+            if (element.tagName === 'IMG') {
+                content = element.src;
+            } else if (element.tagName === 'A') {
+                content = element.href;
+            } else {
+                content = element.textContent;
+            }
+            
+            editModalTitle.textContent = `Editando: ${id}`;
+            editContent.value = content;
+            editContentModal.style.display = 'flex';
+        }
+
+        function saveContent() {
+            if (!currentEditingElement) return;
+            
+            const id = currentEditingElement.getAttribute('data-id');
+            const newContent = editContent.value.trim();
+            
+            if (currentEditingElement.tagName === 'IMG') {
+                currentEditingElement.src = newContent;
+            } else if (currentEditingElement.tagName === 'A') {
+                currentEditingElement.href = newContent;
+            } else {
+                currentEditingElement.textContent = newContent;
+            }
+            
+            // Salvar no Firebase
+            saveSiteContent(id, newContent);
+            
+            closeEditModal();
+        }
+
+        function closeEditModal() {
+            editContentModal.style.display = 'none';
+            currentEditingElement = null;
+        }
+
+        function updateTextosList() {
+            const textosList = document.getElementById('textosList');
+            textosList.innerHTML = '';
+            
+            const textElements = document.querySelectorAll('.editable-dev[data-id]');
+            
+            textElements.forEach(element => {
+                const id = element.getAttribute('data-id');
+                const content = element.textContent || element.src || element.href;
+                const truncatedContent = content.length > 100 ? content.substring(0, 100) + '...' : content;
+                
+                const item = document.createElement('div');
+                item.className = 'content-item';
+                item.innerHTML = `
+                    <h4>${id}</h4>
+                    <p>${truncatedContent}</p>
+                `;
+                item.addEventListener('click', () => editElement(element));
+                
+                textosList.appendChild(item);
+            });
+        }
+
+        function uploadSiteImage() {
+            const fileInput = document.getElementById('imageFileInput');
+            const imageId = document.getElementById('imageId').value.trim();
+            
+            if (!fileInput.files[0]) {
+                alert('Por favor, selecione uma imagem.');
+                return;
+            }
+            
+            if (!imageId) {
+                alert('Por favor, informe o ID da imagem.');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const storageRef = storage.ref(`site-images/${imageId}`);
+            
+            storageRef.put(file)
+                .then(snapshot => {
+                    return snapshot.ref.getDownloadURL();
+                })
+                .then(downloadURL => {
+                    // Salvar URL no Firebase
+                    saveSiteContent(imageId, downloadURL);
+                    
+                    // Atualizar elemento correspondente se existir
+                    const element = document.querySelector(`[data-id="${imageId}"]`);
+                    if (element && element.tagName === 'IMG') {
+                        element.src = downloadURL;
+                    }
+                    
+                    alert('Imagem enviada com sucesso!');
+                    fileInput.value = '';
+                    document.getElementById('imageId').value = '';
+                })
+                .catch(error => {
+                    alert('Erro ao fazer upload da imagem: ' + error.message);
+                });
+        }
+
         // ========== MENU HAMBURGUER ==========
         function toggleDrawer() {
             drawer.classList.toggle('open');
@@ -2547,6 +3093,15 @@
             };
             
             return types[type] || type;
+        }
+
+        // Funções placeholder para gerenciamento de conteúdo
+        function manageTeamMembers() {
+            alert('Funcionalidade de gerenciamento de membros da equipe será implementada aqui.');
+        }
+
+        function manageSocialLinks() {
+            alert('Funcionalidade de gerenciamento de links sociais será implementada aqui.');
         }
     </script>
 </body>
