@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maiso Veículos - Sua Moto dos Sonhos Está Aqui</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    
     <style>
         /* ========== RESET E CONFIGURAÇÕES GERAIS ========== */
         * {
@@ -1254,11 +1259,12 @@
                 <p><i class="fas fa-map-marker-alt"></i> Av. das Motos, 123 - Centro, São Paulo - SP</p>
                 <p><i class="fas fa-phone"></i> (11) 3456-7890</p>
                 <p><i class="fas fa-envelope"></i> contato@maisoveiculos.com.br</p>
-                <p><i class="fas fa-clock"></i> Segunda a Sexta: 9h às 18h | Sábado: 9h às 13h</p>
-                <a href="#contact" class="cta-button">Fale Conosco</a>
+                <p><i class="fas fa-clock"></i> Segunda a Sexta: 8h às 18h | Sábado: 8h às 12h</p>
+                <p><i class="fas fa-wifi"></i> Wi-Fi gratuito para clientes</p>
+                <p><i class="fas fa-parking"></i> Estacionamento gratuito</p>
             </div>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.097417198908!2d-46.6539052246946!3d-23.56316136189403!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1687373723456!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.097241810702!2d-46.65390522477606!3d-23.563561278797438!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1685479123456!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
@@ -1267,13 +1273,13 @@
     <footer class="footer" id="contact">
         <div class="footer-content">
             <div class="footer-column">
-                <h3>MAISO VEÍCULOS</h3>
-                <p>Há 3 anos realizando o sonho de centenas de motociclistas.</p>
+                <h3>Maiso Veículos</h3>
+                <p>Há 3 anos realizando sonhos sobre duas rodas. Qualidade, confiança e preços justos.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
                     <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="https://wa.me/5511999999999" target="_blank"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
             
@@ -1283,7 +1289,7 @@
                     <li><a href="#home">Início</a></li>
                     <li><a href="#vehicles">Veículos</a></li>
                     <li><a href="#about">Sobre Nós</a></li>
-                    <li><a href="#team">Nossa Equipe</a></li>
+                    <li><a href="#team">Equipe</a></li>
                     <li><a href="#location">Localização</a></li>
                 </ul>
             </div>
@@ -1291,1202 +1297,646 @@
             <div class="footer-column">
                 <h3>Serviços</h3>
                 <ul>
-                    <li><a href="#">Venda de Motos Novas</a></li>
-                    <li><a href="#">Venda de Motos Seminovas</a></li>
+                    <li><a href="#">Venda de Motos</a></li>
                     <li><a href="#">Financiamento</a></li>
+                    <li><a href="#">Consórcio</a></li>
                     <li><a href="#">Seguros</a></li>
-                    <li><a href="#">Manutenção</a></li>
+                    <li><a href="#">Peças e Acessórios</a></li>
                 </ul>
             </div>
             
             <div class="footer-column">
                 <h3>Contato</h3>
                 <ul>
-                    <li><i class="fas fa-map-marker-alt"></i> Av. das Motos, 123 - SP</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Av. das Motos, 123 - Centro, SP</li>
                     <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
                     <li><i class="fas fa-envelope"></i> contato@maisoveiculos.com.br</li>
-                    <li><i class="fas fa-clock"></i> Seg-Sex: 9h-18h | Sáb: 9h-13h</li>
+                    <li><i class="fas fa-clock"></i> Seg-Sex: 8h-18h | Sáb: 8h-12h</li>
                 </ul>
             </div>
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2024 Maiso Veículos. Todos os direitos reservados.</p>
+            <p>&copy; 2023 Maiso Veículos. Todos os direitos reservados.</p>
         </div>
     </footer>
 
     <!-- Modal Login -->
-    <div id="login-modal" class="login-modal">
+    <div class="login-modal" id="loginModal">
         <div class="login-content">
             <div class="login-tabs">
-                <button class="login-tab active" onclick="mostrarTab('login')">Entrar</button>
+                <button class="login-tab active" onclick="mudarAba('login')">Login</button>
+                <button class="login-tab" onclick="mudarAba('admin')">Administrador</button>
+                <button class="login-tab" onclick="mudarAba('dev')">Desenvolvedor</button>
             </div>
-
-            <div id="login-form">
-                <h3>🔐 Acesso Desenvolvedor</h3>
-                <input type="text" id="login-username" class="login-input" placeholder="Usuário desenvolvedor">
-                <input type="password" id="login-password" class="login-input" placeholder="Senha">
-                <div id="login-error" class="login-error"></div>
-                <button class="login-btn" onclick="fazerLogin()">Entrar como Desenvolvedor</button>
-                
-                <div class="user-type-info">
-                    <strong>Credenciais de desenvolvedor:</strong><br>
-                    🛠️ Usuário: "dev" | Senha: "dev123"
-                </div>
+            
+            <div id="loginForm">
+                <h3>Login de Visitante</h3>
+                <input type="text" class="login-input" placeholder="Nome" id="userNameInput">
+                <button class="login-btn" onclick="fazerLogin('visitante')">Entrar como Visitante</button>
+            </div>
+            
+            <div id="adminForm" style="display: none;">
+                <h3>Login de Administrador</h3>
+                <input type="password" class="login-input" placeholder="Senha de Administrador" id="adminPassword">
+                <button class="login-btn" onclick="fazerLogin('admin')">Entrar como Administrador</button>
+                <p class="user-type-info">Permite adicionar, editar e excluir veículos</p>
+            </div>
+            
+            <div id="devForm" style="display: none;">
+                <h3>Login de Desenvolvedor</h3>
+                <input type="password" class="login-input" placeholder="Senha de Desenvolvedor" id="devPassword">
+                <button class="login-btn" onclick="fazerLogin('dev')">Entrar como Desenvolvedor</button>
+                <p class="user-type-info">Acesso total ao sistema e configurações</p>
+            </div>
+            
+            <div class="login-error" id="loginError">
+                Senha incorreta. Tente novamente.
             </div>
         </div>
     </div>
 
-    <!-- Painel Desenvolvedor -->
-    <div id="dev-panel" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; color: white; padding: 20px; overflow-y: auto;">
-        <div style="max-width: 900px; margin: 0 auto; background: #333; padding: 20px; border-radius: 10px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="color: var(--laranja);">🛠️ Painel Desenvolvedor</h2>
-                <button onclick="fecharDev()" style="background: var(--laranja); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Fechar</button>
-            </div>
-
-            <!-- Status do Sistema -->
-            <div class="publish-panel">
-                <h3 style="color: var(--laranja);">📡 Sistema de Sincronização</h3>
-                <p><strong>Modo:</strong> <span id="syncMode">Sincronização Instantânea</span></p>
-                <p>Todas as alterações são salvas instantaneamente e aparecem para todos os visitantes!</p>
-                
-                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
-                    <button class="publish-btn" onclick="sincronizarTodosDispositivos()" id="syncBtn">
-                        🔄 Sincronizar Agora
-                    </button>
-                    <button class="publish-btn secondary" onclick="exportarDados()">
-                        📤 Exportar Dados
-                    </button>
-                    <button class="publish-btn" onclick="importarDados()" style="background: #17a2b8;">
-                        📥 Importar Dados
-                    </button>
-                    <button class="publish-btn" onclick="limparTodosDados()" style="background: #dc3545;">
-                        🗑️ Limpar Tudo
-                    </button>
-                </div>
-                
-                <div id="syncStatus" class="status-message status-success">
-                    ✅ Sistema funcionando perfeitamente! Todas as mudanças são instantâneas.
-                </div>
-            </div>
-
-            <!-- Formulário de Gerenciamento de Motos -->
-            <div style="border: 1px solid #555; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
-                <h3 style="color: var(--laranja); margin-bottom: 15px;">🏍️ Gerenciar Motos</h3>
-                
-                <form id="form-moto" style="display: grid; gap: 15px;">
-                    <input type="hidden" id="moto-id">
-                    
-                    <div>
-                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Nome da Moto:</label>
-                        <input type="text" id="moto-nome" placeholder="Ex: Honda CG 160 2024" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #555; background: #222; color: white;">
-                    </div>
-
-                    <div>
-                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Preço:</label>
-                        <input type="text" id="moto-preco" placeholder="Ex: R$ 15.290" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #555; background: #222; color: white;">
-                    </div>
-
-                    <div>
-                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Cilindrada:</label>
-                        <select id="moto-cilindrada" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #555; background: #222; color: white;">
-                            <option value="110">Até 110cc</option>
-                            <option value="150">150cc</option>
-                            <option value="160">160cc</option>
-                            <option value="250">250cc</option>
-                            <option value="500">500cc+</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Descrição:</label>
-                        <textarea id="moto-descricao" placeholder="Descreva a moto..." style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #555; background: #222; color: white; height: 80px;"></textarea>
-                    </div>
-
-                    <!-- Upload de Fotos -->
-                    <div style="border: 1px solid #555; padding: 15px; border-radius: 5px;">
-                        <h4 style="color: var(--laranja); margin-bottom: 15px;">📸 Fotos da Moto (Máx. 6)</h4>
-                        
-                        <div class="upload-area" id="uploadArea" onclick="document.getElementById('foto-input').click()">
-                            <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
-                            <p>Clique para adicionar fotos ou arraste aqui</p>
-                            <small>Formatos: JPG, PNG, GIF • Máx. 6 fotos</small>
-                        </div>
-                        
-                        <input type="file" id="foto-input" class="file-input" multiple accept="image/*" onchange="processarFotos(this.files)">
-                        
-                        <div class="preview-grid" id="previewContainer">
-                            <!-- Preview das fotos será mostrado aqui -->
-                        </div>
-                    </div>
-
-                    <!-- Especificações -->
-                    <div style="border: 1px solid #555; padding: 15px; border-radius: 5px;">
-                        <h4 style="color: var(--laranja); margin-bottom: 15px;">Especificações Técnicas</h4>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                            <div>
-                                <label style="display: block; margin-bottom: 5px;">Potência:</label>
-                                <input type="text" id="moto-potencia" placeholder="Ex: 14,9 hp" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #555; background: #222; color: white;">
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 5px;">Peso:</label>
-                                <input type="text" id="moto-peso" placeholder="Ex: 122 kg" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #555; background: #222; color: white;">
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 5px;">Tanque:</label>
-                                <input type="text" id="moto-tanque" placeholder="Ex: 15,2 litros" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #555; background: #222; color: white;">
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 5px;">Transmissão:</label>
-                                <input type="text" id="moto-transmissao" placeholder="Ex: 5 marchas" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #555; background: #222; color: white;">
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 5px;">Partida:</label>
-                                <input type="text" id="moto-partida" placeholder="Ex: Elétrica e pedal" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #555; background: #222; color: white;">
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 5px;">Freio Dianteiro:</label>
-                                <input type="text" id="moto-freio-dianteiro" placeholder="Ex: Disco" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #555; background: #222; color: white;">
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 5px;">Freio Traseiro:</label>
-                                <input type="text" id="moto-freio-traseiro" placeholder="Ex: Tambor" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #555; background: #222; color: white;">
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 5px;">Ano/Modelo:</label>
-                                <input type="text" id="moto-ano" placeholder="Ex: 2024" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #555; background: #222; color: white;">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 10px;">
-                        <button type="submit" style="background: var(--laranja); color: white; border: none; padding: 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; flex: 1;">
-                            💾 Salvar Moto
-                        </button>
-                        <button type="button" onclick="limparFormulario()" style="background: #666; color: white; border: none; padding: 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px;">
-                            🆕 Nova Moto
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Lista de Motos -->
-            <div style="border: 1px solid #555; padding: 20px; border-radius: 5px;">
-                <h3 style="color: var(--laranja); margin-bottom: 15px;">📋 Motos no Sistema</h3>
-                <div id="lista-motos" style="background: #222; padding: 15px; border-radius: 5px; margin-top: 10px; max-height: 400px; overflow-y: auto;">
-                    <!-- As motos serão listadas aqui -->
-                </div>
-            </div>
+    <!-- Painel de Publicação (Visível apenas para Dev) -->
+    <div class="publish-panel" id="publishPanel" style="display: none;">
+        <h3 style="color: white; text-align: center;">Painel de Desenvolvedor</h3>
+        <div style="text-align: center; margin: 15px 0;">
+            <button class="publish-btn" onclick="sincronizarComFirebase()">
+                <i class="fas fa-sync-alt"></i> Sincronizar com Firebase
+            </button>
+            <button class="publish-btn secondary" onclick="carregarDoFirebase()">
+                <i class="fas fa-download"></i> Carregar do Firebase
+            </button>
+            <button class="publish-btn secondary" onclick="limparDadosLocais()">
+                <i class="fas fa-trash"></i> Limpar Dados Locais
+            </button>
         </div>
+        <div class="status-message" id="statusMessage"></div>
     </div>
 
     <script>
-        // ============================================
-        // SISTEMA DE SINCRONIZAÇÃO INSTANTÂNEA
-        // ============================================
-        const STORAGE_KEY = 'maiso_veiculos_data';
-        let currentUser = null;
-        let motosData = {};
-        let fotosSelecionadas = [];
+        // ========== CONFIGURAÇÃO DO FIREBASE ==========
+        const firebaseConfig = {
+            apiKey: "AIzaSyAe_ZhRjTOwgClsoVJDomSJrF-cmxD9Sp4",
+            authDomain: "maiso-veiculoss.firebaseapp.com",
+            databaseURL: "https://maiso-veiculoss-default-rtdb.firebaseio.com",
+            projectId: "maiso-veiculoss",
+            storageBucket: "maiso-veiculoss.firebasestorage.app",
+            messagingSenderId: "859256877327",
+            appId: "1:859256877327:web:335abeda3d6be76a350e7a"
+        };
 
-        // ============================================
-        // SISTEMA DE SINCRONIZAÇÃO
-        // ============================================
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-        // SALVAR DADOS (INSTANTÂNEO)
-        function salvarDados() {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify({
-                    motos: motosData,
-                    ultimaAtualizacao: new Date().toISOString(),
-                    versao: '1.0'
-                }));
-                
-                // Disparar evento para sincronizar outros dispositivos
-                if (typeof(Storage) !== "undefined") {
-                    localStorage.setItem('maiso_sync_trigger', Date.now().toString());
-                }
-                
-                console.log('💾 Dados salvos instantaneamente!');
-                return true;
-            } catch (error) {
-                console.error('❌ Erro ao salvar dados:', error);
-                return false;
-            }
-        }
+        // ========== VARIÁVEIS GLOBAIS ==========
+        let usuarioAtual = {
+            nome: 'Visitante',
+            tipo: 'visitante'
+        };
 
-        // CARREGAR DADOS
-        function carregarDados() {
-            try {
-                const dadosSalvos = localStorage.getItem(STORAGE_KEY);
-                if (dadosSalvos) {
-                    const dados = JSON.parse(dadosSalvos);
-                    motosData = dados.motos || {};
-                    console.log('📂 Dados carregados:', Object.keys(motosData).length, 'motos');
-                    return true;
-                }
-            } catch (error) {
-                console.error('❌ Erro ao carregar dados:', error);
-            }
-            
-            motosData = {};
-            return false;
-        }
+        let motos = [];
+        let motosEditando = null;
+        let imagensCarrossel = [];
+        let indiceImagemAtual = 0;
 
-        // SINCRONIZAR TODOS OS DISPOSITIVOS
-        function sincronizarTodosDispositivos() {
-            const statusDiv = document.getElementById('syncStatus');
-            statusDiv.className = 'status-message status-warning';
-            statusDiv.innerHTML = '🔄 Sincronizando todos os dispositivos...';
-            statusDiv.style.display = 'block';
-
-            setTimeout(() => {
-                carregarDados();
-                carregarMotosNaPagina();
-                if (currentUser && currentUser.role === 'dev') {
-                    carregarListaMotos();
-                }
-                
-                statusDiv.className = 'status-message status-success';
-                statusDiv.innerHTML = '✅ Todos os dispositivos sincronizados!';
-                mostrarMensagem('✅ Sincronização concluída!', 'success');
-            }, 1000);
-        }
-
-        // EXPORTAR DADOS
-        function exportarDados() {
-            const dados = {
-                motos: motosData,
-                exportadoEm: new Date().toISOString(),
-                totalMotos: Object.keys(motosData).length
-            };
-            
-            const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `maiso-veiculos-backup-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            mostrarMensagem('📤 Backup exportado com sucesso!', 'success');
-        }
-
-        // IMPORTAR DADOS
-        function importarDados() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            input.onchange = (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        try {
-                            const dados = JSON.parse(event.target.result);
-                            if (dados.motos) {
-                                motosData = dados.motos;
-                                salvarDados();
-                                carregarMotosNaPagina();
-                                if (currentUser && currentUser.role === 'dev') {
-                                    carregarListaMotos();
-                                }
-                                mostrarMensagem('📥 Dados importados com sucesso!', 'success');
-                            } else {
-                                throw new Error('Formato de arquivo inválido');
-                            }
-                        } catch (error) {
-                            mostrarMensagem('❌ Erro ao importar dados: ' + error.message, 'error');
-                        }
-                    };
-                    reader.readAsText(file);
-                }
-            };
-            input.click();
-        }
-
-        // LIMPAR TODOS OS DADOS
-        function limparTodosDados() {
-            if (confirm('🚨 TEM CERTEZA que deseja limpar TODOS os dados? Esta ação não pode ser desfeita!')) {
-                motosData = {};
-                localStorage.removeItem(STORAGE_KEY);
-                carregarMotosNaPagina();
-                if (currentUser && currentUser.role === 'dev') {
-                    carregarListaMotos();
-                }
-                mostrarMensagem('🗑️ Todos os dados foram limpos!', 'success');
-            }
-        }
-
-        // OUVINTE DE SINCRONIZAÇÃO
-        function configurarSincronizacao() {
-            window.addEventListener('storage', function(e) {
-                if (e.key === 'maiso_sync_trigger') {
-                    console.log('🔄 Recebida solicitação de sincronização');
-                    carregarDados();
-                    carregarMotosNaPagina();
-                    if (currentUser && currentUser.role === 'dev') {
-                        carregarListaMotos();
-                    }
-                    mostrarMensagem('🔄 Dados atualizados automaticamente!', 'success');
-                }
-            });
-
-            // Sincronização automática a cada 30 segundos
-            setInterval(() => {
-                carregarDados();
-                carregarMotosNaPagina();
-            }, 30000);
-        }
-
-        // ============================================
-        // SISTEMA DE UPLOAD DE FOTOS (ImgBB)
-        // ============================================
-
-        async function uploadFoto(file) {
-            const formData = new FormData();
-            formData.append('image', file);
-
-            try {
-                const response = await fetch(`https://api.imgbb.com/1/upload?key=278fd1063d941d72decaedb073eea80e`, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    return data.data.url;
-                }
-            } catch (error) {
-                console.error('Erro no upload:', error);
-            }
-
-            // Fallback: URL local
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = (e) => resolve(e.target.result);
-                reader.readAsDataURL(file);
-            });
-        }
-
-        function processarFotos(arquivos) {
-            const previewContainer = document.getElementById('previewContainer');
-            const uploadArea = document.getElementById('uploadArea');
-            
-            if (fotosSelecionadas.length + arquivos.length > 6) {
-                mostrarMensagem('❌ Máximo de 6 fotos permitidas!', 'error');
-                return;
-            }
-
-            for (let i = 0; i < arquivos.length; i++) {
-                const arquivo = arquivos[i];
-                
-                if (!arquivo.type.startsWith('image/')) {
-                    mostrarMensagem('❌ Apenas arquivos de imagem são permitidos!', 'error');
-                    continue;
-                }
-
-                fotosSelecionadas.push(arquivo);
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const previewItem = document.createElement('div');
-                    previewItem.className = 'preview-item';
-                    previewItem.innerHTML = `
-                        <img src="${e.target.result}" alt="Preview">
-                        <button type="button" class="remove-btn" onclick="removerFoto(${fotosSelecionadas.length - 1})">×</button>
-                    `;
-                    previewContainer.appendChild(previewItem);
-                };
-                reader.readAsDataURL(arquivo);
-            }
-
-            uploadArea.innerHTML = `
-                <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
-                <p>${fotosSelecionadas.length}/6 fotos selecionadas</p>
-                <small>Clique para adicionar mais fotos</small>
-            `;
-
-            document.getElementById('foto-input').value = '';
-        }
-
-        function removerFoto(index) {
-            fotosSelecionadas.splice(index, 1);
-            atualizarPreviews();
-        }
-
-        function atualizarPreviews() {
-            const previewContainer = document.getElementById('previewContainer');
-            const uploadArea = document.getElementById('uploadArea');
-            
-            previewContainer.innerHTML = '';
-            
-            fotosSelecionadas.forEach((foto, index) => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const previewItem = document.createElement('div');
-                    previewItem.className = 'preview-item';
-                    previewItem.innerHTML = `
-                        <img src="${e.target.result}" alt="Preview">
-                        <button type="button" class="remove-btn" onclick="removerFoto(${index})">×</button>
-                    `;
-                    previewContainer.appendChild(previewItem);
-                };
-                reader.readAsDataURL(foto);
-            });
-
-            if (fotosSelecionadas.length === 0) {
-                uploadArea.innerHTML = `
-                    <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
-                    <p>Clique para adicionar fotos ou arraste aqui</p>
-                    <small>Formatos: JPG, PNG, GIF • Máx. 6 fotos</small>
-                `;
-            } else {
-                uploadArea.innerHTML = `
-                    <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
-                    <p>${fotosSelecionadas.length}/6 fotos selecionadas</p>
-                    <small>Clique para adicionar mais fotos</small>
-                `;
-            }
-        }
-
-        // Drag and drop para fotos
+        // ========== FUNÇÕES DE INICIALIZAÇÃO ==========
         document.addEventListener('DOMContentLoaded', function() {
-            const uploadArea = document.getElementById('uploadArea');
-            
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, preventDefaults, false);
+            // Verificar se há dados salvos localmente
+            const usuarioSalvo = localStorage.getItem('usuarioMaiso');
+            if (usuarioSalvo) {
+                usuarioAtual = JSON.parse(usuarioSalvo);
+                atualizarInterfaceUsuario();
+            }
+
+            // Carregar motos do Firebase
+            carregarMotosDoFirebase();
+
+            // Configurar filtros
+            configurarFiltros();
+
+            // Configurar modal
+            configurarModal();
+
+            // Configurar eventos de login
+            document.getElementById('loginModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    fecharLogin();
+                }
             });
 
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
-            ['dragenter', 'dragover'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, highlight, false);
+            // Configurar eventos de teclado
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    fecharModal();
+                    fecharLogin();
+                }
             });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, unhighlight, false);
-            });
-
-            function highlight() {
-                uploadArea.classList.add('highlight');
-            }
-
-            function unhighlight() {
-                uploadArea.classList.remove('highlight');
-            }
-
-            uploadArea.addEventListener('drop', handleDrop, false);
-
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                processarFotos(files);
-            }
         });
 
-        // ============================================
-        // SISTEMA DE AUTENTICAÇÃO
-        // ============================================
+        // ========== FUNÇÕES DO FIREBASE ==========
+        function carregarMotosDoFirebase() {
+            mostrarStatus('Carregando dados do Firebase...', 'warning');
+            
+            database.ref('motos').once('value')
+                .then((snapshot) => {
+                    const dados = snapshot.val();
+                    
+                    if (dados) {
+                        // Converter objeto em array
+                        motos = Object.values(dados);
+                        mostrarStatus('Dados carregados do Firebase com sucesso!', 'success');
+                    } else {
+                        // Se não houver dados no Firebase, carregar do localStorage
+                        carregarMotosDoLocalStorage();
+                        mostrarStatus('Nenhum dado encontrado no Firebase. Carregando dados locais.', 'warning');
+                    }
+                    
+                    renderizarMotos();
+                })
+                .catch((error) => {
+                    console.error('Erro ao carregar do Firebase:', error);
+                    carregarMotosDoLocalStorage();
+                    mostrarStatus('Erro ao carregar do Firebase. Usando dados locais.', 'error');
+                });
+        }
 
-        const SENHA_DEV = "dev123";
+        function salvarMotosNoFirebase() {
+            mostrarStatus('Salvando no Firebase...', 'warning');
+            
+            // Converter array para objeto
+            const motosObj = {};
+            motos.forEach((moto, index) => {
+                motosObj[index] = moto;
+            });
+            
+            database.ref('motos').set(motosObj)
+                .then(() => {
+                    mostrarStatus('Dados salvos no Firebase com sucesso!', 'success');
+                    // Também salvar localmente como backup
+                    salvarMotosNoLocalStorage();
+                })
+                .catch((error) => {
+                    console.error('Erro ao salvar no Firebase:', error);
+                    mostrarStatus('Erro ao salvar no Firebase. Salvando localmente.', 'error');
+                    // Salvar localmente em caso de erro
+                    salvarMotosNoLocalStorage();
+                });
+        }
 
+        // ========== FUNÇÕES DE LOCAL STORAGE ==========
+        function carregarMotosDoLocalStorage() {
+            const motosSalvas = localStorage.getItem('motosMaiso');
+            if (motosSalvas) {
+                motos = JSON.parse(motosSalvas);
+            } else {
+                // Dados iniciais se não houver nada salvo
+                motos = [
+                    {
+                        id: 1,
+                        nome: "Honda CG 160 Start",
+                        preco: "R$ 12.990",
+                        categoria: "160",
+                        imagem: "moto1.png",
+                        descricao: "A Honda CG 160 Start é uma motocicleta versátil e econômica, perfeita para o dia a dia.",
+                        especificacoes: {
+                            "Cilindrada": "160cc",
+                            "Potência": "14,9 cv",
+                            "Tanque": "15,1 litros",
+                            "Consumo": "40 km/l",
+                            "Cor": "Vermelha"
+                        }
+                    },
+                    {
+                        id: 2,
+                        nome: "Yamaha Factor 150",
+                        preco: "R$ 10.490",
+                        categoria: "150",
+                        imagem: "moto2.png",
+                        descricao: "A Yamaha Factor 150 é conhecida pela sua confiabilidade e baixo custo de manutenção.",
+                        especificacoes: {
+                            "Cilindrada": "150cc",
+                            "Potência": "12,3 cv",
+                            "Tanque": "13 litros",
+                            "Consumo": "45 km/l",
+                            "Cor": "Azul"
+                        }
+                    },
+                    {
+                        id: 3,
+                        nome: "Honda Biz 110",
+                        preco: "R$ 8.990",
+                        categoria: "110",
+                        imagem: "moto3.png",
+                        descricao: "A Honda Biz 110 é a escolha perfeita para quem busca economia e praticidade na cidade.",
+                        especificacoes: {
+                            "Cilindrada": "110cc",
+                            "Potência": "8,2 cv",
+                            "Tanque": "4,4 litros",
+                            "Consumo": "50 km/l",
+                            "Cor": "Prata"
+                        }
+                    }
+                ];
+            }
+        }
+
+        function salvarMotosNoLocalStorage() {
+            localStorage.setItem('motosMaiso', JSON.stringify(motos));
+        }
+
+        function limparDadosLocais() {
+            localStorage.removeItem('motosMaiso');
+            localStorage.removeItem('usuarioMaiso');
+            mostrarStatus('Dados locais limpos com sucesso!', 'success');
+            location.reload();
+        }
+
+        // ========== FUNÇÕES DE SINCRONIZAÇÃO ==========
+        function sincronizarComFirebase() {
+            if (usuarioAtual.tipo !== 'dev') {
+                mostrarStatus('Apenas desenvolvedores podem sincronizar com o Firebase.', 'error');
+                return;
+            }
+            
+            salvarMotosNoFirebase();
+        }
+
+        // ========== FUNÇÕES DE USUÁRIO ==========
         function mostrarLogin() {
-            document.getElementById('login-modal').style.display = 'flex';
-            document.getElementById('login-username').focus();
+            document.getElementById('loginModal').style.display = 'flex';
         }
 
         function fecharLogin() {
-            document.getElementById('login-modal').style.display = 'none';
-            document.getElementById('login-username').value = '';
-            document.getElementById('login-password').value = '';
-            document.getElementById('login-error').style.display = 'none';
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('loginError').style.display = 'none';
         }
 
-        function mostrarTab(tabName) {
-            // Apenas login para desenvolvedor
-        }
-
-        function fazerLogin() {
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
-            const errorDiv = document.getElementById('login-error');
-
-            if (username === 'dev' && password === SENHA_DEV) {
-                currentUser = { username: 'dev', role: 'dev' };
-                atualizarInterfaceUsuario();
-                fecharLogin();
-                mostrarMensagem('✅ Login realizado como Desenvolvedor', 'success');
-                
-                const devBtn = document.getElementById('devFloatBtn');
-                if (devBtn) devBtn.style.display = 'block';
-            } else {
-                errorDiv.textContent = 'Credenciais de desenvolvedor inválidas!';
-                errorDiv.style.display = 'block';
-            }
-        }
-
-        function fazerLogout() {
-            currentUser = null;
-            atualizarInterfaceUsuario();
-            mostrarMensagem('👋 Logout realizado com sucesso', 'success');
+        function mudarAba(aba) {
+            // Remover classe active de todas as abas
+            document.querySelectorAll('.login-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
             
-            const devBtn = document.getElementById('devFloatBtn');
-            if (devBtn) devBtn.style.display = 'none';
+            // Esconder todos os formulários
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('adminForm').style.display = 'none';
+            document.getElementById('devForm').style.display = 'none';
+            
+            // Ativar aba selecionada
+            if (aba === 'login') {
+                document.querySelector('.login-tab:nth-child(1)').classList.add('active');
+                document.getElementById('loginForm').style.display = 'block';
+            } else if (aba === 'admin') {
+                document.querySelector('.login-tab:nth-child(2)').classList.add('active');
+                document.getElementById('adminForm').style.display = 'block';
+            } else if (aba === 'dev') {
+                document.querySelector('.login-tab:nth-child(3)').classList.add('active');
+                document.getElementById('devForm').style.display = 'block';
+            }
+            
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        function fazerLogin(tipo) {
+            const loginError = document.getElementById('loginError');
+            let senha;
+            let nome = '';
+
+            if (tipo === 'visitante') {
+                nome = document.getElementById('userNameInput').value.trim() || 'Visitante';
+            } else if (tipo === 'admin') {
+                senha = document.getElementById('adminPassword').value;
+                if (senha !== 'admin123') {
+                    loginError.style.display = 'block';
+                    return;
+                }
+                nome = 'Administrador';
+            } else if (tipo === 'dev') {
+                senha = document.getElementById('devPassword').value;
+                if (senha !== 'dev123') {
+                    loginError.style.display = 'block';
+                    return;
+                }
+                nome = 'Desenvolvedor';
+            }
+
+            usuarioAtual = {
+                nome: nome,
+                tipo: tipo
+            };
+
+            // Salvar no localStorage
+            localStorage.setItem('usuarioMaiso', JSON.stringify(usuarioAtual));
+
+            // Atualizar interface
+            atualizarInterfaceUsuario();
+            
+            // Fechar modal
+            fecharLogin();
+            
+            // Mostrar mensagem de boas-vindas
+            mostrarStatus(`Bem-vindo, ${nome}!`, 'success');
         }
 
         function atualizarInterfaceUsuario() {
-            const userName = document.getElementById('userName');
+            // Atualizar informações do usuário
+            document.getElementById('userName').textContent = usuarioAtual.nome;
+            
+            // Mostrar/ocultar badges
             const userRole = document.getElementById('userRole');
-            const loginButton = document.getElementById('loginButton');
-            const devIndicator = document.getElementById('devIndicator');
-
-            if (currentUser) {
-                userName.textContent = currentUser.username;
-                loginButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair';
-                loginButton.onclick = fazerLogout;
-
-                if (currentUser.role === 'dev') {
-                    userRole.style.display = 'inline';
-                    userRole.className = 'dev-badge';
-                    userRole.textContent = 'DEV';
-                    devIndicator.style.display = 'block';
-                }
+            if (usuarioAtual.tipo === 'admin') {
+                userRole.textContent = 'ADMIN';
+                userRole.className = 'admin-badge';
+                userRole.style.display = 'inline';
+            } else if (usuarioAtual.tipo === 'dev') {
+                userRole.textContent = 'DEV';
+                userRole.className = 'dev-badge';
+                userRole.style.display = 'inline';
+                
+                // Mostrar indicador e painel de desenvolvedor
+                document.getElementById('devIndicator').style.display = 'block';
+                document.getElementById('publishPanel').style.display = 'block';
             } else {
-                userName.textContent = 'Visitante';
                 userRole.style.display = 'none';
+            }
+            
+            // Atualizar botão de login
+            const loginButton = document.getElementById('loginButton');
+            if (usuarioAtual.tipo !== 'visitante') {
+                loginButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair';
+                loginButton.onclick = function() {
+                    usuarioAtual = { nome: 'Visitante', tipo: 'visitante' };
+                    localStorage.removeItem('usuarioMaiso');
+                    atualizarInterfaceUsuario();
+                    mostrarStatus('Logout realizado com sucesso!', 'success');
+                };
+            } else {
                 loginButton.innerHTML = '<i class="fas fa-user"></i> Entrar';
                 loginButton.onclick = mostrarLogin;
-                devIndicator.style.display = 'none';
             }
+            
+            // Renderizar motos novamente para mostrar/ocultar botões de admin
+            renderizarMotos();
         }
 
-        // ============================================
-        // SISTEMA DE GERENCIAMENTO DE MOTOS
-        // ============================================
-
-        function carregarMotosNaPagina() {
-            const vehiclesGrid = document.getElementById('vehicles-grid');
-            if (!vehiclesGrid) return;
-
-            vehiclesGrid.innerHTML = '';
+        // ========== FUNÇÕES DE RENDERIZAÇÃO ==========
+        function renderizarMotos() {
+            const grid = document.getElementById('vehicles-grid');
+            grid.innerHTML = '';
             
-            if (Object.keys(motosData).length === 0) {
-                vehiclesGrid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
-                        <i class="fas fa-motorcycle" style="font-size: 50px; margin-bottom: 20px;"></i>
-                        <h3>Nenhuma moto cadastrada</h3>
-                        <p>As motos aparecerão aqui quando forem adicionadas</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            Object.keys(motosData).forEach(id => {
-                const moto = motosData[id];
+            motos.forEach(moto => {
                 const card = document.createElement('div');
                 card.className = 'vehicle-card';
-                card.setAttribute('data-category', moto.cilindrada || '110');
-                card.setAttribute('data-id', id);
-                
-                let botoesDev = '';
-                if (currentUser && currentUser.role === 'dev') {
-                    botoesDev = `
-                        <button class="btn-excluir" onclick="excluirMoto('${id}')" title="Excluir moto">×</button>
-                        <button class="btn-editar" onclick="editarMoto('${id}')" title="Editar moto">✏️</button>
-                    `;
-                }
-                
-                const imagemPrincipal = moto.imagens && moto.imagens.length > 0 ? 
-                    moto.imagens[0] : 'https://via.placeholder.com/400x300/FF0000/FFFFFF?text=Sem+Imagem';
+                card.setAttribute('data-category', moto.categoria);
                 
                 card.innerHTML = `
-                    ${botoesDev}
-                    <img src="${imagemPrincipal}" alt="${moto.nome}" class="vehicle-img">
+                    <img src="${moto.imagem}" alt="${moto.nome}" class="vehicle-img">
                     <div class="vehicle-info">
                         <h3 class="vehicle-title">${moto.nome}</h3>
                         <div class="vehicle-price">${moto.preco}</div>
                         <div class="vehicle-details">
-                            <span><i class="fas fa-gas-pump"></i> ${moto.especificacoes?.Cilindrada || 'Não informado'}</span>
-                            <span><i class="fas fa-tachometer-alt"></i> ${moto.especificacoes?.Potência || 'Não informado'}</span>
-                            <span><i class="fas fa-weight"></i> ${moto.especificacoes?.Peso || 'Não informado'}</span>
+                            <span><i class="fas fa-gas-pump"></i> ${moto.especificacoes.Cilindrada}</span>
+                            <span><i class="fas fa-tachometer-alt"></i> ${moto.especificacoes.Consumo}</span>
                         </div>
-                        <a href="#" class="vehicle-btn ver-detalhes" data-id="${id}">Ver Detalhes</a>
+                        <a href="#" class="vehicle-btn" onclick="abrirModal(${moto.id}); return false;">Ver Detalhes</a>
                     </div>
+                    ${usuarioAtual.tipo === 'admin' || usuarioAtual.tipo === 'dev' ? `
+                        <button class="btn-editar" onclick="editarMoto(${moto.id}); event.stopPropagation();">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-excluir" onclick="excluirMoto(${moto.id}); event.stopPropagation();">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    ` : ''}
                 `;
                 
-                vehiclesGrid.appendChild(card);
-            });
-
-            // Re-aplicar filtros
-            aplicarFiltroAtual();
-        }
-
-        function carregarListaMotos() {
-            const lista = document.getElementById('lista-motos');
-            if (!lista) return;
-
-            lista.innerHTML = '';
-            
-            if (Object.keys(motosData).length === 0) {
-                lista.innerHTML = '<div style="text-align: center; color: #888; padding: 20px;">Nenhuma moto cadastrada</div>';
-                return;
-            }
-            
-            Object.keys(motosData).forEach(id => {
-                const moto = motosData[id];
-                const item = document.createElement('div');
-                item.style.cssText = 'border-bottom: 1px solid #555; padding: 10px 0; display: flex; justify-content: space-between; align-items: center;';
-                item.innerHTML = `
-                    <div style="flex: 1;">
-                        <strong>${moto.nome}</strong> - ${moto.preco}<br>
-                        <small>Cilindrada: ${moto.especificacoes?.Cilindrada || 'Não informado'} | ID: ${id}</small>
-                    </div>
-                    <div style="display: flex; gap: 5px;">
-                        <button onclick="editarMoto('${id}')" style="background: #4CAF50; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">
-                            ✏️ Editar
-                        </button>
-                        <button onclick="excluirMoto('${id}')" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">
-                            🗑️ Excluir
-                        </button>
-                    </div>
-                `;
-                lista.appendChild(item);
+                grid.appendChild(card);
             });
         }
 
-        async function excluirMoto(id) {
-            if (!currentUser || currentUser.role !== 'dev') {
-                mostrarMensagem('❌ Acesso negado! Apenas desenvolvedores podem excluir motos.', 'error');
-                return;
-            }
-
-            if (confirm(`Tem certeza que deseja excluir a moto "${motosData[id].nome}"?`)) {
-                delete motosData[id];
-                salvarDados();
-                carregarMotosNaPagina();
-                carregarListaMotos();
-                mostrarMensagem('✅ Moto excluída com sucesso!', 'success');
-            }
-        }
-
-        function editarMoto(id) {
-            if (!currentUser || currentUser.role !== 'dev') {
-                mostrarMensagem('❌ Acesso negado! Apenas desenvolvedores podem editar motos.', 'error');
-                return;
-            }
-
-            const moto = motosData[id];
-            document.getElementById('moto-id').value = id;
-            document.getElementById('moto-nome').value = moto.nome || '';
-            document.getElementById('moto-preco').value = moto.preco || '';
-            document.getElementById('moto-cilindrada').value = moto.cilindrada || '110';
-            document.getElementById('moto-descricao').value = moto.descricao || '';
-            document.getElementById('moto-potencia').value = moto.especificacoes?.Potência || '';
-            document.getElementById('moto-peso').value = moto.especificacoes?.Peso || '';
-            document.getElementById('moto-tanque').value = moto.especificacoes?.Tanque || '';
-            document.getElementById('moto-transmissao').value = moto.especificacoes?.Transmissão || '';
-            document.getElementById('moto-partida').value = moto.especificacoes?.Partida || '';
-            document.getElementById('moto-freio-dianteiro').value = moto.especificacoes?.["Freio dianteiro"] || '';
-            document.getElementById('moto-freio-traseiro').value = moto.especificacoes?.["Freio traseiro"] || '';
-            document.getElementById('moto-ano').value = moto.especificacoes?.Ano || '';
-
-            fotosSelecionadas = [];
-            atualizarPreviews();
-        }
-
-        // Configurar formulário de motos
-        document.addEventListener('DOMContentLoaded', function() {
-            const formMoto = document.getElementById('form-moto');
-            if (formMoto) {
-                formMoto.addEventListener('submit', async function(e) {
-                    e.preventDefault();
+        function configurarFiltros() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remover classe active de todos os botões
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
                     
-                    if (!currentUser || currentUser.role !== 'dev') {
-                        mostrarMensagem('❌ Acesso negado! Apenas desenvolvedores podem gerenciar motos.', 'error');
-                        return;
-                    }
+                    // Adicionar classe active ao botão clicado
+                    this.classList.add('active');
                     
-                    const id = document.getElementById('moto-id').value;
-                    const nome = document.getElementById('moto-nome').value;
-                    const preco = document.getElementById('moto-preco').value;
-                    const cilindrada = document.getElementById('moto-cilindrada').value;
-                    const descricao = document.getElementById('moto-descricao').value;
-                    
-                    if (!nome || !preco || !descricao) {
-                        mostrarMensagem('❌ Preencha todos os campos obrigatórios!', 'error');
-                        return;
-                    }
-                    
-                    try {
-                        // Upload das fotos
-                        let imagens = [];
-                        if (fotosSelecionadas.length > 0) {
-                            for (const foto of fotosSelecionadas) {
-                                const url = await uploadFoto(foto);
-                                imagens.push(url);
-                            }
-                        }
-
-                        // Preparar dados da moto
-                        const motoId = id || 'moto_' + Date.now();
-                        motosData[motoId] = {
-                            id: motoId,
-                            nome: nome,
-                            preco: preco,
-                            cilindrada: cilindrada,
-                            descricao: descricao,
-                            imagens: imagens,
-                            especificacoes: {
-                                "Cilindrada": cilindrada + "cc",
-                                "Potência": document.getElementById('moto-potencia').value || "Não informado",
-                                "Peso": document.getElementById('moto-peso').value || "Não informado",
-                                "Tanque": document.getElementById('moto-tanque').value || "Não informado",
-                                "Transmissão": document.getElementById('moto-transmissao').value || "Não informado",
-                                "Partida": document.getElementById('moto-partida').value || "Não informado",
-                                "Freio dianteiro": document.getElementById('moto-freio-dianteiro').value || "Não informado",
-                                "Freio traseiro": document.getElementById('moto-freio-traseiro').value || "Não informado",
-                                "Ano": document.getElementById('moto-ano').value || "Não informado"
-                            },
-                            dataCriacao: new Date().toISOString()
-                        };
-
-                        // Salvar instantaneamente
-                        salvarDados();
-                        
-                        // Atualizar interface
-                        carregarMotosNaPagina();
-                        carregarListaMotos();
-                        
-                        // Limpar formulário
-                        this.reset();
-                        document.getElementById('moto-id').value = '';
-                        fotosSelecionadas = [];
-                        atualizarPreviews();
-                        
-                        mostrarMensagem(`✅ Moto "${nome}" ${id ? 'atualizada' : 'adicionada'} com sucesso!`, 'success');
-                    } catch (error) {
-                        mostrarMensagem('❌ Erro ao salvar moto: ' + error.message, 'error');
-                    }
+                    // Filtrar motos
+                    const filtro = this.getAttribute('data-filter');
+                    filtrarMotos(filtro);
                 });
-            }
-        });
-
-        function limparFormulario() {
-            document.getElementById('form-moto').reset();
-            document.getElementById('moto-id').value = '';
-            fotosSelecionadas = [];
-            atualizarPreviews();
+            });
         }
 
-        // ============================================
-        // SISTEMA DESENVOLVEDOR
-        // ============================================
-
-        function abrirDev() {
-            if (!currentUser || currentUser.role !== 'dev') {
-                mostrarMensagem('❌ Acesso restrito para desenvolvedores!', 'error');
-                return;
-            }
-            document.getElementById('dev-panel').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            carregarListaMotos();
+        function filtrarMotos(categoria) {
+            const cards = document.querySelectorAll('.vehicle-card');
             
-            // Mostrar status do sync
-            const syncStatus = document.getElementById('syncStatus');
-            syncStatus.style.display = 'block';
-        }
-
-        function fecharDev() {
-            document.getElementById('dev-panel').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // ============================================
-        // SISTEMA DE MENSAGENS
-        // ============================================
-
-        function mostrarMensagem(texto, tipo) {
-            const mensagemDiv = document.createElement('div');
-            mensagemDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 20px;
-                border-radius: 5px;
-                color: white;
-                z-index: 10000;
-                font-weight: bold;
-                max-width: 300px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            `;
-            
-            if (tipo === 'success') {
-                mensagemDiv.style.background = '#28a745';
-            } else if (tipo === 'error') {
-                mensagemDiv.style.background = '#dc3545';
-            } else if (tipo === 'warning') {
-                mensagemDiv.style.background = '#ffc107';
-                mensagemDiv.style.color = '#000';
-            } else {
-                mensagemDiv.style.background = '#17a2b8';
-            }
-            
-            mensagemDiv.textContent = texto;
-            document.body.appendChild(mensagemDiv);
-            
-            setTimeout(() => {
-                if (mensagemDiv.parentNode) {
-                    document.body.removeChild(mensagemDiv);
+            cards.forEach(card => {
+                if (categoria === 'all' || card.getAttribute('data-category') === categoria) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
                 }
-            }, 4000);
-        }
-
-        // ============================================
-        // SISTEMA DE FILTROS
-        // ============================================
-
-        function aplicarFiltroAtual() {
-            const filtroAtivo = document.querySelector('.filter-btn.active');
-            if (filtroAtivo) {
-                const filter = filtroAtivo.getAttribute('data-filter');
-                document.querySelectorAll('.vehicle-card').forEach(card => {
-                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            }
-        }
-
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                aplicarFiltroAtual();
             });
-        });
+        }
 
-        // ============================================
-        // SISTEMA DO MODAL DE DETALHES
-        // ============================================
-
-        let slideAtual = 0;
+        // ========== FUNÇÕES DO MODAL ==========
+        function configurarModal() {
+            const modal = document.getElementById('vehicleModal');
+            const closeBtn = document.querySelector('.close-modal');
+            
+            closeBtn.addEventListener('click', fecharModal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    fecharModal();
+                }
+            });
+        }
 
         function abrirModal(id) {
-            const moto = motosData[id];
+            const moto = motos.find(m => m.id === id);
             if (!moto) return;
-
+            
             const modalBody = document.getElementById('modalBody');
-            const imagens = moto.imagens && moto.imagens.length > 0 ? 
-                moto.imagens : ['https://via.placeholder.com/800x400/FF0000/FFFFFF?text=Sem+Imagem+Disponível'];
+            
+            // Preparar imagens para o carrossel
+            imagensCarrossel = [moto.imagem];
+            if (moto.imagensAdicionais) {
+                imagensCarrossel = imagensCarrossel.concat(moto.imagensAdicionais);
+            }
+            indiceImagemAtual = 0;
             
             modalBody.innerHTML = `
-                <div style="width: 100%;">
-                    <div class="carousel">
-                        <div class="carousel-inner" id="carouselInner">
-                            ${imagens.map((img, index) => `
-                                <div class="carousel-item ${index === 0 ? 'active' : ''}">
-                                    <img src="${img}" alt="${moto.nome} - Imagem ${index + 1}">
-                                </div>
+                <div class="carousel">
+                    <div class="carousel-inner">
+                        ${imagensCarrossel.map((img, index) => `
+                            <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                                <img src="${img}" alt="${moto.nome}">
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${imagensCarrossel.length > 1 ? `
+                        <button class="carousel-control prev" onclick="mudarImagem(-1)">&#10094;</button>
+                        <button class="carousel-control next" onclick="mudarImagem(1)">&#10095;</button>
+                        <div class="carousel-indicators">
+                            ${imagensCarrossel.map((_, index) => `
+                                <button class="carousel-indicator ${index === 0 ? 'active' : ''}" onclick="irParaImagem(${index})"></button>
                             `).join('')}
                         </div>
-                        <button class="carousel-control prev" onclick="moverCarrossel(-1)">❮</button>
-                        <button class="carousel-control next" onclick="moverCarrossel(1)">❯</button>
-                        <div class="carousel-indicators" id="carouselIndicators">
-                            ${imagens.map((_, index) => `
-                                <button class="carousel-indicator ${index === 0 ? 'active' : ''}" onclick="pularParaSlide(${index})"></button>
-                            `).join('')}
+                    ` : ''}
+                </div>
+                <div class="modal-details">
+                    <h2 class="modal-title">${moto.nome}</h2>
+                    <div class="modal-price">${moto.preco}</div>
+                    <p>${moto.descricao}</p>
+                    
+                    <div class="modal-specs">
+                        <h3>Especificações Técnicas</h3>
+                        ${Object.entries(moto.especificacoes).map(([chave, valor]) => `
+                            <div class="spec-item">
+                                <span class="spec-name">${chave}</span>
+                                <span class="spec-value">${valor}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="payment-info">
+                        <h3>Opções de Pagamento</h3>
+                        <div class="payment-options">
+                            <div class="payment-option"><i class="fas fa-money-bill-wave"></i> À vista com 5% de desconto</div>
+                            <div class="payment-option"><i class="fas fa-credit-card"></i> Parcelado em até 12x</div>
+                            <div class="payment-option"><i class="fas fa-handshake"></i> Financiamento em até 36x</div>
+                            <div class="payment-option"><i class="fas fa-exchange-alt"></i> Aceitamos seu usado como parte do pagamento</div>
                         </div>
                     </div>
-                    <div class="modal-details">
-                        <h2 class="modal-title">${moto.nome}</h2>
-                        <div class="modal-price">${moto.preco}</div>
-                        <p>${moto.descricao}</p>
-                        
-                        <div class="modal-specs">
-                            <h3>Especificações Técnicas</h3>
-                            ${Object.entries(moto.especificacoes || {}).map(([key, value]) => `
-                                <div class="spec-item">
-                                    <span class="spec-name">${key}:</span>
-                                    <span class="spec-value">${value}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                        
-                        <div class="payment-info">
-                            <h3>Opções de Pagamento</h3>
-                            <div class="payment-options">
-                                <div class="payment-option">
-                                    <i class="fas fa-credit-card"></i> À Vista
-                                </div>
-                                <div class="payment-option">
-                                    <i class="fas fa-calendar-alt"></i> Parcelado
-                                </div>
-                                <div class="payment-option">
-                                    <i class="fas fa-file-contract"></i> Financiamento
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="modal-contact">
-                            <h3>Interessado nesta moto?</h3>
-                            <p>Entre em contato conosco para mais informações!</p>
-                            <a href="https://wa.me/5511999999999?text=Olá! Tenho interesse na moto ${encodeURIComponent(moto.nome)}" class="whatsapp-button" target="_blank">
-                                <i class="fab fa-whatsapp"></i> Falar no WhatsApp
-                            </a>
-                        </div>
+                    
+                    <div class="modal-contact">
+                        <h3>Interessado nesta moto?</h3>
+                        <p>Entre em contato conosco para mais informações ou agende um test drive!</p>
+                        <a href="https://wa.me/551134567890?text=Olá, tenho interesse na moto ${moto.nome}" class="whatsapp-button" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Falar no WhatsApp
+                        </a>
                     </div>
                 </div>
             `;
             
             document.getElementById('vehicleModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            slideAtual = 0;
         }
 
         function fecharModal() {
             document.getElementById('vehicleModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
         }
 
-        function moverCarrossel(direcao) {
-            const carouselInner = document.getElementById('carouselInner');
-            const slides = document.querySelectorAll('.carousel-item');
-            const totalSlides = slides.length;
+        function mudarImagem(direcao) {
+            indiceImagemAtual += direcao;
             
-            if (!carouselInner || totalSlides === 0) return;
+            if (indiceImagemAtual < 0) {
+                indiceImagemAtual = imagensCarrossel.length - 1;
+            } else if (indiceImagemAtual >= imagensCarrossel.length) {
+                indiceImagemAtual = 0;
+            }
             
-            slideAtual = (slideAtual + direcao + totalSlides) % totalSlides;
-            carouselInner.style.transform = `translateX(-${slideAtual * 100}%)`;
+            atualizarCarrossel();
+        }
+
+        function irParaImagem(indice) {
+            indiceImagemAtual = indice;
+            atualizarCarrossel();
+        }
+
+        function atualizarCarrossel() {
+            const carouselInner = document.querySelector('.carousel-inner');
+            const indicators = document.querySelectorAll('.carousel-indicator');
             
-            document.querySelectorAll('.carousel-indicator').forEach((indicator, index) => {
-                indicator.classList.toggle('active', index === slideAtual);
+            // Mover o carrossel
+            carouselInner.style.transform = `translateX(-${indiceImagemAtual * 100}%)`;
+            
+            // Atualizar indicadores
+            indicators.forEach((indicator, index) => {
+                if (index === indiceImagemAtual) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
             });
         }
 
-        function pularParaSlide(index) {
-            const carouselInner = document.getElementById('carouselInner');
-            if (!carouselInner) return;
+        // ========== FUNÇÕES DE ADMINISTRAÇÃO ==========
+        function adicionarMoto() {
+            if (usuarioAtual.tipo !== 'admin' && usuarioAtual.tipo !== 'dev') {
+                alert('Apenas administradores podem adicionar motos.');
+                return;
+            }
             
-            slideAtual = index;
-            carouselInner.style.transform = `translateX(-${slideAtual * 100}%)`;
-            
-            document.querySelectorAll('.carousel-indicator').forEach((indicator, i) => {
-                indicator.classList.toggle('active', i === slideAtual);
-            });
+            // Implementar lógica para adicionar nova moto
+            alert('Funcionalidade de adicionar moto será implementada aqui.');
         }
 
-        // ============================================
-        // INICIALIZAÇÃO
-        // ============================================
+        function editarMoto(id) {
+            if (usuarioAtual.tipo !== 'admin' && usuarioAtual.tipo !== 'dev') {
+                alert('Apenas administradores podem editar motos.');
+                return;
+            }
+            
+            // Implementar lógica para editar moto
+            alert(`Funcionalidade de editar moto ${id} será implementada aqui.`);
+        }
 
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Adicionar botão dev flutuante
-            const botaoDev = document.createElement('button');
-            botaoDev.innerHTML = '🛠️';
-            botaoDev.style.cssText = `
-                position: fixed;
-                bottom: 80px;
-                right: 20px;
-                background: var(--laranja);
-                color: white;
-                border: none;
-                border-radius: 50%;
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
-                cursor: pointer;
-                z-index: 1000;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-                display: none;
-                transition: all 0.3s;
-            `;
-            botaoDev.title = "Painel Desenvolvedor (Ctrl+Alt+D)";
-            botaoDev.addEventListener('click', abrirDev);
-            botaoDev.id = 'devFloatBtn';
-            document.body.appendChild(botaoDev);
+        function excluirMoto(id) {
+            if (usuarioAtual.tipo !== 'admin' && usuarioAtual.tipo !== 'dev') {
+                alert('Apenas administradores podem excluir motos.');
+                return;
+            }
+            
+            if (confirm('Tem certeza que deseja excluir esta moto?')) {
+                motos = motos.filter(m => m.id !== id);
+                renderizarMotos();
+                salvarMotosNoFirebase();
+                mostrarStatus('Moto excluída com sucesso!', 'success');
+            }
+        }
 
-            // Inicializar e carregar dados
-            carregarDados();
-            carregarMotosNaPagina();
-            configurarSincronizacao();
+        // ========== FUNÇÕES UTILITÁRIAS ==========
+        function mostrarStatus(mensagem, tipo) {
+            const statusElement = document.getElementById('statusMessage');
+            statusElement.textContent = mensagem;
+            statusElement.className = 'status-message';
+            statusElement.classList.add(`status-${tipo}`);
+            statusElement.style.display = 'block';
+            
+            // Auto-esconder após 5 segundos
+            setTimeout(() => {
+                statusElement.style.display = 'none';
+            }, 5000);
+        }
 
-            // Configurar eventos de tecla Enter
-            document.getElementById('login-password')?.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') fazerLogin();
-            });
-
-            // Configurar atalho de teclado para dev
-            document.addEventListener('keydown', function(e) {
-                if (e.ctrlKey && e.altKey && e.key === 'd') {
-                    if (currentUser && currentUser.role === 'dev') {
-                        abrirDev();
-                    } else {
-                        mostrarLogin();
-                    }
+        // ========== FUNÇÕES DE NAVEGAÇÃO SUAVE ==========
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerHeight = document.getElementById('header').offsetHeight;
+                    const navHeight = document.querySelector('.nav-container').offsetHeight;
+                    const offsetTop = targetElement.offsetTop - headerHeight - navHeight - 20;
+                    
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
                 }
             });
-
-            // Fechar modais ao clicar fora
-            document.addEventListener('click', function(e) {
-                if (e.target.id === 'login-modal') fecharLogin();
-                if (e.target.id === 'vehicleModal') fecharModal();
-                if (e.target.id === 'dev-panel') fecharDev();
-            });
-
-            // Event listener para botões "Ver Detalhes"
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('ver-detalhes')) {
-                    e.preventDefault();
-                    const id = e.target.getAttribute('data-id');
-                    abrirModal(id);
-                }
-            });
-
-            // Fechar modal com ESC
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    fecharModal();
-                    fecharDev();
-                    fecharLogin();
-                }
-            });
-
-            // Fechar modal com X
-            document.querySelector('.close-modal')?.addEventListener('click', fecharModal);
-
-            mostrarMensagem('🚀 Sistema carregado com sucesso! Sincronização ativa.', 'success');
         });
     </script>
-
-<!-- Firebase Realtime Database integration (overrides localStorage sync functions) -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getDatabase, ref, set, get, onValue, remove } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAe_ZhRjTOwgClsoVJDomSJrF-cmxD9Sp4",
-  authDomain: "maiso-veiculoss.firebaseapp.com",
-  databaseURL: "https://maiso-veiculoss-default-rtdb.firebaseio.com",
-  projectId: "maiso-veiculoss",
-  storageBucket: "maiso-veiculoss.firebasestorage.app",
-  messagingSenderId: "859256877327",
-  appId: "1:859256877327:web:335abeda3d6be76a350e7a"
-};
-
-const appFirebase = initializeApp(firebaseConfig);
-const db = getDatabase(appFirebase);
-
-// Override motosData, carregarDados, salvarDados and configurarSincronizacao to use Firebase
-// motosData and currentUser are declared in the original script; ensure they exist.
-window.motosData = window.motosData || {};
-window.currentUser = window.currentUser || null;
-
-// Load initial data from Firebase
-async function carregarDados() {
-  try {
-    const snapshot = await get(ref(db, "motos"));
-    if (snapshot.exists()) {
-      window.motosData = snapshot.val() || {};
-    } else {
-      window.motosData = {};
-    }
-    // Update UI
-    if (typeof carregarMotosNaPagina === "function") carregarMotosNaPagina();
-    if (window.currentUser && window.currentUser.role === "dev" && typeof carregarListaMotos === "function") carregarListaMotos();
-    console.log("✅ Dados carregados do Firebase");
-    return true;
-  } catch (err) {
-    console.error("❌ Erro ao carregar dados do Firebase:", err);
-    return false;
-  }
-}
-
-// Save entire motosData to Firebase
-async function salvarDados() {
-  try {
-    await set(ref(db, "motos"), window.motosData || {});
-    console.log("💾 Dados salvos no Firebase");
-    // optional UI callback
-    return true;
-  } catch (err) {
-    console.error("❌ Erro ao salvar no Firebase:", err);
-    return false;
-  }
-}
-
-// Real-time listener: update local motosData when Firebase changes
-onValue(ref(db, "motos"), (snapshot) => {
-  try {
-    const val = snapshot.exists() ? snapshot.val() : {};
-    // Merge or replace: we replace to keep one source of truth
-    window.motosData = val || {};
-    if (typeof carregarMotosNaPagina === "function") carregarMotosNaPagina();
-    if (window.currentUser && window.currentUser.role === "dev" && typeof carregarListaMotos === "function") carregarListaMotos();
-    console.log("🔄 Atualização recebida do Firebase");
-  } catch (err) {
-    console.error("❌ Erro no onValue:", err);
-  }
-});
-
-// Override synchronization setup to use Firebase polling as fallback and disable localStorage triggers
-function configurarSincronizacao() {
-  // Remove any previously attached storage event if present by overriding handler behaviour.
-  try {
-    window.addEventListener('storage', function storageHandler(e){ 
-      // Intentionally empty to avoid using localStorage sync; Firebase onValue handles realtime sync.
-    });
-  } catch (e) { /* ignore */ }
-
-  // Initial load
-  carregarDados();
-
-  // Polling fallback to ensure periodic refresh (every 30s)
-  setInterval(() => {
-    carregarDados();
-  }, 30000);
-
-  console.log("🔧 Sincronização configurada para Firebase (Realtime + polling).");
-}
-
-// Override export/import/clear behaviors that used localStorage to still work with Firebase changes
-// exportarDados will still read from window.motosData and create a JSON download (original function may already exist)
-//
-// For limparTodosDados, we override to remove from Firebase (admin only)
-window.limparTodosDados = async function() {
-  if (!window.currentUser || window.currentUser.role !== 'dev') {
-    if (typeof mostrarMensagem === "function") mostrarMensagem('❌ Acesso negado! Apenas desenvolvedores podem limpar dados.', 'error');
-    return;
-  }
-  if (!confirm('🚨 TEM CERTEZA que deseja limpar TODOS os dados? Esta ação não pode ser desfeita!')) return;
-  try {
-    await set(ref(db, "motos"), {});
-    window.motosData = {};
-    if (typeof carregarMotosNaPagina === "function") carregarMotosNaPagina();
-    if (typeof carregarListaMotos === "function") carregarListaMotos();
-    if (typeof mostrarMensagem === "function") mostrarMensagem('🗑️ Todos os dados foram limpos (Firebase)!', 'success');
-    console.log("🗑️ Dados removidos no Firebase");
-  } catch (err) {
-    console.error("❌ Erro ao limpar dados no Firebase:", err);
-    if (typeof mostrarMensagem === "function") mostrarMensagem('❌ Erro ao limpar dados: ' + err.message, 'error');
-  }
-};
-
-// Ensure excluirMoto and form submission call salvarDados() which now writes to Firebase.
-// If original code calls salvarDados(), this new implementation will be used.
-
-// Finally, call configurarSincronizacao to start sync
-configurarSincronizacao();
-
-</script>
-
 </body>
 </html>
