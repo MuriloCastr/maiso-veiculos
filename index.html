@@ -1318,6 +1318,12 @@
             margin-bottom: 15px;
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .upload-area:hover {
@@ -1328,6 +1334,11 @@
         .upload-area.highlight {
             border-color: var(--verde);
             background: rgba(40, 167, 69, 0.1);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--azul);
+            background: rgba(33, 150, 243, 0.1);
         }
 
         .preview-container {
@@ -1384,6 +1395,23 @@
             color: #ccc;
         }
 
+        .upload-progress {
+            width: 100%;
+            height: 6px;
+            background: #555;
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .upload-progress-bar {
+            height: 100%;
+            background: var(--verde);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
         /* ========== BOTÃO FLUTUANTE ========== */
         .float-btn {
             position: fixed;
@@ -1436,6 +1464,33 @@
             background: #fff3cd;
             color: #856404;
             border: 1px solid #ffeaa7;
+        }
+
+        /* ========== DRAG AND DROP GLOBAL ========== */
+        .global-drop-zone {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            font-size: 24px;
+        }
+
+        .global-drop-zone.active {
+            display: flex;
+        }
+
+        .global-drop-zone i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: var(--azul);
         }
 
         /* ========== RESPONSIVIDADE ========== */
@@ -1611,6 +1666,13 @@
     </style>
 </head>
 <body>
+    <!-- Global Drop Zone -->
+    <div class="global-drop-zone" id="globalDropZone">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Solte a imagem aqui para fazer upload</p>
+        <p class="upload-info">A imagem será processada e salva automaticamente</p>
+    </div>
+
     <!-- Header -->
     <header class="header">
         <div class="header-container">
@@ -1920,6 +1982,9 @@
                             <i class="fas fa-cloud-upload-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
                             <p>Arraste imagens/vídeos aqui ou clique para selecionar</p>
                             <p class="upload-info">Formatos suportados: JPG, PNG, MP4, MOV (Máx. 10MB cada)</p>
+                            <div class="upload-progress" id="uploadProgress">
+                                <div class="upload-progress-bar" id="uploadProgressBar"></div>
+                            </div>
                         </div>
                         <input type="file" class="file-input" id="fileInput" multiple accept="image/*,video/*">
                         <div class="media-counter" id="mediaCounter">0 mídias selecionadas</div>
@@ -1968,13 +2033,17 @@
                 
                 <div class="dev-section" id="imagens-section">
                     <h3>Gerenciar Imagens</h3>
-                    <p>Faça upload de novas imagens ou substitua as existentes.</p>
+                    <p>Arraste imagens para qualquer lugar do site ou use o upload abaixo.</p>
                     
                     <div class="upload-section">
                         <h4>Upload de Nova Imagem</h4>
                         <div class="upload-area" id="imageUploadArea">
                             <i class="fas fa-cloud-upload-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
                             <p>Arraste imagens aqui ou clique para selecionar</p>
+                            <p class="upload-info">A imagem será salva no Firebase e disponível para todo o site</p>
+                            <div class="upload-progress" id="imageUploadProgress">
+                                <div class="upload-progress-bar" id="imageUploadProgressBar"></div>
+                            </div>
                         </div>
                         <input type="file" class="file-input" id="imageFileInput" accept="image/*">
                         <div class="form-group">
@@ -2075,6 +2144,7 @@
         let currentMediaIndex = 0;
         let selectedFiles = [];
         let currentEditingElement = null;
+        let isUploading = false;
 
         // ========== ELEMENTOS DOM ==========
         const userInfo = document.getElementById('userInfo');
@@ -2124,6 +2194,11 @@
         const saveContentBtn = document.getElementById('saveContentBtn');
         const cancelEditBtn = document.getElementById('cancelEditBtn');
         const editModalTitle = document.getElementById('editModalTitle');
+        const globalDropZone = document.getElementById('globalDropZone');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const uploadProgressBar = document.getElementById('uploadProgressBar');
+        const imageUploadProgress = document.getElementById('imageUploadProgress');
+        const imageUploadProgressBar = document.getElementById('imageUploadProgressBar');
 
         // ========== INICIALIZAÇÃO ==========
         document.addEventListener('DOMContentLoaded', function() {
@@ -2138,6 +2213,9 @@
             
             // Verificar se há um usuário salvo
             checkSavedUser();
+            
+            // Configurar drag and drop global
+            setupGlobalDragAndDrop();
         });
 
         // ========== CONFIGURAÇÃO DE EVENTOS ==========
@@ -2206,9 +2284,8 @@
             
             // Upload de mídias
             uploadArea.addEventListener('click', () => fileInput.click());
-            uploadArea.addEventListener('dragover', handleDragOver);
-            uploadArea.addEventListener('dragleave', handleDragLeave);
-            uploadArea.addEventListener('drop', handleDrop);
+            setupDragAndDrop(uploadArea, fileInput, handleFiles);
+            
             fileInput.addEventListener('change', handleFileSelect);
             
             // Menu hamburguer
@@ -2227,9 +2304,120 @@
             
             // Upload de imagens
             document.getElementById('uploadImageBtn').addEventListener('click', uploadSiteImage);
+            setupDragAndDrop(document.getElementById('imageUploadArea'), document.getElementById('imageFileInput'), handleImageFiles);
             
             // Elementos editáveis (apenas para desenvolvedor)
             setupEditableElements();
+        }
+
+        // ========== DRAG AND DROP GLOBAL ==========
+        function setupGlobalDragAndDrop() {
+            // Prevenir comportamento padrão do navegador
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                document.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            // Highlight quando arrastar sobre a janela
+            ['dragenter', 'dragover'].forEach(eventName => {
+                document.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                document.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                if (currentUser.type === 'admin' || currentUser.type === 'dev') {
+                    globalDropZone.classList.add('active');
+                }
+            }
+
+            function unhighlight() {
+                globalDropZone.classList.remove('active');
+            }
+
+            // Manipular drop
+            document.addEventListener('drop', handleGlobalDrop, false);
+        }
+
+        function handleGlobalDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+
+            if (files.length > 0) {
+                // Verificar se é uma imagem
+                const file = files[0];
+                if (file.type.match('image.*')) {
+                    // Se estiver no painel admin, adicionar às mídias do veículo
+                    if (adminPanel.style.display === 'block') {
+                        handleFiles(files);
+                    } 
+                    // Se estiver no painel dev, fazer upload como imagem do site
+                    else if (devPanel.style.display === 'block') {
+                        handleImageFiles(files);
+                    }
+                    // Se não estiver em nenhum painel, perguntar onde salvar
+                    else {
+                        askWhereToSaveImage(file);
+                    }
+                }
+            }
+            
+            globalDropZone.classList.remove('active');
+        }
+
+        function askWhereToSaveImage(file) {
+            const choice = confirm('Deseja adicionar esta imagem a um veículo ou ao site?\n\nOK = Veículo\nCancelar = Site');
+            
+            if (choice === true) {
+                // Abrir painel admin e adicionar à lista de mídias
+                openAdminPanel();
+                setTimeout(() => {
+                    handleFiles([file]);
+                }, 500);
+            } else {
+                // Abrir painel dev e fazer upload como imagem do site
+                openDevPanel();
+                setTimeout(() => {
+                    switchDevTab('imagens');
+                    handleImageFiles([file]);
+                }, 500);
+            }
+        }
+
+        function setupDragAndDrop(dropArea, input, handler) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, () => {
+                    dropArea.classList.add('dragover');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, () => {
+                    dropArea.classList.remove('dragover');
+                globalDropZone.classList.remove('active');
+                }, false);
+            });
+
+            dropArea.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handler(files);
+            }, false);
         }
 
         // ========== SISTEMA DE USUÁRIOS ==========
@@ -2578,6 +2766,11 @@
                 medias: []
             };
             
+            // Mostrar progresso
+            uploadProgress.style.display = 'block';
+            uploadProgressBar.style.width = '0%';
+            isUploading = true;
+            
             // Fazer upload das imagens para o Firebase Storage
             uploadImages(selectedFiles)
                 .then(imageUrls => {
@@ -2590,15 +2783,20 @@
                 .then(() => {
                     showStatus('Veículo adicionado com sucesso!', 'success');
                     clearForm();
+                    uploadProgress.style.display = 'none';
+                    isUploading = false;
                 })
                 .catch(error => {
                     showStatus('Erro ao adicionar veículo: ' + error.message, 'error');
+                    uploadProgress.style.display = 'none';
+                    isUploading = false;
                 });
         }
 
         // Função para fazer upload das imagens para o Firebase Storage
         function uploadImages(files) {
             const uploadPromises = [];
+            let completedUploads = 0;
             
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
@@ -2609,12 +2807,20 @@
                 const uploadPromise = new Promise((resolve, reject) => {
                     uploadTask.on(
                         'state_changed',
-                        null,
+                        (snapshot) => {
+                            // Atualizar progresso
+                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            uploadProgressBar.style.width = progress + '%';
+                        },
                         (error) => {
                             reject(error);
                         },
                         () => {
                             uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                completedUploads++;
+                                // Atualizar progresso geral
+                                const overallProgress = (completedUploads / files.length) * 100;
+                                uploadProgressBar.style.width = overallProgress + '%';
                                 resolve(downloadURL);
                             });
                         }
@@ -2761,24 +2967,6 @@
         }
 
         // ========== UPLOAD DE MÍDIAS ==========
-        function handleDragOver(e) {
-            e.preventDefault();
-            uploadArea.classList.add('highlight');
-        }
-
-        function handleDragLeave(e) {
-            e.preventDefault();
-            uploadArea.classList.remove('highlight');
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            uploadArea.classList.remove('highlight');
-            
-            const files = e.dataTransfer.files;
-            handleFiles(files);
-        }
-
         function handleFileSelect(e) {
             const files = e.target.files;
             handleFiles(files);
@@ -2805,6 +2993,33 @@
             }
             
             updateMediaCounter();
+        }
+
+        function handleImageFiles(files) {
+            const file = files[0];
+            if (!file) return;
+            
+            if (!file.type.match('image.*')) {
+                alert('Por favor, selecione apenas imagens.');
+                return;
+            }
+            
+            if (file.size > 10 * 1024 * 1024) {
+                alert('O arquivo é muito grande. Tamanho máximo: 10MB.');
+                return;
+            }
+            
+            // Se não tiver ID, pedir para o usuário
+            const imageId = document.getElementById('imageId').value.trim();
+            if (!imageId) {
+                const userInput = prompt('Por favor, informe um ID para esta imagem (ex: hero-background, about-image):');
+                if (userInput) {
+                    document.getElementById('imageId').value = userInput;
+                    uploadImageToSite(file, userInput);
+                }
+            } else {
+                uploadImageToSite(file, imageId);
+            }
         }
 
         function createPreview(file) {
@@ -3037,29 +3252,47 @@
             }
             
             const file = fileInput.files[0];
+            uploadImageToSite(file, imageId);
+        }
+
+        function uploadImageToSite(file, imageId) {
+            // Mostrar progresso
+            imageUploadProgress.style.display = 'block';
+            imageUploadProgressBar.style.width = '0%';
+            
             const storageRef = storage.ref(`site-images/${imageId}`);
             
-            storageRef.put(file)
-                .then(snapshot => {
-                    return snapshot.ref.getDownloadURL();
-                })
-                .then(downloadURL => {
-                    // Salvar URL no Firebase
-                    saveSiteContent(imageId, downloadURL);
-                    
-                    // Atualizar elemento correspondente se existir
-                    const element = document.querySelector(`[data-id="${imageId}"]`);
-                    if (element && element.tagName === 'IMG') {
-                        element.src = downloadURL;
-                    }
-                    
-                    alert('Imagem enviada com sucesso!');
-                    fileInput.value = '';
-                    document.getElementById('imageId').value = '';
-                })
-                .catch(error => {
+            const uploadTask = storageRef.put(file);
+            
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    // Atualizar progresso
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    imageUploadProgressBar.style.width = progress + '%';
+                },
+                (error) => {
                     alert('Erro ao fazer upload da imagem: ' + error.message);
-                });
+                    imageUploadProgress.style.display = 'none';
+                },
+                () => {
+                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        // Salvar URL no Firebase
+                        saveSiteContent(imageId, downloadURL);
+                        
+                        // Atualizar elemento correspondente se existir
+                        const element = document.querySelector(`[data-id="${imageId}"]`);
+                        if (element && element.tagName === 'IMG') {
+                            element.src = downloadURL;
+                        }
+                        
+                        alert('Imagem enviada com sucesso!');
+                        document.getElementById('imageFileInput').value = '';
+                        document.getElementById('imageId').value = '';
+                        imageUploadProgress.style.display = 'none';
+                    });
+                }
+            );
         }
 
         // ========== MENU HAMBURGUER ==========
