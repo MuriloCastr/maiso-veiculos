@@ -1314,230 +1314,231 @@
             }
         }
     
-/* ======= Custom mobile drawer styles (injected) ======= */
-.drawer {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    height: 100vh;
-    width: 70vw;
-    max-width: 300px;
-    background-color: var(--preto);
-    color: var(--branco);
-    z-index: 1200;
-    transition: right 0.32s cubic-bezier(.2,.9,.3,1);
-    padding: 90px 18px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow-y: auto;
-}
-.drawer.open { right: 0; }
-.overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.32s ease;
-    z-index: 1100;
-}
-.overlay.active { opacity: 1; visibility: visible; }
-/* drawer links */
-.drawer a { color: var(--branco); text-decoration:none; font-size:18px; display:block; padding:8px 0; }
-.drawer a:hover { color: var(--vermelho); }
-/* drawer bottom */
-.drawer-bottom { margin-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 14px; }
-@media (min-width: 900px) {
-    .drawer { width: 300px; }
-}
-@media (max-width: 420px) {
-    .drawer { width: 84vw; }
-}
-/* adjust header height for mobile */
-.header { height: 68px; }
-.logo-image { height: 52px; }
+        /* ======= Custom mobile drawer styles (injected) ======= */
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            height: 100vh;
+            width: 70vw;
+            max-width: 300px;
+            background-color: var(--preto);
+            color: var(--branco);
+            z-index: 1200;
+            transition: right 0.32s cubic-bezier(.2,.9,.3,1);
+            padding: 90px 18px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+        .drawer.open { right: 0; }
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.32s ease;
+            z-index: 1100;
+        }
+        .overlay.active { opacity: 1; visibility: visible; }
+        /* drawer links */
+        .drawer a { color: var(--branco); text-decoration:none; font-size:18px; display:block; padding:8px 0; }
+        .drawer a:hover { color: var(--vermelho); }
+        /* drawer bottom */
+        .drawer-bottom { margin-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 14px; }
+        @media (min-width: 900px) {
+            .drawer { width: 300px; }
+        }
+        @media (max-width: 420px) {
+            .drawer { width: 84vw; }
+        }
+        /* adjust header height for mobile */
+        .header { height: 68px; }
+        .logo-image { height: 52px; }
 
-</style>
+        /* Menu hamburguer */
+        .menu-toggle {
+            display: none;
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1300;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-container {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Indicador de Modo Dev -->
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="logo.png" alt="Maiso Veículos" class="logo-image">
+            </div>
+            <div class="user-menu">
+                <div class="user-info" id="userInfo">
+                    <span id="userName">Visitante</span>
+                    <span id="userType" class="admin-badge" style="display: none;">Admin</span>
+                    <span id="devType" class="dev-badge" style="display: none;">Dev</span>
+                </div>
+                <button class="login-btn" id="loginBtn">Entrar</button>
+            </div>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Drawer Menu (Mobile) -->
+    <div class="overlay" id="overlay"></div>
+    <div class="drawer" id="drawer">
+        <a href="#vehicles">Veículos</a>
+        <a href="#about">Sobre a Loja</a>
+        <a href="#team">Equipe</a>
+        <a href="#location">Localização</a>
+        <div class="drawer-bottom">
+            <a href="#" id="drawerLoginBtn">Entrar</a>
+        </div>
+    </div>
+
+    <!-- Admin Indicator -->
+    <div class="admin-indicator" id="adminIndicator">
+        <i class="fas fa-shield-alt"></i> Modo Administrador Ativo
+    </div>
+
+    <!-- Dev Indicator -->
     <div class="dev-indicator" id="devIndicator">
-        🛠️ MODO DESENVOLVEDOR ATIVO - Alterações são salvas online
+        <i class="fas fa-code"></i> Modo Desenvolvedor Ativo
     </div>
 
-    
-<!-- Header + Mobile Drawer -->
-<header class="header" id="header">
-    <div class="header-container" style="justify-content:center; align-items:center; position:relative; padding: 0 20px;">
-        <div class="logo" style="text-align:center;">
-            <img src="logo.png" alt="Maiso Veículos" class="logo-image" style="height:56px; max-width:220px;">
-        </div>
-
-        <!-- Hamburger button (right) -->
-        <button id="menuToggle" class="menu-toggle" aria-label="Abrir menu" style="position:absolute; right:18px; top:50%; transform:translateY(-50%); background:none; border:none; color:#fff; font-size:26px;">
-            <i class="fas fa-bars"></i>
-        </button>
+    <!-- Navigation -->
+    <div class="nav-container">
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="#vehicles">Veículos</a></li>
+                <li><a href="#about">Sobre a Loja</a></li>
+                <li><a href="#team">Equipe</a></li>
+                <li><a href="#location">Localização</a></li>
+            </ul>
+        </nav>
     </div>
-</header>
-
-<!-- Drawer lateral direito (70% em mobile, 300px em desktop) -->
-<aside id="drawer" class="drawer" aria-hidden="true">
-    <nav class="drawer-nav">
-        <ul class="drawer-links" style="list-style:none; padding:0; margin:0;">
-            <li style="margin:14px 0;"><a href="#home">Início</a></li>
-            <li style="margin:14px 0;"><a href="#vehicles">Veículos</a></li>
-            <li style="margin:14px 0;"><a href="#about">Conheça a Loja</a></li>
-            <li style="margin:14px 0;"><a href="#team">Nossa Equipe</a></li>
-            <li style="margin:14px 0;"><a href="#location">Localização</a></li>
-            <li style="margin:14px 0;"><a href="#contact">Contato</a></li>
-        </ul>
-    </nav>
-
-    <div class="drawer-bottom">
-        <div class="user-info" id="userInfo">
-            <span id="userName">Visitante</span>
-            <span id="userRole" class="dev-badge" style="display:none; margin-left:8px;">DEV</span>
-        </div>
-        <button class="login-btn" id="drawerLoginButton" onclick="mostrarLogin()" style="background:var(--vermelho); border:none; color:#fff; padding:10px 12px; border-radius:6px; width:100%; font-weight:600;">
-            <i class="fas fa-user"></i> Entrar
-        </button>
-    </div>
-</aside>
-
-<!-- Overlay escurecido ao abrir o drawer -->
-<div id="overlay" class="overlay" tabindex="-1" aria-hidden="true"></div>
-
-<!-- NOTE: removemos a nav-container (menu preto) para evitar duplicidade no header -->
-
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
-        <h1>Encontre a moto dos seus sonhos</h1>
-        <p>Na Maiso Veículos, oferecemos as melhores motos do mercado com qualidade garantida e os melhores preços.</p>
-        <a href="#vehicles" class="cta-button">Ver Motos</a>
+    <section class="hero">
+        <h1>Encontre a Moto dos Seus Sonhos</h1>
+        <p>As melhores motos seminovas com garantia e procedência. Financiamento facilitado e entrega em todo o Brasil.</p>
+        <a href="#vehicles" class="cta-button">Ver Veículos</a>
     </section>
 
-    <!-- Veículos -->
+    <!-- Vehicles Section -->
     <section class="section vehicles" id="vehicles">
         <div class="section-title">
             <h2>Nossos Veículos</h2>
         </div>
-        
         <div class="filter-container">
-            <button class="filter-btn active" data-filter="all">Todas</button>
-            <button class="filter-btn" data-filter="110">Até 110cc</button>
-            <button class="filter-btn" data-filter="150">150cc</button>
-            <button class="filter-btn" data-filter="160">160cc</button>
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="moto">Motos</button>
+            <button class="filter-btn" data-filter="quadriciclo">Quadriciclos</button>
+            <button class="filter-btn" data-filter="jet-ski">Jet Skis</button>
         </div>
-        
-        <div class="vehicles-grid" id="vehicles-grid">
-            <!-- As motos serão carregadas automaticamente aqui -->
+        <div class="vehicles-grid" id="vehiclesGrid">
+            <!-- Veículos serão carregados dinamicamente -->
         </div>
     </section>
 
-    <!-- Modal Detalhes Moto -->
-    <div class="modal" id="vehicleModal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="modal-body" id="modalBody">
-                <!-- Conteúdo do modal será preenchido via JavaScript -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Sobre a Loja -->
+    <!-- About Section -->
     <section class="section about" id="about">
         <div class="section-title">
-            <h2>Conheça a Loja</h2>
+            <h2>Sobre a Loja</h2>
         </div>
-        
         <div class="about-content">
             <div class="about-text">
-                <h3>Há 3 anos realizando sonhos sobre duas rodas</h3>
-                <p>A Maiso Veículos está há 3 anos no mercado, oferecendo as melhores motocicletas com qualidade garantida e preços competitivos.</p>
-                <p>Contamos com uma equipe especializada e apaixonada por motos, sempre pronta para ajudar você a encontrar a moto ideal.</p>
-                <a href="#contact" class="cta-button">Entre em Contato</a>
+                <h3>Mais de 10 anos no mercado</h3>
+                <p>A Maiso Veículos é referência no mercado de motos seminovas, oferecendo produtos de qualidade com procedência garantida.</p>
+                <p>Nossa missão é proporcionar a melhor experiência de compra, com transparência, segurança e atendimento personalizado.</p>
+                <p>Trabalhamos com as melhores marcas do mercado e oferecemos garantia em todos os nossos veículos.</p>
             </div>
             <div class="about-image">
-                <img src="loja.png" alt="Interior da Loja Maiso Veículos">
+                <img src="loja.jpg" alt="Loja Maiso Veículos">
             </div>
         </div>
     </section>
 
-    <!-- Equipe -->
+    <!-- Team Section -->
     <section class="section team" id="team">
         <div class="section-title">
             <h2>Nossa Equipe</h2>
         </div>
-        
         <div class="team-grid">
             <div class="team-member">
-                <img src="funcionario1.png" alt="Carlos Silva" class="member-img">
+                <img src="vendedor1.jpg" alt="Vendedor" class="member-img">
                 <div class="member-info">
-                    <h3 class="member-name">Carlos Silva</h3>
-                    <p class="member-role">Gerente Geral</p>
-                    <p class="member-desc">Com mais de 10 anos de experiência no mercado.</p>
+                    <h3 class="member-name">João Silva</h3>
+                    <p class="member-role">Vendedor</p>
+                    <p class="member-desc">Especialista em motos esportivas e custom, com mais de 8 anos de experiência.</p>
                 </div>
             </div>
-            
             <div class="team-member">
-                <img src="funcionario2.png" alt="Mariana Santos" class="member-img">
+                <img src="vendedor2.jpg" alt="Vendedor" class="member-img">
                 <div class="member-info">
-                    <h3 class="member-name">Mariana Santos</h3>
-                    <p class="member-role">Vendedora Sênior</p>
-                    <p class="member-desc">Especialista em motos, já ajudou mais de 300 clientes.</p>
+                    <h3 class="member-name">Maria Santos</h3>
+                    <p class="member-role">Vendedora</p>
+                    <p class="member-desc">Especialista em scooters e motos urbanas, sempre pronta para ajudar.</p>
                 </div>
             </div>
-            
             <div class="team-member">
-                <img src="funcionario3.png" alt="Ricardo Oliveira" class="member-img">
+                <img src="gerente.jpg" alt="Gerente" class="member-img">
                 <div class="member-info">
-                    <h3 class="member-name">Ricardo Oliveira</h3>
-                    <p class="member-role">Consultor de Vendas</p>
-                    <p class="member-desc">Especialista em motos e apaixonado por viagens.</p>
-                </div>
-            </div>
-            
-            <div class="team-member">
-                <img src="funcionario4.png" alt="Fernanda Costa" class="member-img">
-                <div class="member-info">
-                    <h3 class="member-name">Fernanda Costa</h3>
-                    <p class="member-role">Especialista em Financiamento</p>
-                    <p class="member-desc">Ajuda clientes a encontrarem as melhores condições.</p>
+                    <h3 class="member-name">Carlos Oliveira</h3>
+                    <p class="member-role">Gerente</p>
+                    <p class="member-desc">Com mais de 15 anos no mercado, garante a melhor experiência para nossos clientes.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Localização -->
+    <!-- Location Section -->
     <section class="section location" id="location">
         <div class="section-title">
             <h2>Localização</h2>
         </div>
-        
         <div class="location-container">
             <div class="location-info">
-                <h3>Venha nos visitar</h3>
-                <p><i class="fas fa-map-marker-alt"></i> Av. das Motos, 123 - Centro, São Paulo - SP</p>
-                <p><i class="fas fa-phone"></i> (11) 3456-7890</p>
+                <h3>Venha nos Visitar</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Rua das Motos, 123 - Centro, São Paulo - SP</p>
+                <p><i class="fas fa-phone"></i> (11) 9999-9999</p>
                 <p><i class="fas fa-envelope"></i> contato@maisoveiculos.com.br</p>
-                <p><i class="fas fa-clock"></i> Segunda a Sexta: 8h às 18h | Sábado: 8h às 12h</p>
-                <p><i class="fas fa-wifi"></i> Wi-Fi gratuito para clientes</p>
-                <p><i class="fas fa-parking"></i> Estacionamento gratuito</p>
+                <p><i class="fas fa-clock"></i> Segunda a Sexta: 9h às 18h | Sábado: 9h às 13h</p>
+                <p><i class="fas fa-whatsapp"></i> WhatsApp: (11) 99999-9999</p>
             </div>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.097241810702!2d-46.65390522477606!3d-23.563561278797438!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1685479123456!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.098114020905!2d-46.65412658440709!3d-23.565267467476655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1647543862866!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer" id="contact">
+    <footer class="footer">
         <div class="footer-content">
             <div class="footer-column">
                 <h3>Maiso Veículos</h3>
-                <p>Há 3 anos realizando sonhos sobre duas rodas. Qualidade, confiança e preços justos.</p>
+                <p>Há mais de 10 anos no mercado, oferecendo as melhores motos seminovas com garantia e procedência.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
@@ -1545,1051 +1546,484 @@
                     <a href="#"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
-            
             <div class="footer-column">
                 <h3>Links Rápidos</h3>
                 <ul>
-                    <li><a href="#home">Início</a></li>
                     <li><a href="#vehicles">Veículos</a></li>
-                    <li><a href="#about">Sobre Nós</a></li>
+                    <li><a href="#about">Sobre a Loja</a></li>
                     <li><a href="#team">Equipe</a></li>
                     <li><a href="#location">Localização</a></li>
                 </ul>
             </div>
-            
-            <div class="footer-column">
-                <h3>Serviços</h3>
-                <ul>
-                    <li><a href="#">Venda de Motos</a></li>
-                    <li><a href="#">Financiamento</a></li>
-                    <li><a href="#">Consórcio</a></li>
-                    <li><a href="#">Seguros</a></li>
-                    <li><a href="#">Peças e Acessórios</a></li>
-                </ul>
-            </div>
-            
             <div class="footer-column">
                 <h3>Contato</h3>
                 <ul>
-                    <li><i class="fas fa-map-marker-alt"></i> Av. das Motos, 123 - Centro, SP</li>
-                    <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Rua das Motos, 123 - Centro, SP</li>
+                    <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
                     <li><i class="fas fa-envelope"></i> contato@maisoveiculos.com.br</li>
-                    <li><i class="fas fa-clock"></i> Seg-Sex: 8h-18h | Sáb: 8h-12h</li>
+                    <li><i class="fas fa-clock"></i> Seg-Sex: 9h-18h | Sáb: 9h-13h</li>
                 </ul>
             </div>
         </div>
-        
         <div class="footer-bottom">
             <p>&copy; 2023 Maiso Veículos. Todos os direitos reservados.</p>
         </div>
     </footer>
 
-    <!-- Modal Login -->
+    <!-- Vehicle Details Modal -->
+    <div class="modal" id="vehicleModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <div class="modal-body">
+                <div class="carousel-container">
+                    <div class="carousel" id="carousel">
+                        <div class="carousel-inner" id="carouselInner"></div>
+                        <button class="carousel-control prev" id="prevBtn">&#10094;</button>
+                        <button class="carousel-control next" id="nextBtn">&#10095;</button>
+                        <div class="carousel-indicators" id="carouselIndicators"></div>
+                    </div>
+                </div>
+                <div class="modal-details">
+                    <h2 class="modal-title" id="modalTitle"></h2>
+                    <p class="modal-price" id="modalPrice"></p>
+                    <div class="modal-specs" id="modalSpecs"></div>
+                    <div class="payment-info">
+                        <h3>Opções de Pagamento</h3>
+                        <div class="payment-options">
+                            <div class="payment-option"><i class="fas fa-money-bill-wave"></i> À Vista</div>
+                            <div class="payment-option"><i class="fas fa-credit-card"></i> Cartão</div>
+                            <div class="payment-option"><i class="fas fa-file-invoice-dollar"></i> Financiamento</div>
+                        </div>
+                    </div>
+                    <div class="modal-contact">
+                        <p>Interessado neste veículo?</p>
+                        <a href="#" class="whatsapp-button" id="whatsappButton">
+                            <i class="fab fa-whatsapp"></i> Falar no WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
     <div class="login-modal" id="loginModal">
         <div class="login-content">
             <div class="login-tabs">
-                <button class="login-tab active" onclick="mudarAba('dev')">Desenvolvedor</button>
+                <button class="login-tab active" data-tab="user">Usuário</button>
+                <button class="login-tab" data-tab="admin">Administrador</button>
+                <button class="login-tab" data-tab="dev">Desenvolvedor</button>
             </div>
-            
-            <div id="devForm">
-                <h3>Login de Desenvolvedor</h3>
-                <input type="password" class="login-input" placeholder="Senha de Desenvolvedor" id="devPassword">
-                <button class="login-btn" onclick="fazerLogin('dev')">Entrar como Desenvolvedor</button>
-                <p class="user-type-info">Acesso total ao sistema e configurações</p>
-                <p class="user-type-info">Senha: dev123</p>
+            <div id="userLogin">
+                <input type="text" class="login-input" id="userNameInput" placeholder="Seu nome">
+                <button class="login-btn" id="userLoginBtn">Entrar como Usuário</button>
             </div>
-            
-            <div class="login-error" id="loginError">
-                Senha incorreta. Tente novamente.
+            <div id="adminLogin" style="display: none;">
+                <input type="password" class="login-input" id="adminPassword" placeholder="Senha de Administrador">
+                <button class="login-btn" id="adminLoginBtn">Entrar como Admin</button>
+                <div class="user-type-info">Senha padrão: souza27</div>
             </div>
+            <div id="devLogin" style="display: none;">
+                <input type="password" class="login-input" id="devPassword" placeholder="Senha de Desenvolvedor">
+                <button class="login-btn" id="devLoginBtn">Entrar como Dev</button>
+                <div class="user-type-info">Senha padrão: dev123</div>
+            </div>
+            <div class="login-error" id="loginError">Senha incorreta!</div>
         </div>
     </div>
 
-    <!-- Painel Administrativo -->
+    <!-- Admin Panel -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-content">
             <div class="admin-header">
-                <h2>Painel Administrativo - Gerenciar Motos</h2>
-                <button class="btn-close" onclick="fecharAdmin()">&times;</button>
+                <h2>Painel Administrativo</h2>
+                <button class="btn-close" id="closeAdminPanel">&times;</button>
             </div>
             <div class="admin-body">
-                <form id="motoForm">
-                    <input type="hidden" id="motoId">
-                    
-                    <div class="form-group">
-                        <label for="motoNome">Nome da Moto</label>
-                        <input type="text" id="motoNome" class="form-control" placeholder="Ex: Honda CG 160 2024" required>
-                    </div>
-                    
+                <h3>Adicionar Novo Veículo</h3>
+                <form id="addVehicleForm">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="motoPreco">Preço</label>
-                            <input type="text" id="motoPreco" class="form-control" placeholder="Ex: R$ 15.290" required>
+                            <label for="vehicleName">Nome do Veículo</label>
+                            <input type="text" class="form-control" id="vehicleName" required>
                         </div>
-                        
                         <div class="form-group">
-                            <label for="motoCategoria">Categoria</label>
-                            <select id="motoCategoria" class="form-control" required>
-                                <option value="110">Até 110cc</option>
-                                <option value="150">150cc</option>
-                                <option value="160">160cc</option>
-                                <option value="250">250cc</option>
-                                <option value="500">500cc+</option>
+                            <label for="vehicleType">Tipo</label>
+                            <select class="form-control" id="vehicleType" required>
+                                <option value="moto">Moto</option>
+                                <option value="quadriciclo">Quadriciclo</option>
+                                <option value="jet-ski">Jet Ski</option>
                             </select>
                         </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="motoDescricao">Descrição</label>
-                        <textarea id="motoDescricao" class="form-control" rows="3" placeholder="Descreva a moto..." required></textarea>
-                    </div>
-                    
-                    <h3>Especificações Técnicas</h3>
-                    
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="motoCilindrada">Cilindrada</label>
-                            <input type="text" id="motoCilindrada" class="form-control" placeholder="Ex: 160cc">
+                            <label for="vehiclePrice">Preço (R$)</label>
+                            <input type="number" class="form-control" id="vehiclePrice" required>
                         </div>
-                        
                         <div class="form-group">
-                            <label for="motoPotencia">Potência</label>
-                            <input type="text" id="motoPotencia" class="form-control" placeholder="Ex: 14,9 cv">
+                            <label for="vehicleYear">Ano</label>
+                            <input type="number" class="form-control" id="vehicleYear" required>
                         </div>
                     </div>
-                    
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="motoTanque">Tanque</label>
-                            <input type="text" id="motoTanque" class="form-control" placeholder="Ex: 15,1 litros">
+                            <label for="vehicleKm">Quilometragem</label>
+                            <input type="number" class="form-control" id="vehicleKm">
                         </div>
-                        
                         <div class="form-group">
-                            <label for="motoConsumo">Consumo</label>
-                            <input type="text" id="motoConsumo" class="form-control" placeholder="Ex: 40 km/l">
+                            <label for="vehicleColor">Cor</label>
+                            <input type="text" class="form-control" id="vehicleColor">
                         </div>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="motoCor">Cor</label>
-                        <input type="text" id="motoCor" class="form-control" placeholder="Ex: Vermelha">
+                        <label for="vehicleDescription">Descrição</label>
+                        <textarea class="form-control" id="vehicleDescription" rows="3"></textarea>
                     </div>
                     
-                    <!-- Upload de Fotos -->
+                    <!-- Upload de Mídias -->
                     <div class="upload-section">
-                        <h4>📸 Fotos da Moto (Máx. 5)</h4>
-                        <div class="upload-area" id="fotosUploadArea" onclick="document.getElementById('fotosInput').click()">
-                            <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
-                            <p>Clique para adicionar fotos</p>
-                            <small>Formatos: JPG, PNG, GIF • Máx. 5 fotos</small>
+                        <h4>Mídias do Veículo</h4>
+                        <div class="upload-area" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
+                            <p>Arraste imagens/vídeos aqui ou clique para selecionar</p>
+                            <p class="upload-info">Formatos suportados: JPG, PNG, MP4, MOV (Máx. 10MB cada)</p>
                         </div>
-                        <input type="file" id="fotosInput" class="file-input" multiple accept="image/*" onchange="processarFotos(this.files)">
-                        <div class="preview-container" id="fotosPreviewContainer">
-                            <!-- Preview das fotos será mostrado aqui -->
-                        </div>
-                        <div class="media-counter" id="fotosCounter">0/5 fotos selecionadas</div>
-                    </div>
-                    
-                    <!-- Upload de Vídeo -->
-                    <div class="upload-section">
-                        <h4>🎥 Vídeo da Moto (Apenas 1)</h4>
-                        <div class="upload-area" id="videoUploadArea" onclick="document.getElementById('videoInput').click()">
-                            <i class="fas fa-video" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
-                            <p>Clique para adicionar vídeo</p>
-                            <small>Formatos: MP4, WebM, OGG • Máx. 1 vídeo</small>
-                        </div>
-                        <input type="file" id="videoInput" class="file-input" accept="video/*" onchange="processarVideo(this.files)">
-                        <div class="preview-container" id="videoPreviewContainer">
-                            <!-- Preview do vídeo será mostrado aqui -->
-                        </div>
-                        <div class="media-counter" id="videoCounter">0/1 vídeo selecionado</div>
+                        <input type="file" class="file-input" id="fileInput" multiple accept="image/*,video/*">
+                        <div class="media-counter" id="mediaCounter">0 mídias selecionadas</div>
+                        <div class="preview-container" id="previewContainer"></div>
                     </div>
                     
                     <div class="admin-actions">
-                        <button type="submit" class="btn btn-success">Salvar Moto</button>
-                        <button type="button" class="btn btn-secondary" onclick="limparFormulario()">Nova Moto</button>
+                        <button type="submit" class="btn btn-success">Adicionar Veículo</button>
+                        <button type="button" class="btn btn-secondary" id="clearForm">Limpar Formulário</button>
                     </div>
                 </form>
                 
+                <div class="status-message" id="formStatus"></div>
+                
                 <div class="moto-list" id="motoList">
-                    <h3>Motos Cadastradas</h3>
-                    <!-- Lista de motos será preenchida aqui -->
+                    <h3>Veículos Cadastrados</h3>
+                    <!-- Lista de veículos será carregada aqui -->
                 </div>
-                
-                <div class="admin-actions">
-                    <button class="btn btn-primary" onclick="sincronizarComFirebase()">Sincronizar com Firebase</button>
-                    <button class="btn btn-secondary" onclick="carregarDoFirebase()">Carregar do Firebase</button>
-                </div>
-                
-                <div class="status-message" id="statusMessage"></div>
             </div>
         </div>
     </div>
 
-    <!-- Botão Flutuante para Admin -->
-    <button class="float-btn" id="floatBtn" style="display: none;" onclick="abrirAdmin()">
+    <!-- Floating Button -->
+    <button class="float-btn" id="floatBtn" style="display: none;">
         <i class="fas fa-tools"></i>
     </button>
 
+    <!-- Firebase Configuration -->
     <script>
-        // ========== CONFIGURAÇÃO DO FIREBASE ==========
+        // Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyAe_ZhRjTOwgClsoVJDomSJrF-cmxD9Sp4",
-            authDomain: "maiso-veiculoss.firebaseapp.com",
-            databaseURL: "https://maiso-veiculoss-default-rtdb.firebaseio.com",
-            projectId: "maiso-veiculoss",
-            storageBucket: "maiso-veiculoss.firebasestorage.app",
-            messagingSenderId: "859256877327",
-            appId: "1:859256877327:web:335abeda3d6be76a350e7a"
+            apiKey: "AIzaSyB0q5vQYq8XvQ0Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5",
+            authDomain: "maiso-veiculos.firebaseapp.com",
+            databaseURL: "https://maiso-veiculos-default-rtdb.firebaseio.com",
+            projectId: "maiso-veiculos",
+            storageBucket: "maiso-veiculos.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef123456"
         };
 
-        // Inicializar Firebase
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
+    </script>
 
+    <!-- JavaScript -->
+    <script>
         // ========== VARIÁVEIS GLOBAIS ==========
-        let usuarioAtual = {
-            nome: 'Visitante',
-            tipo: 'visitante'
+        let currentUser = {
+            name: 'Visitante',
+            type: 'guest' // guest, user, admin, dev
         };
-
-        let motos = [];
-        let motoEditando = null;
-        let imagensCarrossel = [];
-        let indiceImagemAtual = 0;
         
-        // Variáveis para upload de mídias
-        let fotosSelecionadas = [];
-        let videoSelecionado = null;
+        let vehicles = [];
+        let currentVehicleIndex = 0;
+        let currentMediaIndex = 0;
+        let selectedFiles = [];
 
-        // ========== FUNÇÕES DE INICIALIZAÇÃO ==========
+        // ========== ELEMENTOS DOM ==========
+        const userInfo = document.getElementById('userInfo');
+        const userName = document.getElementById('userName');
+        const userType = document.getElementById('userType');
+        const devType = document.getElementById('devType');
+        const loginBtn = document.getElementById('loginBtn');
+        const adminIndicator = document.getElementById('adminIndicator');
+        const devIndicator = document.getElementById('devIndicator');
+        const loginModal = document.getElementById('loginModal');
+        const adminPanel = document.getElementById('adminPanel');
+        const floatBtn = document.getElementById('floatBtn');
+        const vehiclesGrid = document.getElementById('vehiclesGrid');
+        const vehicleModal = document.getElementById('vehicleModal');
+        const closeModal = document.getElementById('closeModal');
+        const carouselInner = document.getElementById('carouselInner');
+        const carouselIndicators = document.getElementById('carouselIndicators');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalSpecs = document.getElementById('modalSpecs');
+        const whatsappButton = document.getElementById('whatsappButton');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const addVehicleForm = document.getElementById('addVehicleForm');
+        const motoList = document.getElementById('motoList');
+        const closeAdminPanel = document.getElementById('closeAdminPanel');
+        const formStatus = document.getElementById('formStatus');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const mediaCounter = document.getElementById('mediaCounter');
+        const clearFormBtn = document.getElementById('clearForm');
+        const menuToggle = document.getElementById('menuToggle');
+        const drawer = document.getElementById('drawer');
+        const overlay = document.getElementById('overlay');
+        const drawerLoginBtn = document.getElementById('drawerLoginBtn');
+
+        // ========== INICIALIZAÇÃO ==========
         document.addEventListener('DOMContentLoaded', function() {
-            // Verificar se há dados salvos localmente
-            const usuarioSalvo = localStorage.getItem('usuarioMaiso');
-            if (usuarioSalvo) {
-                usuarioAtual = JSON.parse(usuarioSalvo);
-                atualizarInterfaceUsuario();
-            }
-
-            // Carregar motos do Firebase
-            carregarMotosDoFirebase();
-
-            // Configurar filtros
-            configurarFiltros();
-
-            // Configurar modal
-            configurarModal();
-
-            // Configurar formulário
-            configurarFormulario();
-
-            // Configurar eventos de login
-            document.getElementById('loginModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    fecharLogin();
-                }
-            });
-
-            // Configurar eventos de teclado
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    fecharModal();
-                    fecharLogin();
-                    fecharAdmin();
-                }
-            });
+            // Carregar veículos do Firebase
+            loadVehicles();
             
-            // Configurar drag and drop para fotos
-            configurarDragAndDrop('fotosUploadArea', 'fotosInput');
+            // Configurar eventos
+            setupEventListeners();
             
-            // Configurar drag and drop para vídeo
-            configurarDragAndDrop('videoUploadArea', 'videoInput');
+            // Verificar se há um usuário salvo
+            checkSavedUser();
         });
 
-        // ========== FUNÇÕES DO FIREBASE ==========
-        function carregarMotosDoFirebase() {
-            mostrarStatus('Carregando dados do Firebase...', 'warning');
+        // ========== CONFIGURAÇÃO DE EVENTOS ==========
+        function setupEventListeners() {
+            // Login
+            loginBtn.addEventListener('click', openLoginModal);
+            drawerLoginBtn.addEventListener('click', openLoginModal);
             
-            database.ref('motos').once('value')
-                .then((snapshot) => {
-                    const dados = snapshot.val();
-                    
-                    if (dados) {
-                        // Converter objeto em array
-                        motos = Object.values(dados);
-                        mostrarStatus('Dados carregados do Firebase com sucesso!', 'success');
-                    } else {
-                        // Se não houver dados no Firebase, carregar do localStorage
-                        carregarMotosDoLocalStorage();
-                        mostrarStatus('Nenhum dado encontrado no Firebase. Carregando dados locais.', 'warning');
-                    }
-                    
-                    renderizarMotos();
-                    atualizarListaMotos();
-                })
-                .catch((error) => {
-                    console.error('Erro ao carregar do Firebase:', error);
-                    carregarMotosDoLocalStorage();
-                    mostrarStatus('Erro ao carregar do Firebase. Usando dados locais.', 'error');
-                });
-        }
-
-        function salvarMotosNoFirebase() {
-            mostrarStatus('Salvando no Firebase...', 'warning');
-            
-            // Converter array para objeto
-            const motosObj = {};
-            motos.forEach((moto, index) => {
-                motosObj[index] = moto;
-            });
-            
-            database.ref('motos').set(motosObj)
-                .then(() => {
-                    mostrarStatus('Dados salvos no Firebase com sucesso!', 'success');
-                    // Também salvar localmente como backup
-                    salvarMotosNoLocalStorage();
-                })
-                .catch((error) => {
-                    console.error('Erro ao salvar no Firebase:', error);
-                    mostrarStatus('Erro ao salvar no Firebase. Salvando localmente.', 'error');
-                    // Salvar localmente em caso de erro
-                    salvarMotosNoLocalStorage();
-                });
-        }
-
-        function carregarDoFirebase() {
-            if (usuarioAtual.tipo !== 'dev') {
-                mostrarStatus('Apenas desenvolvedores podem carregar do Firebase.', 'error');
-                return;
-            }
-            
-            carregarMotosDoFirebase();
-        }
-
-        function sincronizarComFirebase() {
-            if (usuarioAtual.tipo !== 'dev') {
-                mostrarStatus('Apenas desenvolvedores podem sincronizar com o Firebase.', 'error');
-                return;
-            }
-            
-            salvarMotosNoFirebase();
-        }
-
-        // ========== FUNÇÕES DE LOCAL STORAGE ==========
-        function carregarMotosDoLocalStorage() {
-            const motosSalvas = localStorage.getItem('motosMaiso');
-            if (motosSalvas) {
-                motos = JSON.parse(motosSalvas);
-            } else {
-                // Dados iniciais se não houver nada salvo
-                motos = [
-                    {
-                        id: 1,
-                        nome: "Honda CG 160 Start",
-                        preco: "R$ 12.990",
-                        categoria: "160",
-                        imagem: "https://via.placeholder.com/400x300/FF0000/FFFFFF?text=Honda+CG+160",
-                        descricao: "A Honda CG 160 Start é uma motocicleta versátil e econômica, perfeita para o dia a dia.",
-                        especificacoes: {
-                            "Cilindrada": "160cc",
-                            "Potência": "14,9 cv",
-                            "Tanque": "15,1 litros",
-                            "Consumo": "40 km/l",
-                            "Cor": "Vermelha"
-                        },
-                        fotos: [
-                            "https://via.placeholder.com/800x600/FF0000/FFFFFF?text=Honda+CG+160+Foto+1",
-                            "https://via.placeholder.com/800x600/FF3333/FFFFFF?text=Honda+CG+160+Foto+2",
-                            "https://via.placeholder.com/800x600/FF6666/FFFFFF?text=Honda+CG+160+Foto+3"
-                        ],
-                        video: "https://www.sample-videos.com/zip/10/mp4.zip"
-                    },
-                    {
-                        id: 2,
-                        nome: "Yamaha Factor 150",
-                        preco: "R$ 10.490",
-                        categoria: "150",
-                        imagem: "https://via.placeholder.com/400x300/0000FF/FFFFFF?text=Yamaha+Factor+150",
-                        descricao: "A Yamaha Factor 150 é conhecida pela sua confiabilidade e baixo custo de manutenção.",
-                        especificacoes: {
-                            "Cilindrada": "150cc",
-                            "Potência": "12,3 cv",
-                            "Tanque": "13 litros",
-                            "Consumo": "45 km/l",
-                            "Cor": "Azul"
-                        },
-                        fotos: [
-                            "https://via.placeholder.com/800x600/0000FF/FFFFFF?text=Yamaha+Factor+150+Foto+1",
-                            "https://via.placeholder.com/800x600/3333FF/FFFFFF?text=Yamaha+Factor+150+Foto+2"
-                        ],
-                        video: null
-                    },
-                    {
-                        id: 3,
-                        nome: "Honda Biz 110",
-                        preco: "R$ 8.990",
-                        categoria: "110",
-                        imagem: "https://via.placeholder.com/400x300/CCCCCC/000000?text=Honda+Biz+110",
-                        descricao: "A Honda Biz 110 é a escolha perfeita para quem busca economia e praticidade na cidade.",
-                        especificacoes: {
-                            "Cilindrada": "110cc",
-                            "Potência": "8,2 cv",
-                            "Tanque": "4,4 litros",
-                            "Consumo": "50 km/l",
-                            "Cor": "Prata"
-                        },
-                        fotos: [
-                            "https://via.placeholder.com/800x600/CCCCCC/000000?text=Honda+Biz+110+Foto+1"
-                        ],
-                        video: null
-                    }
-                ];
-            }
-        }
-
-        function salvarMotosNoLocalStorage() {
-            localStorage.setItem('motosMaiso', JSON.stringify(motos));
-        }
-
-        // ========== FUNÇÕES DE UPLOAD DE MÍDIAS ==========
-        function configurarDragAndDrop(uploadAreaId, inputId) {
-            const uploadArea = document.getElementById(uploadAreaId);
-            const fileInput = document.getElementById(inputId);
-            
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, preventDefaults, false);
-            });
-            
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            
-            ['dragenter', 'dragover'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, highlight, false);
-            });
-            
-            ['dragleave', 'drop'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, unhighlight, false);
-            });
-            
-            function highlight() {
-                uploadArea.classList.add('highlight');
-            }
-            
-            function unhighlight() {
-                uploadArea.classList.remove('highlight');
-            }
-            
-            uploadArea.addEventListener('drop', handleDrop, false);
-            
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                
-                if (inputId === 'fotosInput') {
-                    processarFotos(files);
-                } else if (inputId === 'videoInput') {
-                    processarVideo(files);
-                }
-            }
-        }
-
-        function processarFotos(files) {
-            const filesArray = Array.from(files);
-            
-            // Verificar se excede o limite
-            if (fotosSelecionadas.length + filesArray.length > 5) {
-                mostrarStatus('❌ Máximo de 5 fotos permitidas!', 'error');
-                return;
-            }
-            
-            // Processar cada arquivo
-            filesArray.forEach(file => {
-                if (!file.type.startsWith('image/')) {
-                    mostrarStatus('❌ Apenas arquivos de imagem são permitidos!', 'error');
-                    return;
-                }
-                
-                fotosSelecionadas.push(file);
-                
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const previewItem = document.createElement('div');
-                    previewItem.className = 'preview-item';
-                    previewItem.innerHTML = `
-                        <img src="${e.target.result}" alt="Preview">
-                        <button type="button" class="remove-btn" onclick="removerFoto(${fotosSelecionadas.length - 1})">×</button>
-                    `;
-                    document.getElementById('fotosPreviewContainer').appendChild(previewItem);
-                    
-                    atualizarContadorFotos();
-                };
-                reader.readAsDataURL(file);
-            });
-            
-            // Atualizar área de upload
-            const uploadArea = document.getElementById('fotosUploadArea');
-            uploadArea.innerHTML = `
-                <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
-                <p>${fotosSelecionadas.length}/5 fotos selecionadas</p>
-                <small>Clique para adicionar mais fotos</small>
-            `;
-            
-            document.getElementById('fotosInput').value = '';
-        }
-
-        function processarVideo(files) {
-            if (files.length === 0) return;
-            
-            const file = files[0];
-            
-            if (!file.type.startsWith('video/')) {
-                mostrarStatus('❌ Apenas arquivos de vídeo são permitidos!', 'error');
-                return;
-            }
-            
-            videoSelecionado = file;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const previewContainer = document.getElementById('videoPreviewContainer');
-                previewContainer.innerHTML = '';
-                
-                const previewItem = document.createElement('div');
-                previewItem.className = 'preview-item';
-                previewItem.innerHTML = `
-                    <video controls>
-                        <source src="${e.target.result}" type="${file.type}">
-                        Seu navegador não suporta o elemento de vídeo.
-                    </video>
-                    <button type="button" class="remove-btn" onclick="removerVideo()">×</button>
-                `;
-                previewContainer.appendChild(previewItem);
-                
-                atualizarContadorVideo();
-            };
-            reader.readAsDataURL(file);
-            
-            // Atualizar área de upload
-            const uploadArea = document.getElementById('videoUploadArea');
-            uploadArea.innerHTML = `
-                <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
-                <p>Vídeo selecionado</p>
-                <small>Clique para trocar o vídeo</small>
-            `;
-            
-            document.getElementById('videoInput').value = '';
-        }
-
-        function removerFoto(index) {
-            fotosSelecionadas.splice(index, 1);
-            atualizarPreviewsFotos();
-        }
-
-        function removerVideo() {
-            videoSelecionado = null;
-            document.getElementById('videoPreviewContainer').innerHTML = '';
-            atualizarContadorVideo();
-            
-            // Restaurar área de upload
-            const uploadArea = document.getElementById('videoUploadArea');
-            uploadArea.innerHTML = `
-                <i class="fas fa-video" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
-                <p>Clique para adicionar vídeo</p>
-                <small>Formatos: MP4, WebM, OGG • Máx. 1 vídeo</small>
-            `;
-        }
-
-        function atualizarPreviewsFotos() {
-            const previewContainer = document.getElementById('fotosPreviewContainer');
-            previewContainer.innerHTML = '';
-            
-            fotosSelecionadas.forEach((foto, index) => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const previewItem = document.createElement('div');
-                    previewItem.className = 'preview-item';
-                    previewItem.innerHTML = `
-                        <img src="${e.target.result}" alt="Preview">
-                        <button type="button" class="remove-btn" onclick="removerFoto(${index})">×</button>
-                    `;
-                    previewContainer.appendChild(previewItem);
-                };
-                reader.readAsDataURL(foto);
-            });
-            
-            atualizarContadorFotos();
-            
-            // Atualizar área de upload
-            const uploadArea = document.getElementById('fotosUploadArea');
-            if (fotosSelecionadas.length === 0) {
-                uploadArea.innerHTML = `
-                    <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
-                    <p>Clique para adicionar fotos</p>
-                    <small>Formatos: JPG, PNG, GIF • Máx. 5 fotos</small>
-                `;
-            } else {
-                uploadArea.innerHTML = `
-                    <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
-                    <p>${fotosSelecionadas.length}/5 fotos selecionadas</p>
-                    <small>Clique para adicionar mais fotos</small>
-                `;
-            }
-        }
-
-        function atualizarContadorFotos() {
-            document.getElementById('fotosCounter').textContent = `${fotosSelecionadas.length}/5 fotos selecionadas`;
-        }
-
-        function atualizarContadorVideo() {
-            document.getElementById('videoCounter').textContent = videoSelecionado ? '1/1 vídeo selecionado' : '0/1 vídeo selecionado';
-        }
-
-        // ========== FUNÇÕES DE USUÁRIO ==========
-        function mostrarLogin() {
-            document.getElementById('loginModal').style.display = 'flex';
-        }
-
-        function fecharLogin() {
-            document.getElementById('loginModal').style.display = 'none';
-            document.getElementById('loginError').style.display = 'none';
-            document.getElementById('devPassword').value = '';
-        }
-
-        function mudarAba(aba) {
-            // Remover classe active de todas as abas
+            // Modal de login
             document.querySelectorAll('.login-tab').forEach(tab => {
-                tab.classList.remove('active');
+                tab.addEventListener('click', function() {
+                    switchTab(this.dataset.tab);
+                });
             });
             
-            // Ativar aba selecionada
-            if (aba === 'dev') {
-                document.querySelector('.login-tab:nth-child(1)').classList.add('active');
-            }
+            document.getElementById('userLoginBtn').addEventListener('click', loginAsUser);
+            document.getElementById('adminLoginBtn').addEventListener('click', loginAsAdmin);
+            document.getElementById('devLoginBtn').addEventListener('click', loginAsDev);
             
+            // Fechar modais
+            loginModal.addEventListener('click', function(e) {
+                if (e.target === loginModal) closeLoginModal();
+            });
+            
+            adminPanel.addEventListener('click', function(e) {
+                if (e.target === adminPanel) closeAdminPanelFunc();
+            });
+            
+            vehicleModal.addEventListener('click', function(e) {
+                if (e.target === vehicleModal) closeVehicleModal();
+            });
+            
+            closeModal.addEventListener('click', closeVehicleModal);
+            closeAdminPanel.addEventListener('click', closeAdminPanelFunc);
+            
+            // Botão flutuante
+            floatBtn.addEventListener('click', openAdminPanel);
+            
+            // Filtros de veículos
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterVehicles(this.dataset.filter);
+                    setActiveFilter(this);
+                });
+            });
+            
+            // Carrossel
+            prevBtn.addEventListener('click', showPrevMedia);
+            nextBtn.addEventListener('click', showNextMedia);
+            
+            // Formulário admin
+            addVehicleForm.addEventListener('submit', addVehicle);
+            clearFormBtn.addEventListener('click', clearForm);
+            
+            // Upload de mídias
+            uploadArea.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('dragover', handleDragOver);
+            uploadArea.addEventListener('dragleave', handleDragLeave);
+            uploadArea.addEventListener('drop', handleDrop);
+            fileInput.addEventListener('change', handleFileSelect);
+            
+            // Menu hamburguer
+            menuToggle.addEventListener('click', toggleDrawer);
+            overlay.addEventListener('click', closeDrawer);
+        }
+
+        // ========== SISTEMA DE USUÁRIOS ==========
+        function checkSavedUser() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                updateUserInterface();
+            }
+        }
+
+        function openLoginModal() {
+            loginModal.style.display = 'flex';
+            closeDrawer();
+        }
+
+        function closeLoginModal() {
+            loginModal.style.display = 'none';
             document.getElementById('loginError').style.display = 'none';
         }
 
-        function fazerLogin(tipo) {
-            const loginError = document.getElementById('loginError');
-            let senha;
-
-            if (tipo === 'dev') {
-                senha = document.getElementById('devPassword').value;
-                if (senha !== 'dev123') {
-                    loginError.style.display = 'block';
-                    return;
-                }
-                usuarioAtual.nome = 'Desenvolvedor';
-            }
-
-            usuarioAtual.tipo = tipo;
-
-            // Salvar no localStorage
-            localStorage.setItem('usuarioMaiso', JSON.stringify(usuarioAtual));
-
-            // Atualizar interface
-            atualizarInterfaceUsuario();
-            
-            // Fechar modal
-            fecharLogin();
-            
-            // Mostrar mensagem de boas-vindas
-            mostrarStatus(`Bem-vindo, ${usuarioAtual.nome}!`, 'success');
-        }
-
-        function atualizarInterfaceUsuario() {
-            // Atualizar informações do usuário
-            document.getElementById('userName').textContent = usuarioAtual.nome;
-            
-            // Mostrar/ocultar badges
-            const userRole = document.getElementById('userRole');
-            if (usuarioAtual.tipo === 'dev') {
-                userRole.textContent = 'DEV';
-                userRole.className = 'dev-badge';
-                userRole.style.display = 'inline';
-                
-                // Mostrar indicador e botão flutuante
-                document.getElementById('devIndicator').style.display = 'block';
-                document.getElementById('floatBtn').style.display = 'block';
-            } else {
-                userRole.style.display = 'none';
-                document.getElementById('devIndicator').style.display = 'none';
-                document.getElementById('floatBtn').style.display = 'none';
-            }
-            
-            // Atualizar botão de login
-            const loginButton = document.getElementById('loginButton');
-            if (usuarioAtual.tipo !== 'visitante') {
-                loginButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair';
-                loginButton.onclick = function() {
-                    usuarioAtual = { nome: 'Visitante', tipo: 'visitante' };
-                    localStorage.removeItem('usuarioMaiso');
-                    atualizarInterfaceUsuario();
-                    mostrarStatus('Logout realizado com sucesso!', 'success');
-                };
-            } else {
-                loginButton.innerHTML = '<i class="fas fa-user"></i> Entrar';
-                loginButton.onclick = mostrarLogin;
-            }
-            
-            // Renderizar motos novamente para mostrar/ocultar botões de admin
-            renderizarMotos();
-        }
-
-        // ========== FUNÇÕES DO PAINEL ADMIN ==========
-        function abrirAdmin() {
-            if (usuarioAtual.tipo !== 'dev') {
-                mostrarStatus('Acesso restrito para desenvolvedores!', 'error');
-                return;
-            }
-            
-            document.getElementById('adminPanel').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function fecharAdmin() {
-            document.getElementById('adminPanel').style.display = 'none';
-            document.body.style.overflow = 'auto';
-            limparFormulario();
-        }
-
-        function configurarFormulario() {
-            const form = document.getElementById('motoForm');
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                salvarMoto();
-            });
-        }
-
-        function salvarMoto() {
-            const id = document.getElementById('motoId').value;
-            const nome = document.getElementById('motoNome').value;
-            const preco = document.getElementById('motoPreco').value;
-            const categoria = document.getElementById('motoCategoria').value;
-            const descricao = document.getElementById('motoDescricao').value;
-            
-            const especificacoes = {
-                "Cilindrada": document.getElementById('motoCilindrada').value,
-                "Potência": document.getElementById('motoPotencia').value,
-                "Tanque": document.getElementById('motoTanque').value,
-                "Consumo": document.getElementById('motoConsumo').value,
-                "Cor": document.getElementById('motoCor').value
-            };
-            
-            if (!nome || !preco || !categoria || !descricao) {
-                mostrarStatus('Preencha todos os campos obrigatórios!', 'error');
-                return;
-            }
-            
-            // Processar fotos - converter para URLs base64
-            const fotosUrls = [];
-            fotosSelecionadas.forEach(foto => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    fotosUrls.push(e.target.result);
-                };
-                reader.readAsDataURL(foto);
+        function switchTab(tab) {
+            // Ativar aba selecionada
+            document.querySelectorAll('.login-tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.tab === tab);
             });
             
-            // Processar vídeo - converter para URL base64
-            let videoUrl = null;
-            if (videoSelecionado) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    videoUrl = e.target.result;
-                    finalizarSalvamento(id, nome, preco, categoria, descricao, especificacoes, fotosUrls, videoUrl);
-                };
-                reader.readAsDataURL(videoSelecionado);
+            // Mostrar formulário correto
+            document.getElementById('userLogin').style.display = tab === 'user' ? 'block' : 'none';
+            document.getElementById('adminLogin').style.display = tab === 'admin' ? 'block' : 'none';
+            document.getElementById('devLogin').style.display = tab === 'dev' ? 'block' : 'none';
+            
+            // Limpar erros
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        function loginAsUser() {
+            const name = document.getElementById('userNameInput').value.trim();
+            if (name) {
+                currentUser = { name, type: 'user' };
+                saveUser();
+                closeLoginModal();
+            }
+        }
+
+        function loginAsAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === 'souza27') {
+                currentUser = { name: 'Administrador', type: 'admin' };
+                saveUser();
+                closeLoginModal();
             } else {
-                finalizarSalvamento(id, nome, preco, categoria, descricao, especificacoes, fotosUrls, null);
+                document.getElementById('loginError').style.display = 'block';
             }
         }
 
-        function finalizarSalvamento(id, nome, preco, categoria, descricao, especificacoes, fotosUrls, videoUrl) {
-            // Usar a primeira foto como imagem principal
-            const imagem = fotosUrls.length > 0 ? fotosUrls[0] : 'https://via.placeholder.com/400x300/CCCCCC/666666?text=Sem+Imagem';
-            
-            const moto = {
-                id: id ? parseInt(id) : Math.max(0, ...motos.map(m => m.id)) + 1,
-                nome,
-                preco,
-                categoria,
-                imagem,
-                descricao,
-                especificacoes,
-                fotos: fotosUrls,
-                video: videoUrl
-            };
-            
-            if (id) {
-                // Editar moto existente
-                const index = motos.findIndex(m => m.id === parseInt(id));
-                if (index !== -1) {
-                    motos[index] = moto;
-                    mostrarStatus('Moto atualizada com sucesso!', 'success');
-                }
+        function loginAsDev() {
+            const password = document.getElementById('devPassword').value;
+            if (password === 'dev123') {
+                currentUser = { name: 'Desenvolvedor', type: 'dev' };
+                saveUser();
+                closeLoginModal();
             } else {
-                // Adicionar nova moto
-                motos.push(moto);
-                mostrarStatus('Moto adicionada com sucesso!', 'success');
+                document.getElementById('loginError').style.display = 'block';
             }
-            
-            // Atualizar interface
-            renderizarMotos();
-            atualizarListaMotos();
-            
-            // Salvar no Firebase
-            salvarMotosNoFirebase();
-            
-            // Limpar formulário
-            limparFormulario();
         }
 
-        function editarMoto(id) {
-            const moto = motos.find(m => m.id === id);
-            if (!moto) return;
+        function saveUser() {
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            updateUserInterface();
+        }
+
+        function updateUserInterface() {
+            userName.textContent = currentUser.name;
             
-            document.getElementById('motoId').value = moto.id;
-            document.getElementById('motoNome').value = moto.nome;
-            document.getElementById('motoPreco').value = moto.preco;
-            document.getElementById('motoCategoria').value = moto.categoria;
-            document.getElementById('motoDescricao').value = moto.descricao;
+            // Mostrar badges de tipo de usuário
+            userType.style.display = currentUser.type === 'admin' ? 'inline-block' : 'none';
+            devType.style.display = currentUser.type === 'dev' ? 'inline-block' : 'none';
             
-            if (moto.especificacoes) {
-                document.getElementById('motoCilindrada').value = moto.especificacoes.Cilindrada || '';
-                document.getElementById('motoPotencia').value = moto.especificacoes.Potência || '';
-                document.getElementById('motoTanque').value = moto.especificacoes.Tanque || '';
-                document.getElementById('motoConsumo').value = moto.especificacoes.Consumo || '';
-                document.getElementById('motoCor').value = moto.especificacoes.Cor || '';
-            }
+            // Mostrar indicadores
+            adminIndicator.style.display = currentUser.type === 'admin' ? 'block' : 'none';
+            devIndicator.style.display = currentUser.type === 'dev' ? 'block' : 'none';
             
-            // Carregar fotos existentes
-            fotosSelecionadas = [];
-            if (moto.fotos && moto.fotos.length > 0) {
-                // Converter URLs base64 para File objects (simulação)
-                moto.fotos.forEach((fotoUrl, index) => {
-                    // Em um sistema real, você precisaria converter a URL base64 de volta para File
-                    // Por simplicidade, vamos apenas mostrar as imagens no preview
-                    const previewContainer = document.getElementById('fotosPreviewContainer');
-                    const previewItem = document.createElement('div');
-                    previewItem.className = 'preview-item';
-                    previewItem.innerHTML = `
-                        <img src="${fotoUrl}" alt="Preview">
-                        <button type="button" class="remove-btn" onclick="removerFotoExistente(${index})">×</button>
-                    `;
-                    previewContainer.appendChild(previewItem);
-                });
-                atualizarContadorFotos();
+            // Mostrar botão flutuante para admin/dev
+            floatBtn.style.display = (currentUser.type === 'admin' || currentUser.type === 'dev') ? 'block' : 'none';
+            
+            // Atualizar texto do botão de login
+            loginBtn.textContent = currentUser.type === 'guest' ? 'Entrar' : 'Sair';
+            loginBtn.onclick = currentUser.type === 'guest' ? openLoginModal : logout;
+        }
+
+        function logout() {
+            currentUser = { name: 'Visitante', type: 'guest' };
+            localStorage.removeItem('currentUser');
+            updateUserInterface();
+        }
+
+        // ========== SISTEMA DE VEÍCULOS ==========
+        function loadVehicles() {
+            const vehiclesRef = database.ref('vehicles');
+            
+            vehiclesRef.on('value', (snapshot) => {
+                vehicles = [];
+                const data = snapshot.val();
                 
-                const uploadArea = document.getElementById('fotosUploadArea');
-                uploadArea.innerHTML = `
-                    <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
-                    <p>${moto.fotos.length}/5 fotos selecionadas</p>
-                    <small>Clique para adicionar mais fotos</small>
-                `;
-            }
-            
-            // Carregar vídeo existente
-            videoSelecionado = null;
-            if (moto.video) {
-                const previewContainer = document.getElementById('videoPreviewContainer');
-                previewContainer.innerHTML = '';
-                
-                const previewItem = document.createElement('div');
-                previewItem.className = 'preview-item';
-                previewItem.innerHTML = `
-                    <video controls>
-                        <source src="${moto.video}" type="video/mp4">
-                        Seu navegador não suporta o elemento de vídeo.
-                    </video>
-                    <button type="button" class="remove-btn" onclick="removerVideo()">×</button>
-                `;
-                previewContainer.appendChild(previewItem);
-                
-                atualizarContadorVideo();
-                
-                const uploadArea = document.getElementById('videoUploadArea');
-                uploadArea.innerHTML = `
-                    <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
-                    <p>Vídeo selecionado</p>
-                    <small>Clique para trocar o vídeo</small>
-                `;
-            }
-            
-            motoEditando = moto;
-        }
-
-        function removerFotoExistente(index) {
-            // Em um sistema real, você removeria a foto do array de fotos da moto
-            // Por simplicidade, vamos apenas remover do preview
-            const previewItems = document.querySelectorAll('#fotosPreviewContainer .preview-item');
-            if (previewItems[index]) {
-                previewItems[index].remove();
-            }
-            
-            const uploadArea = document.getElementById('fotosUploadArea');
-            const remainingPhotos = document.querySelectorAll('#fotosPreviewContainer .preview-item').length;
-            
-            if (remainingPhotos === 0) {
-                uploadArea.innerHTML = `
-                    <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
-                    <p>Clique para adicionar fotos</p>
-                    <small>Formatos: JPG, PNG, GIF • Máx. 5 fotos</small>
-                `;
-            } else {
-                uploadArea.innerHTML = `
-                    <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
-                    <p>${remainingPhotos}/5 fotos selecionadas</p>
-                    <small>Clique para adicionar mais fotos</small>
-                `;
-            }
-            
-            document.getElementById('fotosCounter').textContent = `${remainingPhotos}/5 fotos selecionadas`;
-        }
-
-        function excluirMoto(id) {
-            if (!confirm('Tem certeza que deseja excluir esta moto?')) {
-                return;
-            }
-            
-            motos = motos.filter(m => m.id !== id);
-            
-            // Atualizar interface
-            renderizarMotos();
-            atualizarListaMotos();
-            
-            // Salvar no Firebase
-            salvarMotosNoFirebase();
-            
-            mostrarStatus('Moto excluída com sucesso!', 'success');
-        }
-
-        function limparFormulario() {
-            document.getElementById('motoForm').reset();
-            document.getElementById('motoId').value = '';
-            motoEditando = null;
-            
-            // Limpar previews
-            fotosSelecionadas = [];
-            videoSelecionado = null;
-            document.getElementById('fotosPreviewContainer').innerHTML = '';
-            document.getElementById('videoPreviewContainer').innerHTML = '';
-            
-            // Restaurar áreas de upload
-            document.getElementById('fotosUploadArea').innerHTML = `
-                <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
-                <p>Clique para adicionar fotos</p>
-                <small>Formatos: JPG, PNG, GIF • Máx. 5 fotos</small>
-            `;
-            
-            document.getElementById('videoUploadArea').innerHTML = `
-                <i class="fas fa-video" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
-                <p>Clique para adicionar vídeo</p>
-                <small>Formatos: MP4, WebM, OGG • Máx. 1 vídeo</small>
-            `;
-            
-            // Atualizar contadores
-            atualizarContadorFotos();
-            atualizarContadorVideo();
-        }
-
-        function atualizarListaMotos() {
-            const lista = document.getElementById('motoList');
-            lista.innerHTML = '<h3>Motos Cadastradas</h3>';
-            
-            if (motos.length === 0) {
-                lista.innerHTML += '<p>Nenhuma moto cadastrada</p>';
-                return;
-            }
-            
-            motos.forEach(moto => {
-                const item = document.createElement('div');
-                item.className = 'moto-item';
-                item.innerHTML = `
-                    <div class="moto-info">
-                        <div class="moto-name">${moto.nome}</div>
-                        <div class="moto-details">${moto.preco} | ${moto.categoria}cc</div>
-                    </div>
-                    <div class="moto-actions">
-                        <button class="btn btn-primary" onclick="editarMoto(${moto.id})">Editar</button>
-                        <button class="btn btn-danger" onclick="excluirMoto(${moto.id})">Excluir</button>
-                    </div>
-                `;
-                lista.appendChild(item);
-            });
-        }
-
-        // ========== FUNÇÕES DE RENDERIZAÇÃO ==========
-        function renderizarMotos() {
-            const grid = document.getElementById('vehicles-grid');
-            grid.innerHTML = '';
-            
-            if (motos.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
-                        <i class="fas fa-motorcycle" style="font-size: 50px; margin-bottom: 20px;"></i>
-                        <h3>Nenhuma moto cadastrada</h3>
-                        <p>As motos aparecerão aqui quando forem adicionadas</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            motos.forEach(moto => {
-                const card = document.createElement('div');
-                card.className = 'vehicle-card';
-                card.setAttribute('data-category', moto.categoria);
-                
-                card.innerHTML = `
-                    <img src="${moto.imagem}" alt="${moto.nome}" class="vehicle-img">
-                    <div class="vehicle-info">
-                        <h3 class="vehicle-title">${moto.nome}</h3>
-                        <div class="vehicle-price">${moto.preco}</div>
-                        <div class="vehicle-details">
-                            <span><i class="fas fa-gas-pump"></i> ${moto.especificacoes.Cilindrada}</span>
-                            <span><i class="fas fa-tachometer-alt"></i> ${moto.especificacoes.Consumo}</span>
-                        </div>
-                        <a href="#" class="vehicle-btn" onclick="abrirModal(${moto.id}); return false;">Ver Detalhes</a>
-                    </div>
-                    ${usuarioAtual.tipo === 'dev' ? `
-                        <button class="btn-editar" onclick="editarMoto(${moto.id}); event.stopPropagation();">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn-excluir" onclick="excluirMoto(${moto.id}); event.stopPropagation();">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    ` : ''}
-                `;
-                
-                grid.appendChild(card);
-            });
-        }
-
-        function configurarFiltros() {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // Remover classe active de todos os botões
-                    document.querySelectorAll('.filter-btn').forEach(b => {
-                        b.classList.remove('active');
+                if (data) {
+                    Object.keys(data).forEach(key => {
+                        vehicles.push({
+                            id: key,
+                            ...data[key]
+                        });
                     });
-                    
-                    // Adicionar classe active ao botão clicado
-                    this.classList.add('active');
-                    
-                    // Filtrar motos
-                    const filtro = this.getAttribute('data-filter');
-                    filtrarMotos(filtro);
-                });
+                }
+                
+                renderVehicles();
+                renderMotoList();
             });
         }
 
-        function filtrarMotos(categoria) {
-            const cards = document.querySelectorAll('.vehicle-card');
+        function renderVehicles() {
+            vehiclesGrid.innerHTML = '';
             
-            cards.forEach(card => {
-                if (categoria === 'all' || card.getAttribute('data-category') === categoria) {
+            if (vehicles.length === 0) {
+                vehiclesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px;">Nenhum veículo cadastrado.</p>';
+                return;
+            }
+            
+            vehicles.forEach((vehicle, index) => {
+                const vehicleCard = document.createElement('div');
+                vehicleCard.className = `vehicle-card ${vehicle.type}`;
+                vehicleCard.dataset.index = index;
+                
+                // Botões de admin (apenas para admin/dev)
+                const adminButtons = (currentUser.type === 'admin' || currentUser.type === 'dev') ? `
+                    <button class="btn-excluir" onclick="deleteVehicle('${vehicle.id}', event)"><i class="fas fa-trash"></i></button>
+                    <button class="btn-editar" onclick="editVehicle('${vehicle.id}', event)"><i class="fas fa-edit"></i></button>
+                ` : '';
+                
+                vehicleCard.innerHTML = `
+                    ${adminButtons}
+                    <img src="${vehicle.medias && vehicle.medias.length > 0 ? vehicle.medias[0] : 'placeholder.jpg'}" alt="${vehicle.name}" class="vehicle-img">
+                    <div class="vehicle-info">
+                        <h3 class="vehicle-title">${vehicle.name}</h3>
+                        <p class="vehicle-price">R$ ${formatPrice(vehicle.price)}</p>
+                        <div class="vehicle-details">
+                            <span><i class="fas fa-calendar-alt"></i> ${vehicle.year}</span>
+                            <span><i class="fas fa-tachometer-alt"></i> ${vehicle.km ? formatKm(vehicle.km) + ' km' : 'N/A'}</span>
+                        </div>
+                        <a href="#" class="vehicle-btn">Ver Detalhes</a>
+                    </div>
+                `;
+                
+                vehicleCard.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('btn-excluir') && !e.target.classList.contains('btn-editar')) {
+                        showVehicleDetails(index);
+                    }
+                });
+                
+                vehiclesGrid.appendChild(vehicleCard);
+            });
+        }
+
+        function filterVehicles(filter) {
+            const vehicleCards = document.querySelectorAll('.vehicle-card');
+            
+            vehicleCards.forEach(card => {
+                if (filter === 'all' || card.classList.contains(filter)) {
                     card.style.display = 'block';
                 } else {
                     card.style.display = 'none';
@@ -2597,221 +2031,440 @@
             });
         }
 
-        // ========== FUNÇÕES DO MODAL ==========
-        function configurarModal() {
-            const modal = document.getElementById('vehicleModal');
-            const closeBtn = document.querySelector('.close-modal');
-            
-            closeBtn.addEventListener('click', fecharModal);
-            
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    fecharModal();
-                }
-            });
+        function setActiveFilter(activeBtn) {
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            activeBtn.classList.add('active');
         }
 
-        function abrirModal(id) {
-            const moto = motos.find(m => m.id === id);
-            if (!moto) return;
+        function showVehicleDetails(index) {
+            currentVehicleIndex = index;
+            const vehicle = vehicles[index];
             
-            const modalBody = document.getElementById('modalBody');
+            // Atualizar informações do modal
+            modalTitle.textContent = vehicle.name;
+            modalPrice.textContent = `R$ ${formatPrice(vehicle.price)}`;
             
-            // Preparar mídias para o carrossel (fotos + vídeo)
-            imagensCarrossel = [...(moto.fotos || [])];
-            if (moto.video) {
-                imagensCarrossel.push(moto.video);
-            }
-            
-            // Se não houver mídias, usar imagem principal
-            if (imagensCarrossel.length === 0) {
-                imagensCarrossel = [moto.imagem];
-            }
-            
-            indiceImagemAtual = 0;
-            
-            modalBody.innerHTML = `
-                <div class="carousel">
-                    <div class="carousel-inner">
-                        ${imagensCarrossel.map((midia, index) => {
-                            const isVideo = midia === moto.video;
-                            return `
-                                <div class="carousel-item ${index === 0 ? 'active' : ''}">
-                                    ${isVideo ? 
-                                        `<video controls>
-                                            <source src="${midia}" type="video/mp4">
-                                            Seu navegador não suporta o elemento de vídeo.
-                                         </video>` : 
-                                        `<img src="${midia}" alt="${moto.nome}">`
-                                    }
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                    ${imagensCarrossel.length > 1 ? `
-                        <button class="carousel-control prev" onclick="mudarImagem(-1)">&#10094;</button>
-                        <button class="carousel-control next" onclick="mudarImagem(1)">&#10095;</button>
-                        <div class="carousel-indicators">
-                            ${imagensCarrossel.map((_, index) => {
-                                const isVideo = index === imagensCarrossel.length - 1 && moto.video;
-                                return `
-                                    <button class="carousel-indicator ${index === 0 ? 'active' : ''} ${isVideo ? 'video-indicator' : ''}" onclick="irParaImagem(${index})"></button>
-                                `;
-                            }).join('')}
-                        </div>
-                    ` : ''}
+            // Atualizar especificações
+            modalSpecs.innerHTML = `
+                <div class="spec-item">
+                    <span class="spec-name">Tipo</span>
+                    <span class="spec-value">${getVehicleTypeName(vehicle.type)}</span>
                 </div>
-                <div class="modal-details">
-                    <h2 class="modal-title">${moto.nome}</h2>
-                    <div class="modal-price">${moto.preco}</div>
-                    <p>${moto.descricao}</p>
-                    
-                    <div class="modal-specs">
-                        <h3>Especificações Técnicas</h3>
-                        ${Object.entries(moto.especificacoes).map(([chave, valor]) => `
-                            <div class="spec-item">
-                                <span class="spec-name">${chave}</span>
-                                <span class="spec-value">${valor}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                    
-                    <div class="payment-info">
-                        <h3>Opções de Pagamento</h3>
-                        <div class="payment-options">
-                            <div class="payment-option"><i class="fas fa-money-bill-wave"></i> À vista com 5% de desconto</div>
-                            <div class="payment-option"><i class="fas fa-credit-card"></i> Parcelado em até 12x</div>
-                            <div class="payment-option"><i class="fas fa-handshake"></i> Financiamento em até 36x</div>
-                            <div class="payment-option"><i class="fas fa-exchange-alt"></i> Aceitamos seu usado como parte do pagamento</div>
-                        </div>
-                    </div>
-                    
-                    <div class="modal-contact">
-                        <h3>Interessado nesta moto?</h3>
-                        <p>Entre em contato conosco para mais informações ou agende um test drive!</p>
-                        <a href="https://wa.me/551134567890?text=Olá, tenho interesse na moto ${moto.nome}" class="whatsapp-button" target="_blank">
-                            <i class="fab fa-whatsapp"></i> Falar no WhatsApp
-                        </a>
-                    </div>
+                <div class="spec-item">
+                    <span class="spec-name">Ano</span>
+                    <span class="spec-value">${vehicle.year}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-name">Quilometragem</span>
+                    <span class="spec-value">${vehicle.km ? formatKm(vehicle.km) + ' km' : 'N/A'}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-name">Cor</span>
+                    <span class="spec-value">${vehicle.color || 'N/A'}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-name">Descrição</span>
+                    <span class="spec-value">${vehicle.description || 'Sem descrição'}</span>
                 </div>
             `;
             
-            document.getElementById('vehicleModal').style.display = 'block';
-        }
-
-        function fecharModal() {
-            document.getElementById('vehicleModal').style.display = 'none';
-        }
-
-        function mudarImagem(direcao) {
-            indiceImagemAtual += direcao;
+            // Atualizar link do WhatsApp
+            const message = `Olá, tenho interesse na ${vehicle.name} - R$ ${formatPrice(vehicle.price)}`;
+            const encodedMessage = encodeURIComponent(message);
+            whatsappButton.href = `https://wa.me/5511999999999?text=${encodedMessage}`;
             
-            if (indiceImagemAtual < 0) {
-                indiceImagemAtual = imagensCarrossel.length - 1;
-            } else if (indiceImagemAtual >= imagensCarrossel.length) {
-                indiceImagemAtual = 0;
+            // Atualizar carrossel
+            updateCarousel(vehicle.medias || []);
+            
+            // Mostrar modal
+            vehicleModal.style.display = 'block';
+        }
+
+        function updateCarousel(medias) {
+            carouselInner.innerHTML = '';
+            carouselIndicators.innerHTML = '';
+            currentMediaIndex = 0;
+            
+            if (medias.length === 0) {
+                // Adicionar placeholder se não houver mídias
+                const placeholderItem = document.createElement('div');
+                placeholderItem.className = 'carousel-item';
+                placeholderItem.innerHTML = `<img src="placeholder.jpg" alt="Sem imagem">`;
+                carouselInner.appendChild(placeholderItem);
+                
+                const indicator = document.createElement('button');
+                indicator.className = 'carousel-indicator active';
+                carouselIndicators.appendChild(indicator);
+            } else {
+                // Adicionar mídias ao carrossel
+                medias.forEach((media, index) => {
+                    const isVideo = media.includes('.mp4') || media.includes('.mov');
+                    
+                    const carouselItem = document.createElement('div');
+                    carouselItem.className = 'carousel-item';
+                    
+                    if (isVideo) {
+                        carouselItem.innerHTML = `
+                            <video controls>
+                                <source src="${media}" type="video/mp4">
+                                Seu navegador não suporta o elemento de vídeo.
+                            </video>
+                        `;
+                    } else {
+                        carouselItem.innerHTML = `<img src="${media}" alt="Imagem do veículo">`;
+                    }
+                    
+                    carouselInner.appendChild(carouselItem);
+                    
+                    const indicator = document.createElement('button');
+                    indicator.className = `carousel-indicator ${isVideo ? 'video-indicator' : ''} ${index === 0 ? 'active' : ''}`;
+                    indicator.addEventListener('click', () => showMedia(index));
+                    carouselIndicators.appendChild(indicator);
+                });
             }
             
-            atualizarCarrossel();
+            updateCarouselPosition();
         }
 
-        function irParaImagem(indice) {
-            indiceImagemAtual = indice;
-            atualizarCarrossel();
+        function showMedia(index) {
+            currentMediaIndex = index;
+            updateCarouselPosition();
+            updateCarouselIndicators();
         }
 
-        function atualizarCarrossel() {
-            const carouselInner = document.querySelector('.carousel-inner');
-            const indicators = document.querySelectorAll('.carousel-indicator');
+        function showPrevMedia() {
+            const medias = vehicles[currentVehicleIndex].medias || [];
+            if (medias.length === 0) return;
             
-            // Mover o carrossel
-            carouselInner.style.transform = `translateX(-${indiceImagemAtual * 100}%)`;
+            currentMediaIndex = (currentMediaIndex - 1 + medias.length) % medias.length;
+            updateCarouselPosition();
+            updateCarouselIndicators();
+        }
+
+        function showNextMedia() {
+            const medias = vehicles[currentVehicleIndex].medias || [];
+            if (medias.length === 0) return;
             
-            // Atualizar indicadores
+            currentMediaIndex = (currentMediaIndex + 1) % medias.length;
+            updateCarouselPosition();
+            updateCarouselIndicators();
+        }
+
+        function updateCarouselPosition() {
+            carouselInner.style.transform = `translateX(-${currentMediaIndex * 100}%)`;
+        }
+
+        function updateCarouselIndicators() {
+            const indicators = carouselIndicators.querySelectorAll('.carousel-indicator');
             indicators.forEach((indicator, index) => {
-                if (index === indiceImagemAtual) {
-                    indicator.classList.add('active');
-                } else {
-                    indicator.classList.remove('active');
-                }
+                indicator.classList.toggle('active', index === currentMediaIndex);
             });
         }
 
-        // ========== FUNÇÕES UTILITÁRIAS ==========
-        function mostrarStatus(mensagem, tipo) {
-            const statusElement = document.getElementById('statusMessage');
-            statusElement.textContent = mensagem;
-            statusElement.className = 'status-message';
-            statusElement.classList.add(`status-${tipo}`);
-            statusElement.style.display = 'block';
+        function closeVehicleModal() {
+            vehicleModal.style.display = 'none';
+        }
+
+        // ========== PAINEL ADMINISTRATIVO ==========
+        function openAdminPanel() {
+            adminPanel.style.display = 'block';
+        }
+
+        function closeAdminPanelFunc() {
+            adminPanel.style.display = 'none';
+        }
+
+        function addVehicle(e) {
+            e.preventDefault();
             
-            // Auto-esconder após 5 segundos
-            setTimeout(() => {
-                statusElement.style.display = 'none';
-            }, 5000);
+            if (selectedFiles.length === 0) {
+                showStatus('Por favor, adicione pelo menos uma imagem do veículo.', 'error');
+                return;
+            }
+            
+            const vehicle = {
+                name: document.getElementById('vehicleName').value,
+                type: document.getElementById('vehicleType').value,
+                price: parseFloat(document.getElementById('vehiclePrice').value),
+                year: parseInt(document.getElementById('vehicleYear').value),
+                km: document.getElementById('vehicleKm').value ? parseInt(document.getElementById('vehicleKm').value) : null,
+                color: document.getElementById('vehicleColor').value,
+                description: document.getElementById('vehicleDescription').value,
+                medias: selectedFiles.map(file => URL.createObjectURL(file)) // Em produção, isso seria upload para servidor
+            };
+            
+            // Salvar no Firebase
+            const vehiclesRef = database.ref('vehicles');
+            vehiclesRef.push(vehicle)
+                .then(() => {
+                    showStatus('Veículo adicionado com sucesso!', 'success');
+                    clearForm();
+                })
+                .catch(error => {
+                    showStatus('Erro ao adicionar veículo: ' + error.message, 'error');
+                });
         }
 
-        // ========== FUNÇÕES DE NAVEGAÇÃO SUAVE ==========
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    const headerHeight = document.getElementById('header').offsetHeight;
-                    const navHeight = document.querySelector('.nav-container').offsetHeight;
-                    const offsetTop = targetElement.offsetTop - headerHeight - navHeight - 20;
-                    
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
+        function deleteVehicle(vehicleId, event) {
+            event.stopPropagation();
+            
+            if (confirm('Tem certeza que deseja excluir este veículo?')) {
+                const vehicleRef = database.ref(`vehicles/${vehicleId}`);
+                vehicleRef.remove()
+                    .then(() => {
+                        showStatus('Veículo excluído com sucesso!', 'success');
+                    })
+                    .catch(error => {
+                        showStatus('Erro ao excluir veículo: ' + error.message, 'error');
                     });
-                }
+            }
+        }
+
+        function editVehicle(vehicleId, event) {
+            event.stopPropagation();
+            
+            const vehicle = vehicles.find(v => v.id === vehicleId);
+            if (!vehicle) return;
+            
+            // Preencher formulário com dados do veículo
+            document.getElementById('vehicleName').value = vehicle.name;
+            document.getElementById('vehicleType').value = vehicle.type;
+            document.getElementById('vehiclePrice').value = vehicle.price;
+            document.getElementById('vehicleYear').value = vehicle.year;
+            document.getElementById('vehicleKm').value = vehicle.km || '';
+            document.getElementById('vehicleColor').value = vehicle.color || '';
+            document.getElementById('vehicleDescription').value = vehicle.description || '';
+            
+            // Abrir painel admin
+            openAdminPanel();
+            
+            // Scroll para o formulário
+            document.getElementById('addVehicleForm').scrollIntoView({ behavior: 'smooth' });
+            
+            showStatus('Preencha os campos e clique em "Atualizar Veículo" para salvar as alterações.', 'warning');
+            
+            // Alterar comportamento do formulário para atualização
+            const submitBtn = addVehicleForm.querySelector('button[type="submit"]');
+            submitBtn.textContent = 'Atualizar Veículo';
+            submitBtn.className = 'btn btn-primary';
+            
+            // Remover eventos anteriores e adicionar novo
+            addVehicleForm.onsubmit = function(e) {
+                e.preventDefault();
+                updateVehicle(vehicleId);
+            };
+        }
+
+        function updateVehicle(vehicleId) {
+            const updatedVehicle = {
+                name: document.getElementById('vehicleName').value,
+                type: document.getElementById('vehicleType').value,
+                price: parseFloat(document.getElementById('vehiclePrice').value),
+                year: parseInt(document.getElementById('vehicleYear').value),
+                km: document.getElementById('vehicleKm').value ? parseInt(document.getElementById('vehicleKm').value) : null,
+                color: document.getElementById('vehicleColor').value,
+                description: document.getElementById('vehicleDescription').value
+                // Nota: Em produção, você precisaria lidar com o upload de novas mídias
+            };
+            
+            const vehicleRef = database.ref(`vehicles/${vehicleId}`);
+            vehicleRef.update(updatedVehicle)
+                .then(() => {
+                    showStatus('Veículo atualizado com sucesso!', 'success');
+                    
+                    // Restaurar comportamento padrão do formulário
+                    const submitBtn = addVehicleForm.querySelector('button[type="submit"]');
+                    submitBtn.textContent = 'Adicionar Veículo';
+                    submitBtn.className = 'btn btn-success';
+                    addVehicleForm.onsubmit = addVehicle;
+                    
+                    clearForm();
+                })
+                .catch(error => {
+                    showStatus('Erro ao atualizar veículo: ' + error.message, 'error');
+                });
+        }
+
+        function renderMotoList() {
+            motoList.innerHTML = '';
+            
+            if (vehicles.length === 0) {
+                motoList.innerHTML = '<p>Nenhum veículo cadastrado.</p>';
+                return;
+            }
+            
+            const listContainer = document.createElement('div');
+            
+            vehicles.forEach(vehicle => {
+                const motoItem = document.createElement('div');
+                motoItem.className = 'moto-item';
+                
+                motoItem.innerHTML = `
+                    <div class="moto-info">
+                        <div class="moto-name">${vehicle.name}</div>
+                        <div class="moto-details">${getVehicleTypeName(vehicle.type)} • ${vehicle.year} • R$ ${formatPrice(vehicle.price)}</div>
+                    </div>
+                    <div class="moto-actions">
+                        <button class="btn btn-primary" onclick="editVehicle('${vehicle.id}', event)">Editar</button>
+                        <button class="btn btn-danger" onclick="deleteVehicle('${vehicle.id}', event)">Excluir</button>
+                    </div>
+                `;
+                
+                listContainer.appendChild(motoItem);
             });
-        });
+            
+            motoList.appendChild(listContainer);
+        }
+
+        function clearForm() {
+            addVehicleForm.reset();
+            clearFileSelection();
+            
+            // Restaurar comportamento padrão do formulário
+            const submitBtn = addVehicleForm.querySelector('button[type="submit"]');
+            submitBtn.textContent = 'Adicionar Veículo';
+            submitBtn.className = 'btn btn-success';
+            addVehicleForm.onsubmit = addVehicle;
+            
+            formStatus.style.display = 'none';
+        }
+
+        function showStatus(message, type) {
+            formStatus.textContent = message;
+            formStatus.className = `status-message status-${type}`;
+            formStatus.style.display = 'block';
+            
+            // Rolagem para a mensagem
+            formStatus.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // ========== UPLOAD DE MÍDIAS ==========
+        function handleDragOver(e) {
+            e.preventDefault();
+            uploadArea.classList.add('highlight');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('highlight');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('highlight');
+            
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                
+                // Verificar tipo de arquivo
+                if (!file.type.match('image.*') && !file.type.match('video.*')) {
+                    alert('Por favor, selecione apenas imagens ou vídeos.');
+                    continue;
+                }
+                
+                // Verificar tamanho do arquivo (10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('O arquivo ' + file.name + ' é muito grande. Tamanho máximo: 10MB.');
+                    continue;
+                }
+                
+                selectedFiles.push(file);
+                createPreview(file);
+            }
+            
+            updateMediaCounter();
+        }
+
+        function createPreview(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const previewItem = document.createElement('div');
+                previewItem.className = 'preview-item';
+                
+                if (file.type.match('image.*')) {
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button type="button" class="remove-btn" onclick="removePreview(this)">&times;</button>
+                    `;
+                } else if (file.type.match('video.*')) {
+                    previewItem.innerHTML = `
+                        <video>
+                            <source src="${e.target.result}" type="${file.type}">
+                        </video>
+                        <button type="button" class="remove-btn" onclick="removePreview(this)">&times;</button>
+                    `;
+                }
+                
+                previewContainer.appendChild(previewItem);
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        function removePreview(button) {
+            const previewItem = button.parentElement;
+            const index = Array.from(previewContainer.children).indexOf(previewItem);
+            
+            selectedFiles.splice(index, 1);
+            previewItem.remove();
+            
+            updateMediaCounter();
+        }
+
+        function clearFileSelection() {
+            selectedFiles = [];
+            previewContainer.innerHTML = '';
+            updateMediaCounter();
+            fileInput.value = '';
+        }
+
+        function updateMediaCounter() {
+            mediaCounter.textContent = `${selectedFiles.length} mídia(s) selecionada(s)`;
+        }
+
+        // ========== MENU HAMBURGUER ==========
+        function toggleDrawer() {
+            drawer.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        function closeDrawer() {
+            drawer.classList.remove('open');
+            overlay.classList.remove('active');
+        }
+
+        // ========== FUNÇÕES AUXILIARES ==========
+        function formatPrice(price) {
+            return new Intl.NumberFormat('pt-BR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(price);
+        }
+
+        function formatKm(km) {
+            return new Intl.NumberFormat('pt-BR').format(km);
+        }
+
+        function getVehicleTypeName(type) {
+            const types = {
+                'moto': 'Moto',
+                'quadriciclo': 'Quadriciclo',
+                'jet-ski': 'Jet Ski'
+            };
+            
+            return types[type] || type;
+        }
     </script>
-
-<!-- Drawer toggle script injected -->
-<script>
-(function(){
-    const menuToggle = document.getElementById('menuToggle');
-    const drawer = document.getElementById('drawer');
-    const overlay = document.getElementById('overlay');
-    const drawerLogin = document.getElementById('drawerLoginButton');
-    const originalLoginButton = document.getElementById('loginButton');
-    // Sync login button id if original exists
-    if(originalLoginButton && !drawerLogin) {
-        // nothing
-    }
-
-    function openDrawer() {
-        drawer.classList.add('open');
-        overlay.classList.add('active');
-        drawer.setAttribute('aria-hidden', 'false');
-        overlay.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-    }
-    function closeDrawer() {
-        drawer.classList.remove('open');
-        overlay.classList.remove('active');
-        drawer.setAttribute('aria-hidden', 'true');
-        overlay.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = 'auto';
-    }
-
-    if(menuToggle) menuToggle.addEventListener('click', function(e){ e.stopPropagation(); if(drawer.classList.contains('open')) closeDrawer(); else openDrawer(); });
-    if(overlay) overlay.addEventListener('click', closeDrawer);
-    // close with ESC
-    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeDrawer(); });
-    // When clicking links inside drawer, close it
-    document.querySelectorAll('.drawer a').forEach(a => a.addEventListener('click', closeDrawer));
-    // Keep drawer login button tied to original mostrarLogin function if present
-    // If the page already defines mostrarLogin(), the button will call it. Otherwise it will do nothing harmless.
-})();
-</script>
-
 </body>
 </html>
