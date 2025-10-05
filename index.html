@@ -216,8 +216,10 @@
             height: 100%;
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            background-size: cover;
+            background-size: contain;
             background-position: center;
+            background-repeat: no-repeat;
+            background-color: var(--preto);
         }
 
         .carousel-slide.active {
@@ -1268,19 +1270,37 @@
         .text-edit-body {
             padding: 30px;
             color: white;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .text-edit-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #555;
+            border-radius: 5px;
+        }
+
+        .text-edit-section h3 {
+            color: var(--azul);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #555;
         }
 
         .text-edit-item {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #555;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #444;
             border-radius: 5px;
+            background: rgba(255,255,255,0.05);
         }
 
         .text-edit-item label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
+            font-size: 14px;
         }
 
         .text-edit-item input,
@@ -1303,6 +1323,11 @@
             display: flex;
             gap: 10px;
             margin-top: 20px;
+            position: sticky;
+            bottom: 0;
+            background: #333;
+            padding: 15px 0;
+            border-top: 1px solid #555;
         }
 
         .text-edit-actions .btn {
@@ -1407,6 +1432,17 @@
             .text-edit-btn {
                 bottom: 30px;
                 right: 30px;
+            }
+
+            /* Ajustes para carrossel em mobile */
+            .carousel-slide {
+                background-size: contain;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel-slide {
+                background-size: cover;
             }
         }
     
@@ -1843,69 +1879,244 @@
     <div class="text-edit-panel" id="textEditPanel">
         <div class="text-edit-content">
             <div class="text-edit-header">
-                <h2>Editor de Conteúdo</h2>
+                <h2>Editor de Conteúdo - Todos os Textos</h2>
                 <button class="btn-close" id="closeTextEditPanel">&times;</button>
             </div>
             <div class="text-edit-body">
-                <h3>Editar Textos do Site</h3>
-                
-                <div class="text-edit-item">
-                    <label for="editVehiclesTitle">Título da Seção Veículos</label>
-                    <input type="text" class="form-control" id="editVehiclesTitle">
+                <!-- Seção Header -->
+                <div class="text-edit-section">
+                    <h3>Header</h3>
+                    <div class="text-edit-item">
+                        <label for="editUserName">Nome do Usuário (Header)</label>
+                        <input type="text" class="form-control" id="editUserName">
+                    </div>
                 </div>
-                
-                <div class="text-edit-item">
-                    <label for="editAboutTitle">Título da Seção Sobre</label>
-                    <input type="text" class="form-control" id="editAboutTitle">
+
+                <!-- Seção Navegação -->
+                <div class="text-edit-section">
+                    <h3>Navegação</h3>
+                    <div class="text-edit-item">
+                        <label for="editNavVehicles">Link Veículos</label>
+                        <input type="text" class="form-control" id="editNavVehicles">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editNavAbout">Link Sobre a Loja</label>
+                        <input type="text" class="form-control" id="editNavAbout">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editNavTeam">Link Equipe</label>
+                        <input type="text" class="form-control" id="editNavTeam">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editNavLocation">Link Localização</label>
+                        <input type="text" class="form-control" id="editNavLocation">
+                    </div>
                 </div>
-                
-                <div class="text-edit-item">
-                    <label for="editAboutSubtitle">Subtítulo da Seção Sobre</label>
-                    <input type="text" class="form-control" id="editAboutSubtitle">
+
+                <!-- Seção Veículos -->
+                <div class="text-edit-section">
+                    <h3>Seção Veículos</h3>
+                    <div class="text-edit-item">
+                        <label for="editVehiclesTitle">Título da Seção</label>
+                        <input type="text" class="form-control" id="editVehiclesTitle">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editFilterAll">Filtro - Todos</label>
+                        <input type="text" class="form-control" id="editFilterAll">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editFilter110cc">Filtro - Até 110cc</label>
+                        <input type="text" class="form-control" id="editFilter110cc">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editFilter150cc">Filtro - Até 150cc</label>
+                        <input type="text" class="form-control" id="editFilter150cc">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editFilter160cc">Filtro - Acima de 160cc</label>
+                        <input type="text" class="form-control" id="editFilter160cc">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editVehicleBtn">Texto do Botão Ver Detalhes</label>
+                        <input type="text" class="form-control" id="editVehicleBtn">
+                    </div>
                 </div>
-                
-                <div class="text-edit-item">
-                    <label for="editAboutText1">Texto 1 da Seção Sobre</label>
-                    <textarea class="form-control" id="editAboutText1"></textarea>
+
+                <!-- Seção Sobre -->
+                <div class="text-edit-section">
+                    <h3>Seção Sobre a Loja</h3>
+                    <div class="text-edit-item">
+                        <label for="editAboutTitle">Título da Seção</label>
+                        <input type="text" class="form-control" id="editAboutTitle">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editAboutSubtitle">Subtítulo</label>
+                        <input type="text" class="form-control" id="editAboutSubtitle">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editAboutText1">Texto 1</label>
+                        <textarea class="form-control" id="editAboutText1"></textarea>
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editAboutText2">Texto 2</label>
+                        <textarea class="form-control" id="editAboutText2"></textarea>
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editAboutText3">Texto 3</label>
+                        <textarea class="form-control" id="editAboutText3"></textarea>
+                    </div>
                 </div>
-                
-                <div class="text-edit-item">
-                    <label for="editAboutText2">Texto 2 da Seção Sobre</label>
-                    <textarea class="form-control" id="editAboutText2"></textarea>
+
+                <!-- Seção Equipe -->
+                <div class="text-edit-section">
+                    <h3>Seção Equipe</h3>
+                    <div class="text-edit-item">
+                        <label for="editTeamTitle">Título da Seção</label>
+                        <input type="text" class="form-control" id="editTeamTitle">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editMember1Name">Nome do Membro 1</label>
+                        <input type="text" class="form-control" id="editMember1Name">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editMember1Role">Cargo do Membro 1</label>
+                        <input type="text" class="form-control" id="editMember1Role">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editMember1Desc">Descrição do Membro 1</label>
+                        <textarea class="form-control" id="editMember1Desc"></textarea>
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editMember2Name">Nome do Membro 2</label>
+                        <input type="text" class="form-control" id="editMember2Name">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editMember2Role">Cargo do Membro 2</label>
+                        <input type="text" class="form-control" id="editMember2Role">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editMember2Desc">Descrição do Membro 2</label>
+                        <textarea class="form-control" id="editMember2Desc"></textarea>
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editMember3Name">Nome do Membro 3</label>
+                        <input type="text" class="form-control" id="editMember3Name">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editMember3Role">Cargo do Membro 3</label>
+                        <input type="text" class="form-control" id="editMember3Role">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editMember3Desc">Descrição do Membro 3</label>
+                        <textarea class="form-control" id="editMember3Desc"></textarea>
+                    </div>
                 </div>
-                
-                <div class="text-edit-item">
-                    <label for="editAboutText3">Texto 3 da Seção Sobre</label>
-                    <textarea class="form-control" id="editAboutText3"></textarea>
+
+                <!-- Seção Localização -->
+                <div class="text-edit-section">
+                    <h3>Seção Localização</h3>
+                    <div class="text-edit-item">
+                        <label for="editLocationTitle">Título da Seção</label>
+                        <input type="text" class="form-control" id="editLocationTitle">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editLocationSubtitle">Subtítulo</label>
+                        <input type="text" class="form-control" id="editLocationSubtitle">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editLocationAddress">Endereço</label>
+                        <input type="text" class="form-control" id="editLocationAddress">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editLocationPhone">Telefone</label>
+                        <input type="text" class="form-control" id="editLocationPhone">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editLocationEmail">E-mail</label>
+                        <input type="text" class="form-control" id="editLocationEmail">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editLocationHours">Horário de Funcionamento</label>
+                        <input type="text" class="form-control" id="editLocationHours">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editLocationWhatsapp">WhatsApp</label>
+                        <input type="text" class="form-control" id="editLocationWhatsapp">
+                    </div>
                 </div>
-                
-                <div class="text-edit-item">
-                    <label for="editTeamTitle">Título da Seção Equipe</label>
-                    <input type="text" class="form-control" id="editTeamTitle">
+
+                <!-- Seção Footer -->
+                <div class="text-edit-section">
+                    <h3>Rodapé</h3>
+                    <div class="text-edit-item">
+                        <label for="editFooterTitle1">Título Coluna 1</label>
+                        <input type="text" class="form-control" id="editFooterTitle1">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editFooterDescription">Descrição</label>
+                        <textarea class="form-control" id="editFooterDescription"></textarea>
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editFooterTitle2">Título Coluna 2</label>
+                        <input type="text" class="form-control" id="editFooterTitle2">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editFooterTitle3">Título Coluna 3</label>
+                        <input type="text" class="form-control" id="editFooterTitle3">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editFooterAddress">Endereço (Footer)</label>
+                        <input type="text" class="form-control" id="editFooterAddress">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editFooterPhone">Telefone (Footer)</label>
+                        <input type="text" class="form-control" id="editFooterPhone">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editFooterEmail">E-mail (Footer)</label>
+                        <input type="text" class="form-control" id="editFooterEmail">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editFooterHours">Horário (Footer)</label>
+                        <input type="text" class="form-control" id="editFooterHours">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editFooterCopyright">Texto de Copyright</label>
+                        <input type="text" class="form-control" id="editFooterCopyright">
+                    </div>
                 </div>
-                
-                <div class="text-edit-item">
-                    <label for="editLocationTitle">Título da Seção Localização</label>
-                    <input type="text" class="form-control" id="editLocationTitle">
+
+                <!-- Seção Modal -->
+                <div class="text-edit-section">
+                    <h3>Modal de Detalhes</h3>
+                    <div class="text-edit-item">
+                        <label for="editPaymentTitle">Título Opções de Pagamento</label>
+                        <input type="text" class="form-control" id="editPaymentTitle">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editPaymentCash">Opção À Vista</label>
+                        <input type="text" class="form-control" id="editPaymentCash">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editPaymentCard">Opção Cartão</label>
+                        <input type="text" class="form-control" id="editPaymentCard">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editPaymentFinancing">Opção Financiamento</label>
+                        <input type="text" class="form-control" id="editPaymentFinancing">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editModalContact">Texto de Contato</label>
+                        <input type="text" class="form-control" id="editModalContact">
+                    </div>
+                    <div class="text-edit-item">
+                        <label for="editWhatsappButton">Texto do Botão WhatsApp</label>
+                        <input type="text" class="form-control" id="editWhatsappButton">
+                    </div>
                 </div>
-                
-                <div class="text-edit-item">
-                    <label for="editLocationSubtitle">Subtítulo da Seção Localização</label>
-                    <input type="text" class="form-control" id="editLocationSubtitle">
-                </div>
-                
-                <div class="text-edit-item">
-                    <label for="editFooterDescription">Descrição do Rodapé</label>
-                    <textarea class="form-control" id="editFooterDescription"></textarea>
-                </div>
-                
-                <div class="text-edit-item">
-                    <label for="editFooterCopyright">Texto de Copyright</label>
-                    <input type="text" class="form-control" id="editFooterCopyright">
-                </div>
-                
+
                 <div class="text-edit-actions">
-                    <button type="button" class="btn btn-success" id="saveTextChanges">Salvar Alterações</button>
+                    <button type="button" class="btn btn-success" id="saveTextChanges">Salvar Todas as Alterações</button>
                     <button type="button" class="btn btn-secondary" id="cancelTextChanges">Cancelar</button>
                 </div>
                 
@@ -2132,33 +2343,162 @@
         }
 
         function updateSiteContent() {
-            // Atualizar textos do site com os dados do Firebase
+            // Atualizar todos os textos do site com os dados do Firebase
+            
+            // Header
+            if (siteContent.userName) {
+                document.getElementById('userName').textContent = siteContent.userName;
+                document.getElementById('drawerUserName').textContent = siteContent.userName;
+            }
+            
+            // Navegação
+            if (siteContent.navVehicles) {
+                document.querySelectorAll('.nav-menu a[href="#vehicles"]').forEach(el => {
+                    el.textContent = siteContent.navVehicles;
+                });
+                document.querySelector('.drawer a[href="#vehicles"]').textContent = siteContent.navVehicles;
+            }
+            if (siteContent.navAbout) {
+                document.querySelectorAll('.nav-menu a[href="#about"]').forEach(el => {
+                    el.textContent = siteContent.navAbout;
+                });
+                document.querySelector('.drawer a[href="#about"]').textContent = siteContent.navAbout;
+            }
+            if (siteContent.navTeam) {
+                document.querySelectorAll('.nav-menu a[href="#team"]').forEach(el => {
+                    el.textContent = siteContent.navTeam;
+                });
+                document.querySelector('.drawer a[href="#team"]').textContent = siteContent.navTeam;
+            }
+            if (siteContent.navLocation) {
+                document.querySelectorAll('.nav-menu a[href="#location"]').forEach(el => {
+                    el.textContent = siteContent.navLocation;
+                });
+                document.querySelector('.drawer a[href="#location"]').textContent = siteContent.navLocation;
+            }
+            
+            // Seção Veículos
             if (siteContent.vehiclesTitle) document.getElementById('vehiclesTitle').textContent = siteContent.vehiclesTitle;
+            if (siteContent.filterAll) document.querySelector('.filter-btn[data-filter="all"]').textContent = siteContent.filterAll;
+            if (siteContent.filter110cc) document.querySelector('.filter-btn[data-filter="ate-110cc"]').textContent = siteContent.filter110cc;
+            if (siteContent.filter150cc) document.querySelector('.filter-btn[data-filter="ate-150cc"]').textContent = siteContent.filter150cc;
+            if (siteContent.filter160cc) document.querySelector('.filter-btn[data-filter="acima-160cc"]').textContent = siteContent.filter160cc;
+            if (siteContent.vehicleBtn) document.querySelectorAll('.vehicle-btn').forEach(btn => {
+                btn.textContent = siteContent.vehicleBtn;
+            });
+            
+            // Seção Sobre
             if (siteContent.aboutTitle) document.getElementById('aboutTitle').textContent = siteContent.aboutTitle;
             if (siteContent.aboutSubtitle) document.getElementById('aboutSubtitle').textContent = siteContent.aboutSubtitle;
             if (siteContent.aboutText1) document.getElementById('aboutText1').textContent = siteContent.aboutText1;
             if (siteContent.aboutText2) document.getElementById('aboutText2').textContent = siteContent.aboutText2;
             if (siteContent.aboutText3) document.getElementById('aboutText3').textContent = siteContent.aboutText3;
+            
+            // Seção Equipe
             if (siteContent.teamTitle) document.getElementById('teamTitle').textContent = siteContent.teamTitle;
+            if (siteContent.member1Name) document.getElementById('member1Name').textContent = siteContent.member1Name;
+            if (siteContent.member1Role) document.getElementById('member1Role').textContent = siteContent.member1Role;
+            if (siteContent.member1Desc) document.getElementById('member1Desc').textContent = siteContent.member1Desc;
+            if (siteContent.member2Name) document.getElementById('member2Name').textContent = siteContent.member2Name;
+            if (siteContent.member2Role) document.getElementById('member2Role').textContent = siteContent.member2Role;
+            if (siteContent.member2Desc) document.getElementById('member2Desc').textContent = siteContent.member2Desc;
+            if (siteContent.member3Name) document.getElementById('member3Name').textContent = siteContent.member3Name;
+            if (siteContent.member3Role) document.getElementById('member3Role').textContent = siteContent.member3Role;
+            if (siteContent.member3Desc) document.getElementById('member3Desc').textContent = siteContent.member3Desc;
+            
+            // Seção Localização
             if (siteContent.locationTitle) document.getElementById('locationTitle').textContent = siteContent.locationTitle;
             if (siteContent.locationSubtitle) document.getElementById('locationSubtitle').textContent = siteContent.locationSubtitle;
+            if (siteContent.locationAddress) document.getElementById('locationAddress').textContent = siteContent.locationAddress;
+            if (siteContent.locationPhone) document.getElementById('locationPhone').textContent = siteContent.locationPhone;
+            if (siteContent.locationEmail) document.getElementById('locationEmail').textContent = siteContent.locationEmail;
+            if (siteContent.locationHours) document.getElementById('locationHours').textContent = siteContent.locationHours;
+            if (siteContent.locationWhatsapp) document.getElementById('locationWhatsapp').textContent = siteContent.locationWhatsapp;
+            
+            // Footer
+            if (siteContent.footerTitle1) document.getElementById('footerTitle1').textContent = siteContent.footerTitle1;
             if (siteContent.footerDescription) document.getElementById('footerDescription').textContent = siteContent.footerDescription;
+            if (siteContent.footerTitle2) document.getElementById('footerTitle2').textContent = siteContent.footerTitle2;
+            if (siteContent.footerTitle3) document.getElementById('footerTitle3').textContent = siteContent.footerTitle3;
+            if (siteContent.footerAddress) document.getElementById('footerAddress').textContent = siteContent.footerAddress;
+            if (siteContent.footerPhone) document.getElementById('footerPhone').textContent = siteContent.footerPhone;
+            if (siteContent.footerEmail) document.getElementById('footerEmail').textContent = siteContent.footerEmail;
+            if (siteContent.footerHours) document.getElementById('footerHours').textContent = siteContent.footerHours;
             if (siteContent.footerCopyright) document.getElementById('footerCopyright').textContent = siteContent.footerCopyright;
+            
+            // Modal
+            if (siteContent.paymentTitle) document.querySelector('.payment-info h3').textContent = siteContent.paymentTitle;
+            if (siteContent.paymentCash) document.querySelector('.payment-options .payment-option:nth-child(1)').textContent = siteContent.paymentCash;
+            if (siteContent.paymentCard) document.querySelector('.payment-options .payment-option:nth-child(2)').textContent = siteContent.paymentCard;
+            if (siteContent.paymentFinancing) document.querySelector('.payment-options .payment-option:nth-child(3)').textContent = siteContent.paymentFinancing;
+            if (siteContent.modalContact) document.querySelector('.modal-contact p').textContent = siteContent.modalContact;
+            if (siteContent.whatsappButton) document.querySelector('.whatsapp-button').textContent = siteContent.whatsappButton;
         }
 
         function openTextEditPanel() {
             // Preencher formulário com os valores atuais
+            document.getElementById('editUserName').value = siteContent.userName || 'Visitante';
+            
+            // Navegação
+            document.getElementById('editNavVehicles').value = siteContent.navVehicles || 'Veículos';
+            document.getElementById('editNavAbout').value = siteContent.navAbout || 'Sobre a Loja';
+            document.getElementById('editNavTeam').value = siteContent.navTeam || 'Equipe';
+            document.getElementById('editNavLocation').value = siteContent.navLocation || 'Localização';
+            
+            // Seção Veículos
             document.getElementById('editVehiclesTitle').value = siteContent.vehiclesTitle || 'Nossos Veículos';
+            document.getElementById('editFilterAll').value = siteContent.filterAll || 'Todos';
+            document.getElementById('editFilter110cc').value = siteContent.filter110cc || 'Até 110cc';
+            document.getElementById('editFilter150cc').value = siteContent.filter150cc || 'Até 150cc';
+            document.getElementById('editFilter160cc').value = siteContent.filter160cc || 'Acima de 160cc';
+            document.getElementById('editVehicleBtn').value = siteContent.vehicleBtn || 'Ver Detalhes';
+            
+            // Seção Sobre
             document.getElementById('editAboutTitle').value = siteContent.aboutTitle || 'Sobre a Loja';
             document.getElementById('editAboutSubtitle').value = siteContent.aboutSubtitle || 'Mais de 10 anos no mercado';
             document.getElementById('editAboutText1').value = siteContent.aboutText1 || 'A Maiso Veículos é referência no mercado de motos seminovas, oferecendo produtos de qualidade com procedência garantida.';
             document.getElementById('editAboutText2').value = siteContent.aboutText2 || 'Nossa missão é proporcionar a melhor experiência de compra, com transparência, segurança e atendimento personalizado.';
             document.getElementById('editAboutText3').value = siteContent.aboutText3 || 'Trabalhamos com as melhores marcas do mercado e oferecemos garantia em todos os nossos veículos.';
+            
+            // Seção Equipe
             document.getElementById('editTeamTitle').value = siteContent.teamTitle || 'Nossa Equipe';
+            document.getElementById('editMember1Name').value = siteContent.member1Name || 'João Silva';
+            document.getElementById('editMember1Role').value = siteContent.member1Role || 'Vendedor';
+            document.getElementById('editMember1Desc').value = siteContent.member1Desc || 'Especialista em motos esportivas e custom, com mais de 8 anos de experiência.';
+            document.getElementById('editMember2Name').value = siteContent.member2Name || 'Maria Santos';
+            document.getElementById('editMember2Role').value = siteContent.member2Role || 'Vendedora';
+            document.getElementById('editMember2Desc').value = siteContent.member2Desc || 'Especialista em scooters e motos urbanas, sempre pronta para ajudar.';
+            document.getElementById('editMember3Name').value = siteContent.member3Name || 'Carlos Oliveira';
+            document.getElementById('editMember3Role').value = siteContent.member3Role || 'Gerente';
+            document.getElementById('editMember3Desc').value = siteContent.member3Desc || 'Com mais de 15 anos no mercado, garante a melhor experiência para nossos clientes.';
+            
+            // Seção Localização
             document.getElementById('editLocationTitle').value = siteContent.locationTitle || 'Localização';
             document.getElementById('editLocationSubtitle').value = siteContent.locationSubtitle || 'Venha nos Visitar';
+            document.getElementById('editLocationAddress').value = siteContent.locationAddress || 'Rua das Motos, 123 - Centro, São Paulo - SP';
+            document.getElementById('editLocationPhone').value = siteContent.locationPhone || '(11) 9999-9999';
+            document.getElementById('editLocationEmail').value = siteContent.locationEmail || 'contato@maisoveiculos.com.br';
+            document.getElementById('editLocationHours').value = siteContent.locationHours || 'Segunda a Sexta: 9h às 18h | Sábado: 9h às 13h';
+            document.getElementById('editLocationWhatsapp').value = siteContent.locationWhatsapp || 'WhatsApp: (11) 99999-9999';
+            
+            // Footer
+            document.getElementById('editFooterTitle1').value = siteContent.footerTitle1 || 'Maiso Veículos';
             document.getElementById('editFooterDescription').value = siteContent.footerDescription || 'Há mais de 10 anos no mercado, oferecendo as melhores motos seminovas com garantia e procedência.';
+            document.getElementById('editFooterTitle2').value = siteContent.footerTitle2 || 'Links Rápidos';
+            document.getElementById('editFooterTitle3').value = siteContent.footerTitle3 || 'Contato';
+            document.getElementById('editFooterAddress').value = siteContent.footerAddress || 'Rua das Motos, 123 - Centro, SP';
+            document.getElementById('editFooterPhone').value = siteContent.footerPhone || '(11) 9999-9999';
+            document.getElementById('editFooterEmail').value = siteContent.footerEmail || 'contato@maisoveiculos.com.br';
+            document.getElementById('editFooterHours').value = siteContent.footerHours || 'Seg-Sex: 9h-18h | Sáb: 9h-13h';
             document.getElementById('editFooterCopyright').value = siteContent.footerCopyright || '© 2023 Maiso Veículos. Todos os direitos reservados.';
+            
+            // Modal
+            document.getElementById('editPaymentTitle').value = siteContent.paymentTitle || 'Opções de Pagamento';
+            document.getElementById('editPaymentCash').value = siteContent.paymentCash || 'À Vista';
+            document.getElementById('editPaymentCard').value = siteContent.paymentCard || 'Cartão';
+            document.getElementById('editPaymentFinancing').value = siteContent.paymentFinancing || 'Financiamento';
+            document.getElementById('editModalContact').value = siteContent.modalContact || 'Interessado neste veículo?';
+            document.getElementById('editWhatsappButton').value = siteContent.whatsappButton || 'Falar no WhatsApp';
             
             textEditPanel.style.display = 'block';
         }
@@ -2170,23 +2510,78 @@
 
         function saveTextChanges() {
             const updatedContent = {
+                // Header
+                userName: document.getElementById('editUserName').value,
+                
+                // Navegação
+                navVehicles: document.getElementById('editNavVehicles').value,
+                navAbout: document.getElementById('editNavAbout').value,
+                navTeam: document.getElementById('editNavTeam').value,
+                navLocation: document.getElementById('editNavLocation').value,
+                
+                // Seção Veículos
                 vehiclesTitle: document.getElementById('editVehiclesTitle').value,
+                filterAll: document.getElementById('editFilterAll').value,
+                filter110cc: document.getElementById('editFilter110cc').value,
+                filter150cc: document.getElementById('editFilter150cc').value,
+                filter160cc: document.getElementById('editFilter160cc').value,
+                vehicleBtn: document.getElementById('editVehicleBtn').value,
+                
+                // Seção Sobre
                 aboutTitle: document.getElementById('editAboutTitle').value,
                 aboutSubtitle: document.getElementById('editAboutSubtitle').value,
                 aboutText1: document.getElementById('editAboutText1').value,
                 aboutText2: document.getElementById('editAboutText2').value,
                 aboutText3: document.getElementById('editAboutText3').value,
+                
+                // Seção Equipe
                 teamTitle: document.getElementById('editTeamTitle').value,
+                member1Name: document.getElementById('editMember1Name').value,
+                member1Role: document.getElementById('editMember1Role').value,
+                member1Desc: document.getElementById('editMember1Desc').value,
+                member2Name: document.getElementById('editMember2Name').value,
+                member2Role: document.getElementById('editMember2Role').value,
+                member2Desc: document.getElementById('editMember2Desc').value,
+                member3Name: document.getElementById('editMember3Name').value,
+                member3Role: document.getElementById('editMember3Role').value,
+                member3Desc: document.getElementById('editMember3Desc').value,
+                
+                // Seção Localização
                 locationTitle: document.getElementById('editLocationTitle').value,
                 locationSubtitle: document.getElementById('editLocationSubtitle').value,
+                locationAddress: document.getElementById('editLocationAddress').value,
+                locationPhone: document.getElementById('editLocationPhone').value,
+                locationEmail: document.getElementById('editLocationEmail').value,
+                locationHours: document.getElementById('editLocationHours').value,
+                locationWhatsapp: document.getElementById('editLocationWhatsapp').value,
+                
+                // Footer
+                footerTitle1: document.getElementById('editFooterTitle1').value,
                 footerDescription: document.getElementById('editFooterDescription').value,
-                footerCopyright: document.getElementById('editFooterCopyright').value
+                footerTitle2: document.getElementById('editFooterTitle2').value,
+                footerTitle3: document.getElementById('editFooterTitle3').value,
+                footerAddress: document.getElementById('editFooterAddress').value,
+                footerPhone: document.getElementById('editFooterPhone').value,
+                footerEmail: document.getElementById('editFooterEmail').value,
+                footerHours: document.getElementById('editFooterHours').value,
+                footerCopyright: document.getElementById('editFooterCopyright').value,
+                
+                // Modal
+                paymentTitle: document.getElementById('editPaymentTitle').value,
+                paymentCash: document.getElementById('editPaymentCash').value,
+                paymentCard: document.getElementById('editPaymentCard').value,
+                paymentFinancing: document.getElementById('editPaymentFinancing').value,
+                modalContact: document.getElementById('editModalContact').value,
+                whatsappButton: document.getElementById('editWhatsappButton').value
             };
             
             const contentRef = database.ref('siteContent');
             contentRef.set(updatedContent)
                 .then(() => {
-                    showTextEditStatus('Conteúdo atualizado com sucesso!', 'success');
+                    showTextEditStatus('Todos os textos foram atualizados com sucesso!', 'success');
+                    setTimeout(() => {
+                        closeTextEditPanelFunc();
+                    }, 2000);
                 })
                 .catch(error => {
                     showTextEditStatus('Erro ao atualizar conteúdo: ' + error.message, 'error');
@@ -2354,7 +2749,7 @@
                             <span><i class="fas fa-calendar-alt"></i> ${vehicle.year}</span>
                             <span><i class="fas fa-tachometer-alt"></i> ${vehicle.km ? formatKm(vehicle.km) + ' km' : 'N/A'}</span>
                         </div>
-                        <a href="#" class="vehicle-btn">Ver Detalhes</a>
+                        <a href="#" class="vehicle-btn">${siteContent.vehicleBtn || 'Ver Detalhes'}</a>
                     </div>
                 `;
                 
