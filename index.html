@@ -195,47 +195,33 @@
         /* ========== HERO SECTION ========== */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('central.png') no-repeat center center/cover;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: var(--branco);
-            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .hero-carousel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            max-width: 700px;
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
         }
 
-        .cta-button {
-            display: inline-block;
-            background-color: var(--vermelho);
-            color: var(--branco);
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .cta-button:hover {
-            background-color: var(--vermelho-escuro);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        .carousel-slide.active {
+            opacity: 1;
         }
 
         /* ========== SEÇÕES ========== */
@@ -1243,6 +1229,110 @@
             border: 1px solid #ffeaa7;
         }
 
+        /* ========== PAINEL DE EDIÇÃO DE TEXTO ========== */
+        .text-edit-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 6000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .text-edit-content {
+            background: #333;
+            max-width: 900px;
+            margin: 50px auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .text-edit-header {
+            background: var(--azul);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .text-edit-header h2 {
+            color: white;
+            margin: 0;
+        }
+
+        .text-edit-body {
+            padding: 30px;
+            color: white;
+        }
+
+        .text-edit-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #555;
+            border-radius: 5px;
+        }
+
+        .text-edit-item label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .text-edit-item input,
+        .text-edit-item textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #666;
+            border-radius: 5px;
+            background: #222;
+            color: white;
+            font-size: 14px;
+        }
+
+        .text-edit-item textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .text-edit-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .text-edit-actions .btn {
+            flex: 1;
+        }
+
+        /* ========== BOTÃO EDIÇÃO DE TEXTO ========== */
+        .text-edit-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--azul);
+            color: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: all 0.3s;
+            display: none;
+        }
+
+        .text-edit-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
         /* ========== RESPONSIVIDADE ========== */
         @media (max-width: 768px) {
             .nav-menu {
@@ -1312,6 +1402,11 @@
 
             .carousel {
                 height: 300px;
+            }
+
+            .text-edit-btn {
+                bottom: 30px;
+                right: 30px;
             }
         }
     
@@ -1473,21 +1568,23 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>Encontre a Moto dos Seus Sonhos</h1>
-        <p>As melhores motos seminovas com garantia e procedência. Financiamento facilitado e entrega em todo o Brasil.</p>
-        <a href="#vehicles" class="cta-button">Ver Veículos</a>
+        <div class="hero-carousel">
+            <div class="carousel-slide active" style="background-image: url('carrosel1.png');"></div>
+            <div class="carousel-slide" style="background-image: url('carrosel2.png');"></div>
+            <div class="carousel-slide" style="background-image: url('carrosel3.png');"></div>
+        </div>
     </section>
 
     <!-- Vehicles Section -->
     <section class="section vehicles" id="vehicles">
         <div class="section-title">
-            <h2>Nossos Veículos</h2>
+            <h2 id="vehiclesTitle">Nossos Veículos</h2>
         </div>
         <div class="filter-container">
             <button class="filter-btn active" data-filter="all">Todos</button>
-            <button class="filter-btn" data-filter="moto">Motos</button>
-            <button class="filter-btn" data-filter="quadriciclo">Quadriciclos</button>
-            <button class="filter-btn" data-filter="jet-ski">Jet Skis</button>
+            <button class="filter-btn" data-filter="ate-110cc">Até 110cc</button>
+            <button class="filter-btn" data-filter="ate-150cc">Até 150cc</button>
+            <button class="filter-btn" data-filter="acima-160cc">Acima de 160cc</button>
         </div>
         <div class="vehicles-grid" id="vehiclesGrid">
             <!-- Veículos serão carregados dinamicamente -->
@@ -1497,14 +1594,14 @@
     <!-- About Section -->
     <section class="section about" id="about">
         <div class="section-title">
-            <h2>Sobre a Loja</h2>
+            <h2 id="aboutTitle">Sobre a Loja</h2>
         </div>
         <div class="about-content">
             <div class="about-text">
-                <h3>Mais de 10 anos no mercado</h3>
-                <p>A Maiso Veículos é referência no mercado de motos seminovas, oferecendo produtos de qualidade com procedência garantida.</p>
-                <p>Nossa missão é proporcionar a melhor experiência de compra, com transparência, segurança e atendimento personalizado.</p>
-                <p>Trabalhamos com as melhores marcas do mercado e oferecemos garantia em todos os nossos veículos.</p>
+                <h3 id="aboutSubtitle">Mais de 10 anos no mercado</h3>
+                <p id="aboutText1">A Maiso Veículos é referência no mercado de motos seminovas, oferecendo produtos de qualidade com procedência garantida.</p>
+                <p id="aboutText2">Nossa missão é proporcionar a melhor experiência de compra, com transparência, segurança e atendimento personalizado.</p>
+                <p id="aboutText3">Trabalhamos com as melhores marcas do mercado e oferecemos garantia em todos os nossos veículos.</p>
             </div>
             <div class="about-image">
                 <img src="loja.jpg" alt="Loja Maiso Veículos">
@@ -1515,31 +1612,31 @@
     <!-- Team Section -->
     <section class="section team" id="team">
         <div class="section-title">
-            <h2>Nossa Equipe</h2>
+            <h2 id="teamTitle">Nossa Equipe</h2>
         </div>
         <div class="team-grid">
             <div class="team-member">
                 <img src="vendedor1.jpg" alt="Vendedor" class="member-img">
                 <div class="member-info">
-                    <h3 class="member-name">João Silva</h3>
-                    <p class="member-role">Vendedor</p>
-                    <p class="member-desc">Especialista em motos esportivas e custom, com mais de 8 anos de experiência.</p>
+                    <h3 class="member-name" id="member1Name">João Silva</h3>
+                    <p class="member-role" id="member1Role">Vendedor</p>
+                    <p class="member-desc" id="member1Desc">Especialista em motos esportivas e custom, com mais de 8 anos de experiência.</p>
                 </div>
             </div>
             <div class="team-member">
                 <img src="vendedor2.jpg" alt="Vendedor" class="member-img">
                 <div class="member-info">
-                    <h3 class="member-name">Maria Santos</h3>
-                    <p class="member-role">Vendedora</p>
-                    <p class="member-desc">Especialista em scooters e motos urbanas, sempre pronta para ajudar.</p>
+                    <h3 class="member-name" id="member2Name">Maria Santos</h3>
+                    <p class="member-role" id="member2Role">Vendedora</p>
+                    <p class="member-desc" id="member2Desc">Especialista em scooters e motos urbanas, sempre pronta para ajudar.</p>
                 </div>
             </div>
             <div class="team-member">
                 <img src="gerente.jpg" alt="Gerente" class="member-img">
                 <div class="member-info">
-                    <h3 class="member-name">Carlos Oliveira</h3>
-                    <p class="member-role">Gerente</p>
-                    <p class="member-desc">Com mais de 15 anos no mercado, garante a melhor experiência para nossos clientes.</p>
+                    <h3 class="member-name" id="member3Name">Carlos Oliveira</h3>
+                    <p class="member-role" id="member3Role">Gerente</p>
+                    <p class="member-desc" id="member3Desc">Com mais de 15 anos no mercado, garante a melhor experiência para nossos clientes.</p>
                 </div>
             </div>
         </div>
@@ -1548,16 +1645,16 @@
     <!-- Location Section -->
     <section class="section location" id="location">
         <div class="section-title">
-            <h2>Localização</h2>
+            <h2 id="locationTitle">Localização</h2>
         </div>
         <div class="location-container">
             <div class="location-info">
-                <h3>Venha nos Visitar</h3>
-                <p><i class="fas fa-map-marker-alt"></i> Rua das Motos, 123 - Centro, São Paulo - SP</p>
-                <p><i class="fas fa-phone"></i> (11) 9999-9999</p>
-                <p><i class="fas fa-envelope"></i> contato@maisoveiculos.com.br</p>
-                <p><i class="fas fa-clock"></i> Segunda a Sexta: 9h às 18h | Sábado: 9h às 13h</p>
-                <p><i class="fas fa-whatsapp"></i> WhatsApp: (11) 99999-9999</p>
+                <h3 id="locationSubtitle">Venha nos Visitar</h3>
+                <p><i class="fas fa-map-marker-alt"></i> <span id="locationAddress">Rua das Motos, 123 - Centro, São Paulo - SP</span></p>
+                <p><i class="fas fa-phone"></i> <span id="locationPhone">(11) 9999-9999</span></p>
+                <p><i class="fas fa-envelope"></i> <span id="locationEmail">contato@maisoveiculos.com.br</span></p>
+                <p><i class="fas fa-clock"></i> <span id="locationHours">Segunda a Sexta: 9h às 18h | Sábado: 9h às 13h</span></p>
+                <p><i class="fas fa-whatsapp"></i> <span id="locationWhatsapp">WhatsApp: (11) 99999-9999</span></p>
             </div>
             <div class="map-container">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.098114020905!2d-46.65412658440709!3d-23.565267467476655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1647543862866!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
@@ -1569,17 +1666,17 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-column">
-                <h3>Maiso Veículos</h3>
-                <p>Há mais de 10 anos no mercado, oferecendo as melhores motos seminovas com garantia e procedência.</p>
+                <h3 id="footerTitle1">Maiso Veículos</h3>
+                <p id="footerDescription">Há mais de 10 anos no mercado, oferecendo as melhores motos seminovas com garantia e procedência.</p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#" id="socialFacebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" id="socialInstagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" id="socialWhatsapp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" id="socialYoutube"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
             <div class="footer-column">
-                <h3>Links Rápidos</h3>
+                <h3 id="footerTitle2">Links Rápidos</h3>
                 <ul>
                     <li><a href="#vehicles">Veículos</a></li>
                     <li><a href="#about">Sobre a Loja</a></li>
@@ -1588,17 +1685,17 @@
                 </ul>
             </div>
             <div class="footer-column">
-                <h3>Contato</h3>
+                <h3 id="footerTitle3">Contato</h3>
                 <ul>
-                    <li><i class="fas fa-map-marker-alt"></i> Rua das Motos, 123 - Centro, SP</li>
-                    <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
-                    <li><i class="fas fa-envelope"></i> contato@maisoveiculos.com.br</li>
-                    <li><i class="fas fa-clock"></i> Seg-Sex: 9h-18h | Sáb: 9h-13h</li>
+                    <li><i class="fas fa-map-marker-alt"></i> <span id="footerAddress">Rua das Motos, 123 - Centro, SP</span></li>
+                    <li><i class="fas fa-phone"></i> <span id="footerPhone">(11) 9999-9999</span></li>
+                    <li><i class="fas fa-envelope"></i> <span id="footerEmail">contato@maisoveiculos.com.br</span></li>
+                    <li><i class="fas fa-clock"></i> <span id="footerHours">Seg-Sex: 9h-18h | Sáb: 9h-13h</span></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2023 Maiso Veículos. Todos os direitos reservados.</p>
+            <p id="footerCopyright">&copy; 2023 Maiso Veículos. Todos os direitos reservados.</p>
         </div>
     </footer>
 
@@ -1680,11 +1777,11 @@
                             <input type="text" class="form-control" id="vehicleName" required>
                         </div>
                         <div class="form-group">
-                            <label for="vehicleType">Tipo</label>
+                            <label for="vehicleType">Categoria</label>
                             <select class="form-control" id="vehicleType" required>
-                                <option value="moto">Moto</option>
-                                <option value="quadriciclo">Quadriciclo</option>
-                                <option value="jet-ski">Jet Ski</option>
+                                <option value="ate-110cc">Até 110cc</option>
+                                <option value="ate-150cc">Até 150cc</option>
+                                <option value="acima-160cc">Acima de 160cc</option>
                             </select>
                         </div>
                     </div>
@@ -1742,9 +1839,88 @@
         </div>
     </div>
 
-    <!-- Floating Button -->
+    <!-- Text Edit Panel -->
+    <div class="text-edit-panel" id="textEditPanel">
+        <div class="text-edit-content">
+            <div class="text-edit-header">
+                <h2>Editor de Conteúdo</h2>
+                <button class="btn-close" id="closeTextEditPanel">&times;</button>
+            </div>
+            <div class="text-edit-body">
+                <h3>Editar Textos do Site</h3>
+                
+                <div class="text-edit-item">
+                    <label for="editVehiclesTitle">Título da Seção Veículos</label>
+                    <input type="text" class="form-control" id="editVehiclesTitle">
+                </div>
+                
+                <div class="text-edit-item">
+                    <label for="editAboutTitle">Título da Seção Sobre</label>
+                    <input type="text" class="form-control" id="editAboutTitle">
+                </div>
+                
+                <div class="text-edit-item">
+                    <label for="editAboutSubtitle">Subtítulo da Seção Sobre</label>
+                    <input type="text" class="form-control" id="editAboutSubtitle">
+                </div>
+                
+                <div class="text-edit-item">
+                    <label for="editAboutText1">Texto 1 da Seção Sobre</label>
+                    <textarea class="form-control" id="editAboutText1"></textarea>
+                </div>
+                
+                <div class="text-edit-item">
+                    <label for="editAboutText2">Texto 2 da Seção Sobre</label>
+                    <textarea class="form-control" id="editAboutText2"></textarea>
+                </div>
+                
+                <div class="text-edit-item">
+                    <label for="editAboutText3">Texto 3 da Seção Sobre</label>
+                    <textarea class="form-control" id="editAboutText3"></textarea>
+                </div>
+                
+                <div class="text-edit-item">
+                    <label for="editTeamTitle">Título da Seção Equipe</label>
+                    <input type="text" class="form-control" id="editTeamTitle">
+                </div>
+                
+                <div class="text-edit-item">
+                    <label for="editLocationTitle">Título da Seção Localização</label>
+                    <input type="text" class="form-control" id="editLocationTitle">
+                </div>
+                
+                <div class="text-edit-item">
+                    <label for="editLocationSubtitle">Subtítulo da Seção Localização</label>
+                    <input type="text" class="form-control" id="editLocationSubtitle">
+                </div>
+                
+                <div class="text-edit-item">
+                    <label for="editFooterDescription">Descrição do Rodapé</label>
+                    <textarea class="form-control" id="editFooterDescription"></textarea>
+                </div>
+                
+                <div class="text-edit-item">
+                    <label for="editFooterCopyright">Texto de Copyright</label>
+                    <input type="text" class="form-control" id="editFooterCopyright">
+                </div>
+                
+                <div class="text-edit-actions">
+                    <button type="button" class="btn btn-success" id="saveTextChanges">Salvar Alterações</button>
+                    <button type="button" class="btn btn-secondary" id="cancelTextChanges">Cancelar</button>
+                </div>
+                
+                <div class="status-message" id="textEditStatus"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Buttons -->
     <button class="float-btn" id="floatBtn" style="display: none;">
         <i class="fas fa-tools"></i>
+    </button>
+    
+    <button class="text-edit-btn" id="textEditBtn" style="display: none;">
+        <i class="fas fa-edit"></i>
     </button>
 
     <!-- Firebase Configuration -->
@@ -1782,6 +1958,8 @@
         let currentVehicleIndex = 0;
         let currentMediaIndex = 0;
         let selectedFiles = [];
+        let carouselInterval;
+        let siteContent = {};
 
         // ========== ELEMENTOS DOM ==========
         const userInfo = document.getElementById('userInfo');
@@ -1794,6 +1972,8 @@
         const loginModal = document.getElementById('loginModal');
         const adminPanel = document.getElementById('adminPanel');
         const floatBtn = document.getElementById('floatBtn');
+        const textEditBtn = document.getElementById('textEditBtn');
+        const textEditPanel = document.getElementById('textEditPanel');
         const vehiclesGrid = document.getElementById('vehiclesGrid');
         const vehicleModal = document.getElementById('vehicleModal');
         const closeModal = document.getElementById('closeModal');
@@ -1809,7 +1989,9 @@
         const addVehicleForm = document.getElementById('addVehicleForm');
         const motoList = document.getElementById('motoList');
         const closeAdminPanel = document.getElementById('closeAdminPanel');
+        const closeTextEditPanel = document.getElementById('closeTextEditPanel');
         const formStatus = document.getElementById('formStatus');
+        const textEditStatus = document.getElementById('textEditStatus');
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
         const previewContainer = document.getElementById('previewContainer');
@@ -1823,17 +2005,25 @@
         const drawerUserName = document.getElementById('drawerUserName');
         const drawerUserType = document.getElementById('drawerUserType');
         const drawerDevType = document.getElementById('drawerDevType');
+        const saveTextChangesBtn = document.getElementById('saveTextChanges');
+        const cancelTextChangesBtn = document.getElementById('cancelTextChanges');
 
         // ========== INICIALIZAÇÃO ==========
         document.addEventListener('DOMContentLoaded', function() {
             // Carregar veículos do Firebase
             loadVehicles();
             
+            // Carregar conteúdo do site
+            loadSiteContent();
+            
             // Configurar eventos
             setupEventListeners();
             
             // Verificar se há um usuário salvo
             checkSavedUser();
+            
+            // Iniciar carrossel automático
+            startCarousel();
         });
 
         // ========== CONFIGURAÇÃO DE EVENTOS ==========
@@ -1863,15 +2053,21 @@
                 if (e.target === adminPanel) closeAdminPanelFunc();
             });
             
+            textEditPanel.addEventListener('click', function(e) {
+                if (e.target === textEditPanel) closeTextEditPanelFunc();
+            });
+            
             vehicleModal.addEventListener('click', function(e) {
                 if (e.target === vehicleModal) closeVehicleModal();
             });
             
             closeModal.addEventListener('click', closeVehicleModal);
             closeAdminPanel.addEventListener('click', closeAdminPanelFunc);
+            closeTextEditPanel.addEventListener('click', closeTextEditPanelFunc);
             
-            // Botão flutuante
+            // Botões flutuantes
             floatBtn.addEventListener('click', openAdminPanel);
+            textEditBtn.addEventListener('click', openTextEditPanel);
             
             // Filtros de veículos
             filterBtns.forEach(btn => {
@@ -1899,6 +2095,108 @@
             // Menu hamburguer
             menuToggle.addEventListener('click', toggleDrawer);
             overlay.addEventListener('click', closeDrawer);
+            
+            // Editor de texto
+            saveTextChangesBtn.addEventListener('click', saveTextChanges);
+            cancelTextChangesBtn.addEventListener('click', closeTextEditPanelFunc);
+        }
+
+        // ========== CARROSSEL AUTOMÁTICO ==========
+        function startCarousel() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            let currentSlide = 0;
+            
+            // Iniciar com o primeiro slide ativo
+            slides[currentSlide].classList.add('active');
+            
+            // Configurar intervalo para trocar slides a cada 4 segundos
+            carouselInterval = setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 4000);
+        }
+
+        // ========== SISTEMA DE CONTEÚDO DO SITE ==========
+        function loadSiteContent() {
+            const contentRef = database.ref('siteContent');
+            
+            contentRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                
+                if (data) {
+                    siteContent = data;
+                    updateSiteContent();
+                }
+            });
+        }
+
+        function updateSiteContent() {
+            // Atualizar textos do site com os dados do Firebase
+            if (siteContent.vehiclesTitle) document.getElementById('vehiclesTitle').textContent = siteContent.vehiclesTitle;
+            if (siteContent.aboutTitle) document.getElementById('aboutTitle').textContent = siteContent.aboutTitle;
+            if (siteContent.aboutSubtitle) document.getElementById('aboutSubtitle').textContent = siteContent.aboutSubtitle;
+            if (siteContent.aboutText1) document.getElementById('aboutText1').textContent = siteContent.aboutText1;
+            if (siteContent.aboutText2) document.getElementById('aboutText2').textContent = siteContent.aboutText2;
+            if (siteContent.aboutText3) document.getElementById('aboutText3').textContent = siteContent.aboutText3;
+            if (siteContent.teamTitle) document.getElementById('teamTitle').textContent = siteContent.teamTitle;
+            if (siteContent.locationTitle) document.getElementById('locationTitle').textContent = siteContent.locationTitle;
+            if (siteContent.locationSubtitle) document.getElementById('locationSubtitle').textContent = siteContent.locationSubtitle;
+            if (siteContent.footerDescription) document.getElementById('footerDescription').textContent = siteContent.footerDescription;
+            if (siteContent.footerCopyright) document.getElementById('footerCopyright').textContent = siteContent.footerCopyright;
+        }
+
+        function openTextEditPanel() {
+            // Preencher formulário com os valores atuais
+            document.getElementById('editVehiclesTitle').value = siteContent.vehiclesTitle || 'Nossos Veículos';
+            document.getElementById('editAboutTitle').value = siteContent.aboutTitle || 'Sobre a Loja';
+            document.getElementById('editAboutSubtitle').value = siteContent.aboutSubtitle || 'Mais de 10 anos no mercado';
+            document.getElementById('editAboutText1').value = siteContent.aboutText1 || 'A Maiso Veículos é referência no mercado de motos seminovas, oferecendo produtos de qualidade com procedência garantida.';
+            document.getElementById('editAboutText2').value = siteContent.aboutText2 || 'Nossa missão é proporcionar a melhor experiência de compra, com transparência, segurança e atendimento personalizado.';
+            document.getElementById('editAboutText3').value = siteContent.aboutText3 || 'Trabalhamos com as melhores marcas do mercado e oferecemos garantia em todos os nossos veículos.';
+            document.getElementById('editTeamTitle').value = siteContent.teamTitle || 'Nossa Equipe';
+            document.getElementById('editLocationTitle').value = siteContent.locationTitle || 'Localização';
+            document.getElementById('editLocationSubtitle').value = siteContent.locationSubtitle || 'Venha nos Visitar';
+            document.getElementById('editFooterDescription').value = siteContent.footerDescription || 'Há mais de 10 anos no mercado, oferecendo as melhores motos seminovas com garantia e procedência.';
+            document.getElementById('editFooterCopyright').value = siteContent.footerCopyright || '© 2023 Maiso Veículos. Todos os direitos reservados.';
+            
+            textEditPanel.style.display = 'block';
+        }
+
+        function closeTextEditPanelFunc() {
+            textEditPanel.style.display = 'none';
+            textEditStatus.style.display = 'none';
+        }
+
+        function saveTextChanges() {
+            const updatedContent = {
+                vehiclesTitle: document.getElementById('editVehiclesTitle').value,
+                aboutTitle: document.getElementById('editAboutTitle').value,
+                aboutSubtitle: document.getElementById('editAboutSubtitle').value,
+                aboutText1: document.getElementById('editAboutText1').value,
+                aboutText2: document.getElementById('editAboutText2').value,
+                aboutText3: document.getElementById('editAboutText3').value,
+                teamTitle: document.getElementById('editTeamTitle').value,
+                locationTitle: document.getElementById('editLocationTitle').value,
+                locationSubtitle: document.getElementById('editLocationSubtitle').value,
+                footerDescription: document.getElementById('editFooterDescription').value,
+                footerCopyright: document.getElementById('editFooterCopyright').value
+            };
+            
+            const contentRef = database.ref('siteContent');
+            contentRef.set(updatedContent)
+                .then(() => {
+                    showTextEditStatus('Conteúdo atualizado com sucesso!', 'success');
+                })
+                .catch(error => {
+                    showTextEditStatus('Erro ao atualizar conteúdo: ' + error.message, 'error');
+                });
+        }
+
+        function showTextEditStatus(message, type) {
+            textEditStatus.textContent = message;
+            textEditStatus.className = `status-message status-${type}`;
+            textEditStatus.style.display = 'block';
         }
 
         // ========== SISTEMA DE USUÁRIOS ==========
@@ -1985,8 +2283,9 @@
             adminIndicator.style.display = currentUser.type === 'admin' ? 'block' : 'none';
             devIndicator.style.display = currentUser.type === 'dev' ? 'block' : 'none';
             
-            // Mostrar botão flutuante para admin/dev
+            // Mostrar botões flutuantes para admin/dev
             floatBtn.style.display = (currentUser.type === 'admin' || currentUser.type === 'dev') ? 'block' : 'none';
+            textEditBtn.style.display = currentUser.type === 'dev' ? 'block' : 'none';
             
             // Atualizar texto do botão de login
             loginBtn.textContent = currentUser.type === 'guest' ? 'Entrar' : 'Sair';
@@ -2097,7 +2396,7 @@
             // Atualizar especificações
             modalSpecs.innerHTML = `
                 <div class="spec-item">
-                    <span class="spec-name">Tipo</span>
+                    <span class="spec-name">Categoria</span>
                     <span class="spec-value">${getVehicleTypeName(vehicle.type)}</span>
                 </div>
                 <div class="spec-item">
@@ -2542,9 +2841,9 @@
 
         function getVehicleTypeName(type) {
             const types = {
-                'moto': 'Moto',
-                'quadriciclo': 'Quadriciclo',
-                'jet-ski': 'Jet Ski'
+                'ate-110cc': 'Até 110cc',
+                'ate-150cc': 'Até 150cc',
+                'acima-160cc': 'Acima de 160cc'
             };
             
             return types[type] || type;
