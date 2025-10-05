@@ -453,7 +453,7 @@
         .carousel {
             position: relative;
             width: 100%;
-            height: 300px;
+            height: 400px;
             overflow: hidden;
             border-radius: 10px 10px 0 0;
         }
@@ -467,9 +467,11 @@
         .carousel-item {
             min-width: 100%;
             height: 100%;
+            position: relative;
         }
 
-        .carousel-item img {
+        .carousel-item img,
+        .carousel-item video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -516,6 +518,10 @@
 
         .carousel-indicator.active {
             background-color: var(--vermelho);
+        }
+
+        .video-indicator {
+            background-color: var(--azul) !important;
         }
 
         .modal-details {
@@ -1100,6 +1106,93 @@
             gap: 10px;
         }
 
+        /* ========== UPLOAD DE MÍDIAS ========== */
+        .upload-section {
+            border: 1px solid #555;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .upload-section h4 {
+            color: var(--laranja);
+            margin-bottom: 15px;
+        }
+
+        .upload-area {
+            border: 2px dashed #666;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--laranja);
+            background: rgba(255, 152, 0, 0.1);
+        }
+
+        .upload-area.highlight {
+            border-color: var(--verde);
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .preview-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .preview-item {
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 100px;
+        }
+
+        .preview-item img,
+        .preview-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-item .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255,0,0,0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-info {
+            font-size: 12px;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        .media-counter {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #ccc;
+        }
+
         /* ========== BOTÃO FLUTUANTE ========== */
         .float-btn {
             position: fixed;
@@ -1210,6 +1303,14 @@
             .moto-actions {
                 width: 100%;
                 justify-content: space-between;
+            }
+
+            .preview-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .carousel {
+                height: 300px;
             }
         }
     </style>
@@ -1480,11 +1581,6 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="motoImagem">URL da Imagem</label>
-                        <input type="text" id="motoImagem" class="form-control" placeholder="https://exemplo.com/imagem.jpg" required>
-                    </div>
-                    
-                    <div class="form-group">
                         <label for="motoDescricao">Descrição</label>
                         <textarea id="motoDescricao" class="form-control" rows="3" placeholder="Descreva a moto..." required></textarea>
                     </div>
@@ -1518,6 +1614,36 @@
                     <div class="form-group">
                         <label for="motoCor">Cor</label>
                         <input type="text" id="motoCor" class="form-control" placeholder="Ex: Vermelha">
+                    </div>
+                    
+                    <!-- Upload de Fotos -->
+                    <div class="upload-section">
+                        <h4>📸 Fotos da Moto (Máx. 5)</h4>
+                        <div class="upload-area" id="fotosUploadArea" onclick="document.getElementById('fotosInput').click()">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
+                            <p>Clique para adicionar fotos</p>
+                            <small>Formatos: JPG, PNG, GIF • Máx. 5 fotos</small>
+                        </div>
+                        <input type="file" id="fotosInput" class="file-input" multiple accept="image/*" onchange="processarFotos(this.files)">
+                        <div class="preview-container" id="fotosPreviewContainer">
+                            <!-- Preview das fotos será mostrado aqui -->
+                        </div>
+                        <div class="media-counter" id="fotosCounter">0/5 fotos selecionadas</div>
+                    </div>
+                    
+                    <!-- Upload de Vídeo -->
+                    <div class="upload-section">
+                        <h4>🎥 Vídeo da Moto (Apenas 1)</h4>
+                        <div class="upload-area" id="videoUploadArea" onclick="document.getElementById('videoInput').click()">
+                            <i class="fas fa-video" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
+                            <p>Clique para adicionar vídeo</p>
+                            <small>Formatos: MP4, WebM, OGG • Máx. 1 vídeo</small>
+                        </div>
+                        <input type="file" id="videoInput" class="file-input" accept="video/*" onchange="processarVideo(this.files)">
+                        <div class="preview-container" id="videoPreviewContainer">
+                            <!-- Preview do vídeo será mostrado aqui -->
+                        </div>
+                        <div class="media-counter" id="videoCounter">0/1 vídeo selecionado</div>
                     </div>
                     
                     <div class="admin-actions">
@@ -1572,6 +1698,10 @@
         let motoEditando = null;
         let imagensCarrossel = [];
         let indiceImagemAtual = 0;
+        
+        // Variáveis para upload de mídias
+        let fotosSelecionadas = [];
+        let videoSelecionado = null;
 
         // ========== FUNÇÕES DE INICIALIZAÇÃO ==========
         document.addEventListener('DOMContentLoaded', function() {
@@ -1609,6 +1739,12 @@
                     fecharAdmin();
                 }
             });
+            
+            // Configurar drag and drop para fotos
+            configurarDragAndDrop('fotosUploadArea', 'fotosInput');
+            
+            // Configurar drag and drop para vídeo
+            configurarDragAndDrop('videoUploadArea', 'videoInput');
         });
 
         // ========== FUNÇÕES DO FIREBASE ==========
@@ -1701,7 +1837,13 @@
                             "Tanque": "15,1 litros",
                             "Consumo": "40 km/l",
                             "Cor": "Vermelha"
-                        }
+                        },
+                        fotos: [
+                            "https://via.placeholder.com/800x600/FF0000/FFFFFF?text=Honda+CG+160+Foto+1",
+                            "https://via.placeholder.com/800x600/FF3333/FFFFFF?text=Honda+CG+160+Foto+2",
+                            "https://via.placeholder.com/800x600/FF6666/FFFFFF?text=Honda+CG+160+Foto+3"
+                        ],
+                        video: "https://www.sample-videos.com/zip/10/mp4.zip"
                     },
                     {
                         id: 2,
@@ -1716,7 +1858,12 @@
                             "Tanque": "13 litros",
                             "Consumo": "45 km/l",
                             "Cor": "Azul"
-                        }
+                        },
+                        fotos: [
+                            "https://via.placeholder.com/800x600/0000FF/FFFFFF?text=Yamaha+Factor+150+Foto+1",
+                            "https://via.placeholder.com/800x600/3333FF/FFFFFF?text=Yamaha+Factor+150+Foto+2"
+                        ],
+                        video: null
                     },
                     {
                         id: 3,
@@ -1731,7 +1878,11 @@
                             "Tanque": "4,4 litros",
                             "Consumo": "50 km/l",
                             "Cor": "Prata"
-                        }
+                        },
+                        fotos: [
+                            "https://via.placeholder.com/800x600/CCCCCC/000000?text=Honda+Biz+110+Foto+1"
+                        ],
+                        video: null
                     }
                 ];
             }
@@ -1739,6 +1890,201 @@
 
         function salvarMotosNoLocalStorage() {
             localStorage.setItem('motosMaiso', JSON.stringify(motos));
+        }
+
+        // ========== FUNÇÕES DE UPLOAD DE MÍDIAS ==========
+        function configurarDragAndDrop(uploadAreaId, inputId) {
+            const uploadArea = document.getElementById(uploadAreaId);
+            const fileInput = document.getElementById(inputId);
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                uploadArea.classList.add('highlight');
+            }
+            
+            function unhighlight() {
+                uploadArea.classList.remove('highlight');
+            }
+            
+            uploadArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                if (inputId === 'fotosInput') {
+                    processarFotos(files);
+                } else if (inputId === 'videoInput') {
+                    processarVideo(files);
+                }
+            }
+        }
+
+        function processarFotos(files) {
+            const filesArray = Array.from(files);
+            
+            // Verificar se excede o limite
+            if (fotosSelecionadas.length + filesArray.length > 5) {
+                mostrarStatus('❌ Máximo de 5 fotos permitidas!', 'error');
+                return;
+            }
+            
+            // Processar cada arquivo
+            filesArray.forEach(file => {
+                if (!file.type.startsWith('image/')) {
+                    mostrarStatus('❌ Apenas arquivos de imagem são permitidos!', 'error');
+                    return;
+                }
+                
+                fotosSelecionadas.push(file);
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button type="button" class="remove-btn" onclick="removerFoto(${fotosSelecionadas.length - 1})">×</button>
+                    `;
+                    document.getElementById('fotosPreviewContainer').appendChild(previewItem);
+                    
+                    atualizarContadorFotos();
+                };
+                reader.readAsDataURL(file);
+            });
+            
+            // Atualizar área de upload
+            const uploadArea = document.getElementById('fotosUploadArea');
+            uploadArea.innerHTML = `
+                <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
+                <p>${fotosSelecionadas.length}/5 fotos selecionadas</p>
+                <small>Clique para adicionar mais fotos</small>
+            `;
+            
+            document.getElementById('fotosInput').value = '';
+        }
+
+        function processarVideo(files) {
+            if (files.length === 0) return;
+            
+            const file = files[0];
+            
+            if (!file.type.startsWith('video/')) {
+                mostrarStatus('❌ Apenas arquivos de vídeo são permitidos!', 'error');
+                return;
+            }
+            
+            videoSelecionado = file;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewContainer = document.getElementById('videoPreviewContainer');
+                previewContainer.innerHTML = '';
+                
+                const previewItem = document.createElement('div');
+                previewItem.className = 'preview-item';
+                previewItem.innerHTML = `
+                    <video controls>
+                        <source src="${e.target.result}" type="${file.type}">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
+                    <button type="button" class="remove-btn" onclick="removerVideo()">×</button>
+                `;
+                previewContainer.appendChild(previewItem);
+                
+                atualizarContadorVideo();
+            };
+            reader.readAsDataURL(file);
+            
+            // Atualizar área de upload
+            const uploadArea = document.getElementById('videoUploadArea');
+            uploadArea.innerHTML = `
+                <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
+                <p>Vídeo selecionado</p>
+                <small>Clique para trocar o vídeo</small>
+            `;
+            
+            document.getElementById('videoInput').value = '';
+        }
+
+        function removerFoto(index) {
+            fotosSelecionadas.splice(index, 1);
+            atualizarPreviewsFotos();
+        }
+
+        function removerVideo() {
+            videoSelecionado = null;
+            document.getElementById('videoPreviewContainer').innerHTML = '';
+            atualizarContadorVideo();
+            
+            // Restaurar área de upload
+            const uploadArea = document.getElementById('videoUploadArea');
+            uploadArea.innerHTML = `
+                <i class="fas fa-video" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
+                <p>Clique para adicionar vídeo</p>
+                <small>Formatos: MP4, WebM, OGG • Máx. 1 vídeo</small>
+            `;
+        }
+
+        function atualizarPreviewsFotos() {
+            const previewContainer = document.getElementById('fotosPreviewContainer');
+            previewContainer.innerHTML = '';
+            
+            fotosSelecionadas.forEach((foto, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button type="button" class="remove-btn" onclick="removerFoto(${index})">×</button>
+                    `;
+                    previewContainer.appendChild(previewItem);
+                };
+                reader.readAsDataURL(foto);
+            });
+            
+            atualizarContadorFotos();
+            
+            // Atualizar área de upload
+            const uploadArea = document.getElementById('fotosUploadArea');
+            if (fotosSelecionadas.length === 0) {
+                uploadArea.innerHTML = `
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
+                    <p>Clique para adicionar fotos</p>
+                    <small>Formatos: JPG, PNG, GIF • Máx. 5 fotos</small>
+                `;
+            } else {
+                uploadArea.innerHTML = `
+                    <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
+                    <p>${fotosSelecionadas.length}/5 fotos selecionadas</p>
+                    <small>Clique para adicionar mais fotos</small>
+                `;
+            }
+        }
+
+        function atualizarContadorFotos() {
+            document.getElementById('fotosCounter').textContent = `${fotosSelecionadas.length}/5 fotos selecionadas`;
+        }
+
+        function atualizarContadorVideo() {
+            document.getElementById('videoCounter').textContent = videoSelecionado ? '1/1 vídeo selecionado' : '0/1 vídeo selecionado';
         }
 
         // ========== FUNÇÕES DE USUÁRIO ==========
@@ -1863,7 +2209,6 @@
             const nome = document.getElementById('motoNome').value;
             const preco = document.getElementById('motoPreco').value;
             const categoria = document.getElementById('motoCategoria').value;
-            const imagem = document.getElementById('motoImagem').value;
             const descricao = document.getElementById('motoDescricao').value;
             
             const especificacoes = {
@@ -1874,10 +2219,38 @@
                 "Cor": document.getElementById('motoCor').value
             };
             
-            if (!nome || !preco || !categoria || !imagem || !descricao) {
+            if (!nome || !preco || !categoria || !descricao) {
                 mostrarStatus('Preencha todos os campos obrigatórios!', 'error');
                 return;
             }
+            
+            // Processar fotos - converter para URLs base64
+            const fotosUrls = [];
+            fotosSelecionadas.forEach(foto => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    fotosUrls.push(e.target.result);
+                };
+                reader.readAsDataURL(foto);
+            });
+            
+            // Processar vídeo - converter para URL base64
+            let videoUrl = null;
+            if (videoSelecionado) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    videoUrl = e.target.result;
+                    finalizarSalvamento(id, nome, preco, categoria, descricao, especificacoes, fotosUrls, videoUrl);
+                };
+                reader.readAsDataURL(videoSelecionado);
+            } else {
+                finalizarSalvamento(id, nome, preco, categoria, descricao, especificacoes, fotosUrls, null);
+            }
+        }
+
+        function finalizarSalvamento(id, nome, preco, categoria, descricao, especificacoes, fotosUrls, videoUrl) {
+            // Usar a primeira foto como imagem principal
+            const imagem = fotosUrls.length > 0 ? fotosUrls[0] : 'https://via.placeholder.com/400x300/CCCCCC/666666?text=Sem+Imagem';
             
             const moto = {
                 id: id ? parseInt(id) : Math.max(0, ...motos.map(m => m.id)) + 1,
@@ -1886,7 +2259,9 @@
                 categoria,
                 imagem,
                 descricao,
-                especificacoes
+                especificacoes,
+                fotos: fotosUrls,
+                video: videoUrl
             };
             
             if (id) {
@@ -1921,7 +2296,6 @@
             document.getElementById('motoNome').value = moto.nome;
             document.getElementById('motoPreco').value = moto.preco;
             document.getElementById('motoCategoria').value = moto.categoria;
-            document.getElementById('motoImagem').value = moto.imagem;
             document.getElementById('motoDescricao').value = moto.descricao;
             
             if (moto.especificacoes) {
@@ -1932,7 +2306,88 @@
                 document.getElementById('motoCor').value = moto.especificacoes.Cor || '';
             }
             
+            // Carregar fotos existentes
+            fotosSelecionadas = [];
+            if (moto.fotos && moto.fotos.length > 0) {
+                // Converter URLs base64 para File objects (simulação)
+                moto.fotos.forEach((fotoUrl, index) => {
+                    // Em um sistema real, você precisaria converter a URL base64 de volta para File
+                    // Por simplicidade, vamos apenas mostrar as imagens no preview
+                    const previewContainer = document.getElementById('fotosPreviewContainer');
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    previewItem.innerHTML = `
+                        <img src="${fotoUrl}" alt="Preview">
+                        <button type="button" class="remove-btn" onclick="removerFotoExistente(${index})">×</button>
+                    `;
+                    previewContainer.appendChild(previewItem);
+                });
+                atualizarContadorFotos();
+                
+                const uploadArea = document.getElementById('fotosUploadArea');
+                uploadArea.innerHTML = `
+                    <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
+                    <p>${moto.fotos.length}/5 fotos selecionadas</p>
+                    <small>Clique para adicionar mais fotos</small>
+                `;
+            }
+            
+            // Carregar vídeo existente
+            videoSelecionado = null;
+            if (moto.video) {
+                const previewContainer = document.getElementById('videoPreviewContainer');
+                previewContainer.innerHTML = '';
+                
+                const previewItem = document.createElement('div');
+                previewItem.className = 'preview-item';
+                previewItem.innerHTML = `
+                    <video controls>
+                        <source src="${moto.video}" type="video/mp4">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
+                    <button type="button" class="remove-btn" onclick="removerVideo()">×</button>
+                `;
+                previewContainer.appendChild(previewItem);
+                
+                atualizarContadorVideo();
+                
+                const uploadArea = document.getElementById('videoUploadArea');
+                uploadArea.innerHTML = `
+                    <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
+                    <p>Vídeo selecionado</p>
+                    <small>Clique para trocar o vídeo</small>
+                `;
+            }
+            
             motoEditando = moto;
+        }
+
+        function removerFotoExistente(index) {
+            // Em um sistema real, você removeria a foto do array de fotos da moto
+            // Por simplicidade, vamos apenas remover do preview
+            const previewItems = document.querySelectorAll('#fotosPreviewContainer .preview-item');
+            if (previewItems[index]) {
+                previewItems[index].remove();
+            }
+            
+            const uploadArea = document.getElementById('fotosUploadArea');
+            const remainingPhotos = document.querySelectorAll('#fotosPreviewContainer .preview-item').length;
+            
+            if (remainingPhotos === 0) {
+                uploadArea.innerHTML = `
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
+                    <p>Clique para adicionar fotos</p>
+                    <small>Formatos: JPG, PNG, GIF • Máx. 5 fotos</small>
+                `;
+            } else {
+                uploadArea.innerHTML = `
+                    <i class="fas fa-check-circle" style="font-size: 40px; color: var(--verde); margin-bottom: 10px;"></i>
+                    <p>${remainingPhotos}/5 fotos selecionadas</p>
+                    <small>Clique para adicionar mais fotos</small>
+                `;
+            }
+            
+            document.getElementById('fotosCounter').textContent = `${remainingPhotos}/5 fotos selecionadas`;
         }
 
         function excluirMoto(id) {
@@ -1956,6 +2411,29 @@
             document.getElementById('motoForm').reset();
             document.getElementById('motoId').value = '';
             motoEditando = null;
+            
+            // Limpar previews
+            fotosSelecionadas = [];
+            videoSelecionado = null;
+            document.getElementById('fotosPreviewContainer').innerHTML = '';
+            document.getElementById('videoPreviewContainer').innerHTML = '';
+            
+            // Restaurar áreas de upload
+            document.getElementById('fotosUploadArea').innerHTML = `
+                <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
+                <p>Clique para adicionar fotos</p>
+                <small>Formatos: JPG, PNG, GIF • Máx. 5 fotos</small>
+            `;
+            
+            document.getElementById('videoUploadArea').innerHTML = `
+                <i class="fas fa-video" style="font-size: 40px; color: #666; margin-bottom: 10px;"></i>
+                <p>Clique para adicionar vídeo</p>
+                <small>Formatos: MP4, WebM, OGG • Máx. 1 vídeo</small>
+            `;
+            
+            // Atualizar contadores
+            atualizarContadorFotos();
+            atualizarContadorVideo();
         }
 
         function atualizarListaMotos() {
@@ -2080,26 +2558,47 @@
             
             const modalBody = document.getElementById('modalBody');
             
-            // Preparar imagens para o carrossel
-            imagensCarrossel = [moto.imagem];
+            // Preparar mídias para o carrossel (fotos + vídeo)
+            imagensCarrossel = [...(moto.fotos || [])];
+            if (moto.video) {
+                imagensCarrossel.push(moto.video);
+            }
+            
+            // Se não houver mídias, usar imagem principal
+            if (imagensCarrossel.length === 0) {
+                imagensCarrossel = [moto.imagem];
+            }
+            
             indiceImagemAtual = 0;
             
             modalBody.innerHTML = `
                 <div class="carousel">
                     <div class="carousel-inner">
-                        ${imagensCarrossel.map((img, index) => `
-                            <div class="carousel-item ${index === 0 ? 'active' : ''}">
-                                <img src="${img}" alt="${moto.nome}">
-                            </div>
-                        `).join('')}
+                        ${imagensCarrossel.map((midia, index) => {
+                            const isVideo = midia === moto.video;
+                            return `
+                                <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                                    ${isVideo ? 
+                                        `<video controls>
+                                            <source src="${midia}" type="video/mp4">
+                                            Seu navegador não suporta o elemento de vídeo.
+                                         </video>` : 
+                                        `<img src="${midia}" alt="${moto.nome}">`
+                                    }
+                                </div>
+                            `;
+                        }).join('')}
                     </div>
                     ${imagensCarrossel.length > 1 ? `
                         <button class="carousel-control prev" onclick="mudarImagem(-1)">&#10094;</button>
                         <button class="carousel-control next" onclick="mudarImagem(1)">&#10095;</button>
                         <div class="carousel-indicators">
-                            ${imagensCarrossel.map((_, index) => `
-                                <button class="carousel-indicator ${index === 0 ? 'active' : ''}" onclick="irParaImagem(${index})"></button>
-                            `).join('')}
+                            ${imagensCarrossel.map((_, index) => {
+                                const isVideo = index === imagensCarrossel.length - 1 && moto.video;
+                                return `
+                                    <button class="carousel-indicator ${index === 0 ? 'active' : ''} ${isVideo ? 'video-indicator' : ''}" onclick="irParaImagem(${index})"></button>
+                                `;
+                            }).join('')}
                         </div>
                     ` : ''}
                 </div>
