@@ -1313,7 +1313,52 @@
                 height: 300px;
             }
         }
-    </style>
+    
+/* ======= Custom mobile drawer styles (injected) ======= */
+.drawer {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 70vw;
+    max-width: 300px;
+    background-color: var(--preto);
+    color: var(--branco);
+    z-index: 1200;
+    transition: right 0.32s cubic-bezier(.2,.9,.3,1);
+    padding: 90px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: auto;
+}
+.drawer.open { right: 0; }
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.32s ease;
+    z-index: 1100;
+}
+.overlay.active { opacity: 1; visibility: visible; }
+/* drawer links */
+.drawer a { color: var(--branco); text-decoration:none; font-size:18px; display:block; padding:8px 0; }
+.drawer a:hover { color: var(--vermelho); }
+/* drawer bottom */
+.drawer-bottom { margin-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 14px; }
+@media (min-width: 900px) {
+    .drawer { width: 300px; }
+}
+@media (max-width: 420px) {
+    .drawer { width: 84vw; }
+}
+/* adjust header height for mobile */
+.header { height: 68px; }
+.logo-image { height: 52px; }
+
+</style>
 </head>
 <body>
     <!-- Indicador de Modo Dev -->
@@ -1321,36 +1366,50 @@
         🛠️ MODO DESENVOLVEDOR ATIVO - Alterações são salvas online
     </div>
 
-    <!-- Header -->
-    <header class="header" id="header">
-        <div class="header-container">
-            <div class="logo">
-                <img src="logo.png" alt="Maiso Veículos" class="logo-image">
-            </div>
-            
-            <div class="user-menu">
-                <div class="user-info" id="userInfo">
-                    <span id="userName">Visitante</span>
-                    <span id="userRole" class="dev-badge" style="display: none;">DEV</span>
-                </div>
-                <button class="login-btn" onclick="mostrarLogin()" id="loginButton">
-                    <i class="fas fa-user"></i> Entrar
-                </button>
-            </div>
+    
+<!-- Header + Mobile Drawer -->
+<header class="header" id="header">
+    <div class="header-container" style="justify-content:center; align-items:center; position:relative; padding: 0 20px;">
+        <div class="logo" style="text-align:center;">
+            <img src="logo.png" alt="Maiso Veículos" class="logo-image" style="height:56px; max-width:220px;">
         </div>
-    </header>
 
-    <!-- Navegação -->
-    <div class="nav-container">
-        <ul class="nav-menu">
-            <li><a href="#home">Início</a></li>
-            <li><a href="#vehicles">Veículos</a></li>
-            <li><a href="#about">Conheça a Loja</a></li>
-            <li><a href="#team">Nossa Equipe</a></li>
-            <li><a href="#location">Localização</a></li>
-            <li><a href="#contact">Contato</a></li>
-        </ul>
+        <!-- Hamburger button (right) -->
+        <button id="menuToggle" class="menu-toggle" aria-label="Abrir menu" style="position:absolute; right:18px; top:50%; transform:translateY(-50%); background:none; border:none; color:#fff; font-size:26px;">
+            <i class="fas fa-bars"></i>
+        </button>
     </div>
+</header>
+
+<!-- Drawer lateral direito (70% em mobile, 300px em desktop) -->
+<aside id="drawer" class="drawer" aria-hidden="true">
+    <nav class="drawer-nav">
+        <ul class="drawer-links" style="list-style:none; padding:0; margin:0;">
+            <li style="margin:14px 0;"><a href="#home">Início</a></li>
+            <li style="margin:14px 0;"><a href="#vehicles">Veículos</a></li>
+            <li style="margin:14px 0;"><a href="#about">Conheça a Loja</a></li>
+            <li style="margin:14px 0;"><a href="#team">Nossa Equipe</a></li>
+            <li style="margin:14px 0;"><a href="#location">Localização</a></li>
+            <li style="margin:14px 0;"><a href="#contact">Contato</a></li>
+        </ul>
+    </nav>
+
+    <div class="drawer-bottom">
+        <div class="user-info" id="userInfo">
+            <span id="userName">Visitante</span>
+            <span id="userRole" class="dev-badge" style="display:none; margin-left:8px;">DEV</span>
+        </div>
+        <button class="login-btn" id="drawerLoginButton" onclick="mostrarLogin()" style="background:var(--vermelho); border:none; color:#fff; padding:10px 12px; border-radius:6px; width:100%; font-weight:600;">
+            <i class="fas fa-user"></i> Entrar
+        </button>
+    </div>
+</aside>
+
+<!-- Overlay escurecido ao abrir o drawer -->
+<div id="overlay" class="overlay" tabindex="-1" aria-hidden="true"></div>
+
+<!-- NOTE: removemos a nav-container (menu preto) para evitar duplicidade no header -->
+
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -2714,5 +2773,45 @@
             });
         });
     </script>
+
+<!-- Drawer toggle script injected -->
+<script>
+(function(){
+    const menuToggle = document.getElementById('menuToggle');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const drawerLogin = document.getElementById('drawerLoginButton');
+    const originalLoginButton = document.getElementById('loginButton');
+    // Sync login button id if original exists
+    if(originalLoginButton && !drawerLogin) {
+        // nothing
+    }
+
+    function openDrawer() {
+        drawer.classList.add('open');
+        overlay.classList.add('active');
+        drawer.setAttribute('aria-hidden', 'false');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer() {
+        drawer.classList.remove('open');
+        overlay.classList.remove('active');
+        drawer.setAttribute('aria-hidden', 'true');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = 'auto';
+    }
+
+    if(menuToggle) menuToggle.addEventListener('click', function(e){ e.stopPropagation(); if(drawer.classList.contains('open')) closeDrawer(); else openDrawer(); });
+    if(overlay) overlay.addEventListener('click', closeDrawer);
+    // close with ESC
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeDrawer(); });
+    // When clicking links inside drawer, close it
+    document.querySelectorAll('.drawer a').forEach(a => a.addEventListener('click', closeDrawer));
+    // Keep drawer login button tied to original mostrarLogin function if present
+    // If the page already defines mostrarLogin(), the button will call it. Otherwise it will do nothing harmless.
+})();
+</script>
+
 </body>
 </html>
