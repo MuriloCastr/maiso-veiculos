@@ -9,6 +9,7 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
     
     <style>
         /* ========== RESET E CONFIGURAÇÕES GERAIS ========== */
@@ -1314,7 +1315,7 @@
             }
         }
     
-        /* ======= Custom mobile drawer styles (injected) ======= */
+        /* ======= Custom mobile drawer styles ======= */
         .drawer {
             position: fixed;
             top: 0;
@@ -1344,10 +1345,31 @@
         }
         .overlay.active { opacity: 1; visibility: visible; }
         /* drawer links */
-        .drawer a { color: var(--branco); text-decoration:none; font-size:18px; display:block; padding:8px 0; }
+        .drawer a { 
+            color: var(--branco); 
+            text-decoration:none; 
+            font-size:18px; 
+            display:block; 
+            padding:8px 0; 
+        }
         .drawer a:hover { color: var(--vermelho); }
         /* drawer bottom */
-        .drawer-bottom { margin-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 14px; }
+        .drawer-bottom { 
+            margin-top: 18px; 
+            border-top: 1px solid rgba(255,255,255,0.06); 
+            padding-top: 14px; 
+        }
+        .drawer-logout {
+            background: var(--vermelho);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 10px;
+        }
         @media (min-width: 900px) {
             .drawer { width: 300px; }
         }
@@ -1379,6 +1401,10 @@
             }
             
             .nav-container {
+                display: none;
+            }
+            
+            .user-menu {
                 display: none;
             }
         }
@@ -1413,7 +1439,13 @@
         <a href="#team">Equipe</a>
         <a href="#location">Localização</a>
         <div class="drawer-bottom">
-            <a href="#" id="drawerLoginBtn">Entrar</a>
+            <div class="user-info" id="drawerUserInfo">
+                <span id="drawerUserName">Visitante</span>
+                <span id="drawerUserType" class="admin-badge" style="display: none;">Admin</span>
+                <span id="drawerDevType" class="dev-badge" style="display: none;">Dev</span>
+            </div>
+            <button class="login-btn" id="drawerLoginBtn">Entrar</button>
+            <button class="drawer-logout" id="drawerLogoutBtn" style="display: none;">Sair</button>
         </div>
     </div>
 
@@ -1719,18 +1751,19 @@
     <script>
         // Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyB0q5vQYq8XvQ0Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5",
-            authDomain: "maiso-veiculos.firebaseapp.com",
-            databaseURL: "https://maiso-veiculos-default-rtdb.firebaseio.com",
-            projectId: "maiso-veiculos",
-            storageBucket: "maiso-veiculos.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef123456"
+            apiKey: "AIzaSyAe_ZhRjTOwgClsoVJDomSJrF-cmxD9Sp4",
+            authDomain: "maiso-veiculoss.firebaseapp.com",
+            databaseURL: "https://maiso-veiculoss-default-rtdb.firebaseio.com",
+            projectId: "maiso-veiculoss",
+            storageBucket: "maiso-veiculoss.firebasestorage.app",
+            messagingSenderId: "859256877327",
+            appId: "1:859256877327:web:335abeda3d6be76a350e7a"
         };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
+        const storage = firebase.storage();
     </script>
 
     <!-- JavaScript -->
@@ -1782,6 +1815,10 @@
         const drawer = document.getElementById('drawer');
         const overlay = document.getElementById('overlay');
         const drawerLoginBtn = document.getElementById('drawerLoginBtn');
+        const drawerLogoutBtn = document.getElementById('drawerLogoutBtn');
+        const drawerUserName = document.getElementById('drawerUserName');
+        const drawerUserType = document.getElementById('drawerUserType');
+        const drawerDevType = document.getElementById('drawerDevType');
 
         // ========== INICIALIZAÇÃO ==========
         document.addEventListener('DOMContentLoaded', function() {
@@ -1800,6 +1837,7 @@
             // Login
             loginBtn.addEventListener('click', openLoginModal);
             drawerLoginBtn.addEventListener('click', openLoginModal);
+            drawerLogoutBtn.addEventListener('click', logout);
             
             // Modal de login
             document.querySelectorAll('.login-tab').forEach(tab => {
@@ -1931,10 +1969,13 @@
 
         function updateUserInterface() {
             userName.textContent = currentUser.name;
+            drawerUserName.textContent = currentUser.name;
             
             // Mostrar badges de tipo de usuário
             userType.style.display = currentUser.type === 'admin' ? 'inline-block' : 'none';
             devType.style.display = currentUser.type === 'dev' ? 'inline-block' : 'none';
+            drawerUserType.style.display = currentUser.type === 'admin' ? 'inline-block' : 'none';
+            drawerDevType.style.display = currentUser.type === 'dev' ? 'inline-block' : 'none';
             
             // Mostrar indicadores
             adminIndicator.style.display = currentUser.type === 'admin' ? 'block' : 'none';
@@ -1946,12 +1987,17 @@
             // Atualizar texto do botão de login
             loginBtn.textContent = currentUser.type === 'guest' ? 'Entrar' : 'Sair';
             loginBtn.onclick = currentUser.type === 'guest' ? openLoginModal : logout;
+            
+            // Atualizar drawer
+            drawerLoginBtn.style.display = currentUser.type === 'guest' ? 'block' : 'none';
+            drawerLogoutBtn.style.display = currentUser.type === 'guest' ? 'none' : 'block';
         }
 
         function logout() {
             currentUser = { name: 'Visitante', type: 'guest' };
             localStorage.removeItem('currentUser');
             updateUserInterface();
+            closeDrawer();
         }
 
         // ========== SISTEMA DE VEÍCULOS ==========
@@ -1997,7 +2043,7 @@
                 
                 vehicleCard.innerHTML = `
                     ${adminButtons}
-                    <img src="${vehicle.medias && vehicle.medias.length > 0 ? vehicle.medias[0] : 'placeholder.jpg'}" alt="${vehicle.name}" class="vehicle-img">
+                    <img src="${vehicle.medias && vehicle.medias.length > 0 ? vehicle.medias[0] : 'https://via.placeholder.com/400x300/CCCCCC/666666?text=Sem+Imagem'}" alt="${vehicle.name}" class="vehicle-img">
                     <div class="vehicle-info">
                         <h3 class="vehicle-title">${vehicle.name}</h3>
                         <p class="vehicle-price">R$ ${formatPrice(vehicle.price)}</p>
@@ -2089,7 +2135,7 @@
                 // Adicionar placeholder se não houver mídias
                 const placeholderItem = document.createElement('div');
                 placeholderItem.className = 'carousel-item';
-                placeholderItem.innerHTML = `<img src="placeholder.jpg" alt="Sem imagem">`;
+                placeholderItem.innerHTML = `<img src="https://via.placeholder.com/800x600/CCCCCC/666666?text=Sem+Imagem" alt="Sem imagem">`;
                 carouselInner.appendChild(placeholderItem);
                 
                 const indicator = document.createElement('button');
@@ -2190,12 +2236,18 @@
                 km: document.getElementById('vehicleKm').value ? parseInt(document.getElementById('vehicleKm').value) : null,
                 color: document.getElementById('vehicleColor').value,
                 description: document.getElementById('vehicleDescription').value,
-                medias: selectedFiles.map(file => URL.createObjectURL(file)) // Em produção, isso seria upload para servidor
+                medias: []
             };
             
-            // Salvar no Firebase
-            const vehiclesRef = database.ref('vehicles');
-            vehiclesRef.push(vehicle)
+            // Fazer upload das imagens para o Firebase Storage
+            uploadImages(selectedFiles)
+                .then(imageUrls => {
+                    vehicle.medias = imageUrls;
+                    
+                    // Salvar no Firebase
+                    const vehiclesRef = database.ref('vehicles');
+                    return vehiclesRef.push(vehicle);
+                })
                 .then(() => {
                     showStatus('Veículo adicionado com sucesso!', 'success');
                     clearForm();
@@ -2203,6 +2255,37 @@
                 .catch(error => {
                     showStatus('Erro ao adicionar veículo: ' + error.message, 'error');
                 });
+        }
+
+        // Função para fazer upload das imagens para o Firebase Storage
+        function uploadImages(files) {
+            const uploadPromises = [];
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const storageRef = storage.ref(`vehicles/${Date.now()}_${file.name}`);
+                
+                const uploadTask = storageRef.put(file);
+                
+                const uploadPromise = new Promise((resolve, reject) => {
+                    uploadTask.on(
+                        'state_changed',
+                        null,
+                        (error) => {
+                            reject(error);
+                        },
+                        () => {
+                            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                resolve(downloadURL);
+                            });
+                        }
+                    );
+                });
+                
+                uploadPromises.push(uploadPromise);
+            }
+            
+            return Promise.all(uploadPromises);
         }
 
         function deleteVehicle(vehicleId, event) {
@@ -2264,7 +2347,7 @@
                 km: document.getElementById('vehicleKm').value ? parseInt(document.getElementById('vehicleKm').value) : null,
                 color: document.getElementById('vehicleColor').value,
                 description: document.getElementById('vehicleDescription').value
-                // Nota: Em produção, você precisaria lidar com o upload de novas mídias
+                // Nota: Para atualizar as imagens, você precisaria implementar um sistema similar ao upload
             };
             
             const vehicleRef = database.ref(`vehicles/${vehicleId}`);
