@@ -1740,10 +1740,8 @@
                 <h3 id="footerTitle1">Maiso Veículos</h3>
                 <p id="footerDescription">Há mais de 10 anos no mercado, oferecendo as melhores motos seminovas com garantia e procedência.</p>
                 <div class="social-links">
-                    <a href="#" id="socialFacebook"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://www.instagram.com/maisoveiculos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" id="socialInstagram"><i class="fab fa-instagram"></i></a>
                     <a href="https://api.whatsapp.com/send?phone=5589981210995&fbclid=PAZXh0bgNhZW0CMTEAAafbDu0ZqkmVjFg3MlB3fwffg7yGJGjIK2oX5t0Kd7nYAbc5yO8VJMaV3cgpcQ_aem_SsEXTCGqzLkzyFb4NnDDnw" id="socialWhatsapp"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#" id="socialYoutube"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
             <div class="footer-column">
@@ -1821,12 +1819,10 @@
             <div id="adminLogin" style="display: none;">
                 <input type="password" class="login-input" id="adminPassword" placeholder="Senha de Administrador">
                 <button class="login-btn" id="adminLoginBtn">Entrar como Admin</button>
-                <div class="user-type-info">Senha padrão: souza27</div>
             </div>
             <div id="devLogin" style="display: none;">
                 <input type="password" class="login-input" id="devPassword" placeholder="Senha de Desenvolvedor">
                 <button class="login-btn" id="devLoginBtn">Entrar como Dev</button>
-                <div class="user-type-info">Senha padrão: dev123</div>
             </div>
             <div class="login-error" id="loginError">Senha incorreta!</div>
         </div>
@@ -2685,7 +2681,7 @@
 
         function loginAsDev() {
             const password = document.getElementById('devPassword').value;
-            if (password === 'dev123') {
+            if (password === 'carvalho27') {
                 currentUser = { name: 'Desenvolvedor', type: 'dev' };
                 saveUser();
                 closeLoginModal();
