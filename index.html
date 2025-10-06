@@ -198,11 +198,13 @@
             position: relative;
             overflow: hidden;
             background: linear-gradient(135deg, var(--preto) 0%, var(--vermelho-escuro) 100%);
+            margin-top: 70px; /* Adicionado para evitar sobreposição */
         }
 
         @media (min-width: 769px) {
             .hero {
                 height: 100vh;
+                margin-top: 70px; /* Adicionado para evitar sobreposição */
             }
         }
 
@@ -1726,7 +1728,7 @@
                 <p><i class="fas fa-whatsapp"></i> <span id="locationWhatsapp">WhatsApp: (11) 99999-9999</span></p>
             </div>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.098114020905!2d-46.65412658440709!3d-23.565267467476655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1647543862866!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2865.600131799303!2d-42.69786453939535!3d-9.007513882590832!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x77a04a5ac7585d1%3A0xf100415c102c5dbc!2sMAISO%20VEICULOS!5e0!3m2!1spt-BR!2sbr!4v1759707802712!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
@@ -2268,9 +2270,6 @@
             
             // Iniciar carrossel automático
             startCarousel();
-            
-            // Atualizar mapa com a localização fornecida
-            updateMapLocation();
         });
 
         // ========== CONFIGURAÇÃO DE EVENTOS ==========
@@ -2362,14 +2361,6 @@
                 currentSlide = (currentSlide + 1) % slides.length;
                 slides[currentSlide].classList.add('active');
             }, 4000);
-        }
-
-        // ========== ATUALIZAR LOCALIZAÇÃO DO MAPA ==========
-        function updateMapLocation() {
-            const mapIframe = document.querySelector('.map-container iframe');
-            if (mapIframe) {
-                mapIframe.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.506641885644!2d-38.56185292501901!3d-3.720822996228024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7c745d6e318cd0d%3A0x5aa7d8b57c5c1b3e!2sR.%20S%C3%A3o%20Pedro%2C%20360%20-%20Centro%2C%20Caucaia%20-%20CE%2C%2061600-125!5e0!3m2!1spt-BR!2sbr!4v1710000000000!5m2!1spt-BR!2sbr';
-            }
         }
 
         // ========== SISTEMA DE CONTEÚDO DO SITE ==========
