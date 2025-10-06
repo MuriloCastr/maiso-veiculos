@@ -1741,8 +1741,8 @@
                 <p id="footerDescription">Há mais de 10 anos no mercado, oferecendo as melhores motos seminovas com garantia e procedência.</p>
                 <div class="social-links">
                     <a href="#" id="socialFacebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" id="socialInstagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" id="socialWhatsapp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/maisoveiculos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" id="socialInstagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://api.whatsapp.com/send?phone=5589981210995&fbclid=PAZXh0bgNhZW0CMTEAAafbDu0ZqkmVjFg3MlB3fwffg7yGJGjIK2oX5t0Kd7nYAbc5yO8VJMaV3cgpcQ_aem_SsEXTCGqzLkzyFb4NnDDnw" id="socialWhatsapp"><i class="fab fa-whatsapp"></i></a>
                     <a href="#" id="socialYoutube"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
@@ -1797,7 +1797,7 @@
                     </div>
                     <div class="modal-contact">
                         <p>Interessado neste veículo?</p>
-                        <a href="#" class="whatsapp-button" id="whatsappButton">
+                        <a href="https://api.whatsapp.com/send?phone=5589981210995&fbclid=PAZXh0bgNhZW0CMTEAAafbDu0ZqkmVjFg3MlB3fwffg7yGJGjIK2oX5t0Kd7nYAbc5yO8VJMaV3cgpcQ_aem_SsEXTCGqzLkzyFb4NnDDnw" class="whatsapp-button" id="whatsappButton">
                             <i class="fab fa-whatsapp"></i> Falar no WhatsApp
                         </a>
                     </div>
@@ -2355,12 +2355,12 @@
             // Iniciar com o primeiro slide ativo
             slides[currentSlide].classList.add('active');
             
-            // Configurar intervalo para trocar slides a cada 4 segundos
+            // Configurar intervalo para trocar slides a cada 7 segundos
             carouselInterval = setInterval(() => {
                 slides[currentSlide].classList.remove('active');
                 currentSlide = (currentSlide + 1) % slides.length;
                 slides[currentSlide].classList.add('active');
-            }, 4000);
+            }, 7000); // Alterado de 4000 para 7000 (7 segundos)
         }
 
         // ========== SISTEMA DE CONTEÚDO DO SITE ==========
@@ -2850,7 +2850,7 @@
             // Atualizar link do WhatsApp
             const message = `Olá, tenho interesse na ${vehicle.name} - R$ ${formatPrice(vehicle.price)}`;
             const encodedMessage = encodeURIComponent(message);
-            whatsappButton.href = `https://wa.me/5589981210995?text=${encodedMessage}`;
+            whatsappButton.href = `https://api.whatsapp.com/send?phone=5589981210995&fbclid=PAZXh0bgNhZW0CMTEAAafbDu0ZqkmVjFg3MlB3fwffg7yGJGjIK2oX5t0Kd7nYAbc5yO8VJMaV3cgpcQ_aem_SsEXTCGqzLkzyFb4NnDDnw&text=${encodedMessage}`;
             
             // Atualizar carrossel
             updateCarousel(vehicle.medias || []);
@@ -3281,4 +3281,3 @@
     </script>
 </body>
 </html>
-
