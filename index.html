@@ -30,6 +30,8 @@
             --verde: #28a745;
             --azul: #2196F3;
             --laranja: #ff9800;
+            --cinza-claro: #f8f9fa;
+            --cinza-medio: #e9ecef;
         }
 
         html {
@@ -279,9 +281,9 @@
             margin: 15px auto;
         }
 
-        /* ========== VEÍCULOS - LAYOUT HORIZONTAL ========== */
+        /* ========== VEÍCULOS - LAYOUT WEB MOTORS ========== */
         .vehicles {
-            background-color: var(--cinza);
+            background-color: var(--cinza-claro);
         }
 
         .filter-container {
@@ -309,70 +311,109 @@
             border-color: var(--vermelho);
         }
 
+        /* LAYOUT WEB MOTORS - GRID HORIZONTAL COMPACTO */
         .vehicles-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .vehicle-card {
             background-color: var(--branco);
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
             position: relative;
             display: flex;
             flex-direction: column;
             height: 100%;
+            border: 1px solid var(--cinza-medio);
         }
 
         .vehicle-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .vehicle-img-container {
+            position: relative;
+            height: 180px;
+            overflow: hidden;
         }
 
         .vehicle-img {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .vehicle-card:hover .vehicle-img {
+            transform: scale(1.05);
+        }
+
+        .vehicle-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--vermelho);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
         }
 
         .vehicle-info {
-            padding: 20px;
+            padding: 15px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
 
         .vehicle-title {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
             color: var(--preto);
+            font-weight: 600;
+            line-height: 1.3;
         }
 
         .vehicle-price {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--vermelho);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .vehicle-details {
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
             margin-bottom: 15px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--cinza-escuro);
+        }
+
+        .vehicle-detail {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .vehicle-detail i {
+            color: var(--vermelho);
+            font-size: 0.9rem;
         }
 
         .vehicle-btn {
             display: block;
             width: 100%;
-            background-color: var(--preto);
+            background-color: var(--vermelho);
             color: var(--branco);
             text-align: center;
             padding: 10px;
@@ -381,10 +422,11 @@
             font-weight: bold;
             transition: background-color 0.3s;
             margin-top: auto;
+            font-size: 0.9rem;
         }
 
         .vehicle-btn:hover {
-            background-color: var(--vermelho);
+            background-color: var(--vermelho-escuro);
         }
 
         /* ========== BOTÕES ADMIN ========== */
@@ -427,7 +469,7 @@
             display: block;
         }
 
-        /* ========== MODAL DETALHES - LAYOUT HORIZONTAL ========== */
+        /* ========== MODAL DETALHES - LAYOUT WEB MOTORS ========== */
         .modal {
             display: none;
             position: fixed;
@@ -444,7 +486,7 @@
         .modal-content {
             background-color: var(--branco);
             margin: 50px auto;
-            max-width: 900px;
+            max-width: 1000px;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
@@ -475,25 +517,26 @@
 
         .carousel-container {
             flex: 1;
-            min-width: 300px;
+            min-width: 400px;
         }
 
         .modal-details {
             flex: 1;
-            min-width: 300px;
+            min-width: 400px;
             padding: 30px;
             display: flex;
             flex-direction: column;
         }
 
         .modal-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 10px;
             color: var(--preto);
+            font-weight: 600;
         }
 
         .modal-price {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: var(--vermelho);
             margin-bottom: 20px;
@@ -529,6 +572,7 @@
         .payment-info h3 {
             margin-bottom: 15px;
             color: var(--preto);
+            font-size: 1.2rem;
         }
 
         .payment-options {
@@ -545,6 +589,7 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            border: 1px solid var(--cinza-medio);
         }
 
         .payment-option i {
@@ -558,6 +603,11 @@
             text-align: center;
         }
 
+        .modal-contact p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
         .whatsapp-button {
             display: inline-block;
             background-color: #25D366;
@@ -568,6 +618,7 @@
             font-weight: bold;
             margin-top: 15px;
             transition: all 0.3s;
+            font-size: 1rem;
         }
 
         .whatsapp-button:hover {
@@ -1929,7 +1980,7 @@
                     </div>
                     <div class="modal-contact">
                         <p>Interessado neste veículo?</p>
-                        <a href="https://api.whatsapp.com/send?phone=5589981210995&fbclid=PAZXh0bgNhZW0CMTEAAafbDu0ZqkmVjFg3MlB3fwffg7yGJGjIK2oX5t0Kd7nYAbc5yO8VJMaV3cgpcQ_aem_SsEXTCGqzLkzyFb4NnDDnw" class="whatsapp-button" id="whatsappButton">
+                        <a href="#" class="whatsapp-button" id="whatsappButton">
                             <i class="fab fa-whatsapp"></i> Falar no WhatsApp
                         </a>
                     </div>
@@ -2944,13 +2995,26 @@
                 
                 vehicleCard.innerHTML = `
                     ${adminButtons}
-                    <img src="${vehicle.medias && vehicle.medias.length > 0 ? vehicle.medias[0] : 'https://via.placeholder.com/400x300/CCCCCC/666666?text=Sem+Imagem'}" alt="${vehicle.name}" class="vehicle-img">
+                    <div class="vehicle-img-container">
+                        <img src="${vehicle.medias && vehicle.medias.length > 0 ? vehicle.medias[0] : 'https://via.placeholder.com/400x300/CCCCCC/666666?text=Sem+Imagem'}" alt="${vehicle.name}" class="vehicle-img">
+                        <div class="vehicle-badge">${getVehicleTypeName(vehicle.type)}</div>
+                    </div>
                     <div class="vehicle-info">
                         <h3 class="vehicle-title">${vehicle.name}</h3>
                         <p class="vehicle-price">R$ ${formatPrice(vehicle.price)}</p>
                         <div class="vehicle-details">
-                            <span><i class="fas fa-calendar-alt"></i> ${vehicle.year}</span>
-                            <span><i class="fas fa-tachometer-alt"></i> ${vehicle.km ? formatKm(vehicle.km) + ' km' : 'N/A'}</span>
+                            <div class="vehicle-detail">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>${vehicle.year}</span>
+                            </div>
+                            <div class="vehicle-detail">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>${vehicle.km ? formatKm(vehicle.km) + ' km' : 'N/A'}</span>
+                            </div>
+                            <div class="vehicle-detail">
+                                <i class="fas fa-palette"></i>
+                                <span>${vehicle.color || 'N/A'}</span>
+                            </div>
                         </div>
                         <a href="#" class="vehicle-btn">${siteContent.vehicleBtn || 'Ver Detalhes'}</a>
                     </div>
@@ -3015,10 +3079,10 @@
                 </div>
             `;
             
-            // Atualizar link do WhatsApp
-            const message = `Olá, tenho interesse na ${vehicle.name} - R$ ${formatPrice(vehicle.price)}`;
+            // Atualizar link do WhatsApp com informações completas
+            const message = `Olá, tenho interesse na moto ${vehicle.name} - Ano: ${vehicle.year} - Cor: ${vehicle.color || 'N/A'} - Preço: R$ ${formatPrice(vehicle.price)}. Poderia me fornecer mais informações?`;
             const encodedMessage = encodeURIComponent(message);
-            whatsappButton.href = `https://api.whatsapp.com/send?phone=5589981210995&fbclid=PAZXh0bgNhZW0CMTEAAafbDu0ZqkmVjFg3MlB3fwffg7yGJGjIK2oX5t0Kd7nYAbc5yO8VJMaV3cgpcQ_aem_SsEXTCGqzLkzyFb4NnDDnw&text=${encodedMessage}`;
+            whatsappButton.href = `https://api.whatsapp.com/send?phone=5589981210995&text=${encodedMessage}`;
             
             // Atualizar carrossel
             updateCarousel(vehicle.medias || []);
